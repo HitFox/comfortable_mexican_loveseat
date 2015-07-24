@@ -1,9 +1,10 @@
 PATH
   remote: .
   specs:
-    comfortable_mexican_loveseat (0.0.1)
+    comfortable_mexican_loveseat (0.0.2)
       comfortable_mexican_sofa (~> 1.12.8)
       rails (>= 4.0)
+      sitemap_generator (~> 5.1)
 
 GEM
   remote: https://rubygems.org/
@@ -167,6 +168,8 @@ GEM
       sprockets-rails (>= 2.0, < 4.0)
       tilt (~> 1.1)
     sexp_processor (4.6.0)
+    sitemap_generator (5.1.0)
+      builder
     sprockets (3.2.0)
       rack (~> 1.0)
     sprockets-rails (2.3.2)
