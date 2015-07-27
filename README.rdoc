@@ -1,3 +1,15 @@
 = ComfortableMexicanLoveseat
 
-This project rocks and uses MIT-LICENSE.
+The Comfortable Mexican Loveseat is an expansion pack to the Comfortable Mexican Sofa. It currently contains minor modifications to the <tt>snippet.rb</tt> and <tt>base_controller.rb</tt> files, improved sitemap functionality, and SEO-enhancing modifications.
+
+The Loveseat references a fixed version of the CMS (currently 1.12.8) and latest releases are pulled in occasionally.
+
+== Custom Sitemaps
+
+Building on the Sofa's sitemap functionality, the Loveseat lets you add Rails model show pages and custom routes to the sitemap.
+
+To use it, please copy and customize the demo initializer located in <tt>templates/comfortable_mexican_loveseat</tt> and in your <tt>routes.rb</tt> file make sure you have this line:
+
+<tt>comfy_route :cms, :path => '/', :sitemap => true</tt>
+
+Then replace your <tt>robots.txt</tt> file with the one in the templates folder.
