@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", ">= 4.0"
 
   s.add_dependency "comfortable_mexican_sofa", "~> 1.12.8"
+  s.add_dependency "rack-rewrite", "~> 1.5.1"
 
   s.add_development_dependency "sqlite3"
 end

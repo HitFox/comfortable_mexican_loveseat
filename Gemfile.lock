@@ -3,8 +3,8 @@ PATH
   specs:
     comfortable_mexican_loveseat (0.0.2)
       comfortable_mexican_sofa (~> 1.12.8)
+      rack-rewrite (~> 1.5.1)
       rails (>= 4.0)
-      sitemap_generator (~> 5.1)
 
 GEM
   remote: https://rubygems.org/
@@ -128,6 +128,7 @@ GEM
     plupload-rails (1.2.1)
       rails (>= 3.1)
     rack (1.6.4)
+    rack-rewrite (1.5.1)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.3)
@@ -168,8 +169,6 @@ GEM
       sprockets-rails (>= 2.0, < 4.0)
       tilt (~> 1.1)
     sexp_processor (4.6.0)
-    sitemap_generator (5.1.0)
-      builder
     sprockets (3.2.0)
       rack (~> 1.0)
     sprockets-rails (2.3.2)
