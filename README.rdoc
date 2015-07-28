@@ -4,7 +4,9 @@ The Comfortable Mexican Loveseat is an expansion pack to the Comfortable Mexican
 
 The Loveseat references a fixed version of the CMS (currently 1.12.8) and latest releases are pulled in occasionally.
 
-== Custom Sitemaps
+== SEO Features
+
+=== Custom Sitemaps
 
 Building on the Sofa's sitemap functionality, the Loveseat lets you add Rails model show pages and custom routes to the sitemap.
 
@@ -14,11 +16,11 @@ To use it, please copy and customize the demo initializer located in <tt>templat
 
 Then replace your <tt>robots.txt</tt> file with the one in the templates folder.
 
-== URL Redirection
+=== URL Redirection
 
 By default when using the Loveseat, all trailing slash URLs ('myapp.com/example/') are redirected to a non-trailing slash URL.
 
-== SEO Meta Tags
+=== Page Meta Tags
 
 By default when you create an application, it comes with meta description; meta title; no-index; index; and canonical link fields that can be filled in on a per-page basis. To display these tags, add them to your <tt>application.html.erb</tt>:
 
