@@ -13,3 +13,13 @@ To use it, please copy and customize the demo initializer located in <tt>templat
 <tt>comfy_route :cms, :path => '/', :sitemap => true</tt>
 
 Then replace your <tt>robots.txt</tt> file with the one in the templates folder.
+
+== URL Redirection
+
+By default when using the Loveseat, all trailing slash URLs ('myapp.com/example/') are redirected to a non-trailing slash URL.
+
+== SEO Meta Tags
+
+By default when you create an application, it comes with meta description; meta title; no-index; index; and canonical link fields that can be filled in on a per-page basis. To display these tags, add them to your <tt>application.html.erb</tt>:
+
+  <meta name="description" content="<%= cms_block_content(:meta_description) %>"/>
