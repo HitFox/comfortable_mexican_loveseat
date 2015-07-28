@@ -1,5 +1,16 @@
 module Comfy::CmsHelper
 
+  def comfy_seo_tags
+    tags = []
+    tags << tag('meta', name: 'description', content: cms_block_content(:meta_description)) if cms_block_content(:meta_description).present?
+    tags << tag('meta', name: 'title', content: cms_block_content(:meta_title)) if cms_block_content(:meta_title).present?
+    tags << tag('meta', name: 'robots', content: cms_block_content(:meta_index)) if cms_block_content(:meta_index).present?
+    tags << tag('meta', name: 'robots', content: cms_block_content(:meta_noindex)) if cms_block_content(:meta_noindex).present?
+    tags << tag('link', rel: 'canonical', href: cms_block_content(:canonical_href)) if cms_block_content(:canonical_href).present?
+
+    return tags.join.html_safe
+  end
+
   def flash_css_class(type)
     case type.to_sym
       when :notice, :success then 'alert-success'

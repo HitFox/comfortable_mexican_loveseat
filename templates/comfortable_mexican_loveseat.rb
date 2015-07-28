@@ -1,14 +1,12 @@
 # Demo initializer
 # ComfortableMexicanLoveseat.setup do |config|
-#   config.data = OpenStruct.new
-#   config.data.seo = OpenStruct.new
-#   config.data.seo.custom_routes = [
+#   config.seo_custom_paths = [
 #     # Example:
-#     # {route: 'welcome/index', last_modified: 'YYYY-MM-DD'}
+#     # {path: 'welcome/index', last_modified: 'YYYY-MM-DD'}
 #   ]
-#   config.data.seo.model_routes = [
+#   config.seo_resource_paths = [
 #     # Example:
-#     # { model: YourModelCamelCased, where_args: {key: value}}
-#     # { model: YourModelCamelCased, where_args: 'some sql statement'}
+#     # { resource_class: YourModelCamelCased, filter: {key: value}}
+#     # { resource_class: 'YourModelCamelCased', filter: 'some sql statement'}
 #   ]
 # end

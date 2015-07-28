@@ -12,22 +12,20 @@ xml.urlset :xmlns => 'http://www.sitemaps.org/schemas/sitemap/0.9' do
     end
   end
 
-  if ComfortableMexicanLoveseat.data.seo.custom_routes.present?
-    ComfortableMexicanLoveseat.data.seo.custom_routes.each do |hash|
-      xml.url do
-        xml.loc [request.protocol, request.host_with_port, '/', hash[:route]].join
-        xml.lastmod hash[:last_modified]
-      end
+  ComfortableMexicanLoveseat.seo_custom_paths.each do |options|
+    xml.url do
+      xml.loc [request.protocol, request.host_with_port, '/', options[:route]].join
+      xml.lastmod options[:last_modified]
     end
   end
 
-  if ComfortableMexicanLoveseat.data.seo.model_routes.present?
-    ComfortableMexicanLoveseat.data.seo.model_routes.each do |hash|
-      hash[:model].constantize.send('where', hash[:where_args]).each do |obj|
-        xml.url do
-          xml.loc Rails.application.routes.url_helpers.send("#{hash[:model].underscore}_url", obj, host: [request.protocol, request.host_with_port].join)
-          xml.lastmod obj.updated_at.strftime('%Y-%m-%d')
-        end
+  ComfortableMexicanLoveseat.seo_resource_paths.each do |options|
+    resource_class = options[:resource_class].kind_of?(String) ? options[:resource_class].constantize : options[:resource_class]
+    resource_class_name = options[:resource_class].kind_of?(String) ? options[:resource_class] : options[:resource_class].name
+    resource_class.where(options[:filter]).each do |obj|
+      xml.url do
+        xml.loc Rails.application.routes.url_helpers.send("#{resource_class_name.underscore}_url", obj, host: [request.protocol, request.host_with_port].join)
+        xml.lastmod obj.updated_at.strftime('%Y-%m-%d')
       end
     end
   end
