@@ -24,7 +24,7 @@ xml.urlset :xmlns => 'http://www.sitemaps.org/schemas/sitemap/0.9' do
     resource_class_name = options[:resource_class].kind_of?(String) ? options[:resource_class] : options[:resource_class].name
     resource_class.where(options[:filter]).each do |obj|
       xml.url do
-        xml.loc Rails.application.routes.url_helpers.send("#{resource_class_name.underscore}_url", obj, host: [request.protocol, request.host_with_port].join)
+        xml.loc polymorphic_url(obj)
         xml.lastmod obj.updated_at.strftime('%Y-%m-%d')
       end
     end

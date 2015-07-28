@@ -25,3 +25,11 @@ By default when using the Loveseat, all trailing slash URLs ('myapp.com/example/
 By default when you create an application, it comes with meta description; meta title; no-index; index; and canonical link fields that can be filled in on a per-page basis. To display these tags, add this to your <tt>application.html.erb</tt>:
 
   <%= comfy_seo_tags %>
+
+=== File Upload helper text
+
+The Loveseat provides some helpful hints to admins when they're uploading images (choose an SEO-friendly name, add an alt-tag), which you can add to your locale files.
+
+  images_need_seo_friendly_names
+  files_alt_tag
+
