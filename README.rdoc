@@ -10,9 +10,9 @@ The Loveseat references a fixed version of the CMS (currently 1.12.8) and latest
 
 Building on the Sofa's sitemap functionality, the Loveseat lets you add Rails model show pages and custom routes to the sitemap.
 
-To use it, please copy and customize the demo initializer located in <tt>templates/comfortable_mexican_loveseat</tt> and in your <tt>routes.rb</tt> file make sure you have this line:
+To use it, please copy and customize the demo initializer located in <tt>templates/comfortable_mexican_loveseat.rb</tt> and in your <tt>routes.rb</tt> file make sure you have this line:
 
-<tt>comfy_route :cms, :path => '/', :sitemap => true</tt>
+  comfy_route :cms, :path => '/', :sitemap => true
 
 Then replace your <tt>robots.txt</tt> file with the one in the templates folder.
 
@@ -22,6 +22,6 @@ By default when using the Loveseat, all trailing slash URLs ('myapp.com/example/
 
 === Page Meta Tags
 
-By default when you create an application, it comes with meta description; meta title; no-index; index; and canonical link fields that can be filled in on a per-page basis. To display these tags, add them to your <tt>application.html.erb</tt>:
+By default when you create an application, it comes with meta description; meta title; no-index; index; and canonical link fields that can be filled in on a per-page basis. To display these tags, add this to your <tt>application.html.erb</tt>:
 
-  <meta name="description" content="<%= cms_block_content(:meta_description) %>"/>
+  <%= comfy_seo_tags %>
