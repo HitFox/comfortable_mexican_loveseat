@@ -13,8 +13,9 @@ xml.urlset :xmlns => 'http://www.sitemaps.org/schemas/sitemap/0.9' do
   end
 
   ComfortableMexicanLoveseat.seo_custom_paths.each do |options|
+    site_path = Comfy::Cms::Site.many? ? [@cms_site.path, '/'].join : nil
     xml.url do
-      xml.loc [request.protocol, request.host_with_port, '/', options[:route]].join
+      xml.loc [request.protocol, request.host_with_port, '/', site_path , options[:route]].join
       xml.lastmod options[:last_modified]
     end
   end

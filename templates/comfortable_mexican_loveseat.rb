@@ -2,7 +2,7 @@
 # ComfortableMexicanLoveseat.setup do |config|
 #   config.seo_custom_paths = [
 #     # Example:
-#     # {path: 'welcome/index', last_modified: 'YYYY-MM-DD'}
+#     # {route: 'welcome/index', last_modified: 'YYYY-MM-DD'}
 #   ]
 #   config.seo_resource_paths = [
 #     # Example:
