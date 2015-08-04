@@ -54,7 +54,7 @@ protected
     @layout = @site.layouts.new(layout_params)
     @layout.parent      ||= ::Comfy::Cms::Layout.find_by_id(params[:parent_id])
     @layout.app_layout  ||= @layout.parent.try(:app_layout)
-    @layout.content     ||= "{{ cms:field:seo.meta_description:string }}\n{{ cms:field:seo.meta_title:string }}\n{{ cms:field:seo.canonical_href:string }}\n{{ cms:field:seo.meta_index:string }}\n{{ cms:field:seo.meta_noindex:string }}\n{{ cms:page:content:rich_text }}"
+    @layout.content     ||= "{{ cms:field:old_page_url:string }}\n{{ cms:field:seo.meta_description:string }}\n{{ cms:field:seo.meta_title:string }}\n{{ cms:field:seo.canonical_href:string }}\n{{ cms:field:seo.meta_index:string }}\n{{ cms:field:seo.meta_noindex:string }}\n{{ cms:page:content:rich_text }}"
   end
 
   def load_layout
