@@ -3,12 +3,15 @@ module Comfy::CmsHelper
   def comfy_seo_tags
     tags = []
     tags << tag('meta', name: 'description', content: cms_block_content('seo.meta_description')) if cms_block_content('seo.meta_description').present?
-    tags << tag('meta', name: 'title', content: cms_block_content('seo.meta_title')) if cms_block_content('seo.meta_title').present?
     tags << tag('meta', name: 'robots', content: cms_block_content('seo.meta_index')) if cms_block_content('seo.meta_index').present?
     tags << tag('meta', name: 'robots', content: cms_block_content('seo.meta_noindex')) if cms_block_content('seo.meta_noindex').present?
     tags << tag('link', rel: 'canonical', href: cms_block_content('seo.canonical_href')) if cms_block_content('seo.canonical_href').present?
 
-    return tags.join.html_safe
+    return tags.join("\n").html_safe
+  end
+
+  def comfy_page_title
+    cms_block_content('seo.page_title')
   end
 
   def flash_css_class(type)

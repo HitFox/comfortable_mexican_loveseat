@@ -22,8 +22,9 @@ By default when using the Loveseat, all trailing slash URLs ('myapp.com/example/
 
 === Page Meta Tags
 
-By default when you create an application, it comes with meta description; meta title; no-index; index; and canonical link fields that can be filled in on a per-page basis. To display these tags, add this to your <tt>application.html.erb</tt>:
+By default when you create an application, it comes with meta description; page title; no-index; index; and canonical link fields that can be filled in on a per-page basis. To display these tags, add this to your <tt>application.html.erb</tt>:
 
+  <title><%= comfy_page_title %></title>
   <%= comfy_seo_tags %>
 
 === File Upload helper text
