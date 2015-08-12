@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    comfortable_mexican_loveseat (0.0.8)
+    comfortable_mexican_loveseat (0.0.9)
       comfortable_mexican_sofa (~> 1.12.8)
       rack-rewrite (~> 1.5.1)
       rails (>= 4.0)
@@ -186,5 +186,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bundler (~> 1.9)
   comfortable_mexican_loveseat!
+  rake (~> 10.0)
   sqlite3
+
+BUNDLED WITH
+   1.10.6
