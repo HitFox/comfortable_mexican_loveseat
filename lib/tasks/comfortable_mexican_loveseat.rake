@@ -33,6 +33,6 @@ namespace :comfortable_mexican_loveseat do
 end
 
 namespace :cms do
-  task import: ':comfortable_mexican_loveseat:fixtures:import'
-  task export: ':comfortable_mexican_loveseat:fixtures:export'
+  task import: 'comfortable_mexican_loveseat:fixtures:import'
+  task export: 'comfortable_mexican_loveseat:fixtures:export'
 end
