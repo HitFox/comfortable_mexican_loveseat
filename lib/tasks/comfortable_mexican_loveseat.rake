@@ -4,8 +4,9 @@ namespace :comfortable_mexican_loveseat do
     desc 'Import Fixture data into database (options: FROM=folder_name TO=site_identifier)'
     
     task :import => :environment do
-      from  = ENV['FROM']
-      to    = ENV['TO'] || ENV['FROM']
+      from   = ENV['FROM']
+      to     = ENV['TO'] || ENV['FROM']
+      locale = ENV['LOCALE']
       
       if from
         puts "Importing CMS Fixtures from Folder [#{from}] to Site [#{to}] ..."

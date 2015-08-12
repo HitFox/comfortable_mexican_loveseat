@@ -4,7 +4,7 @@ $:.push File.expand_path("../lib", __FILE__)
 Gem::Specification.new do |s|
   s.name        = "comfortable_mexican_loveseat"
   s.version     = "0.0.8"
-  s.authors     = ["Adam Bahlke"]
+  s.authors     = ["Adam Bahlke", "Michael Rüffer"]
   s.email       = ["adam.bahlke@hitfoxgroup.com"]
   s.homepage    = "http://hitfoxgroup.com"
   s.summary     = "An expansion of the Comfortable Mexican Sofa, to make your living room comfier."
