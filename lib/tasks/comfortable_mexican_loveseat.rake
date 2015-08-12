@@ -18,6 +18,11 @@ namespace :comfortable_mexican_loveseat do
       logger = ComfortableMexicanSofa.logger
       ComfortableMexicanSofa.logger = Logger.new(STDOUT)
       
+      
+      puts '############################################'
+      puts from
+      puts '############################################'
+      
       if from
         ComfortableMexicanLoveseat::Fixture::Importer.new(from, to, :force).import!
       else
