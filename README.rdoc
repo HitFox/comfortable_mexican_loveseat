@@ -10,12 +10,13 @@ The Loveseat references a fixed version of the CMS (currently 1.12.8) and latest
 
 When you want to import fixtures you can now use the following commands:
 
-  cms:import # imports from all folders and automatically creates matching sites if they don't exist
-  cms:import FROM=somewhere # automatically imports to somewhere
-  cms:import FROM=somewhere TO=something LOCALE=de #lets you set the locale for the site
+  rake cms:import # imports from all folders and automatically creates matching sites if they don't exist
+  rake cms:import FROM=somewhere # automatically imports to somewhere
+  rake cms:import FROM=somewhere TO=something LOCALE=de #lets you set the locale for the site
 
-  cms:export
-  cms:export FROM=somewhere TO=something
+  rake cms:export
+  rake cms:export FROM=somewhere
+  rake cms:export FROM=somewhere TO=something LOCALE=de
 
 === Custom Sitemaps
 
