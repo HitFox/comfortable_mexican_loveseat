@@ -18,15 +18,14 @@ namespace :comfortable_mexican_loveseat do
       logger = ComfortableMexicanSofa.logger
       ComfortableMexicanSofa.logger = Logger.new(STDOUT)
       
-      
-      puts '############################################'
-      puts from
-      puts '############################################'
-      
       if from
         ComfortableMexicanLoveseat::Fixture::Importer.new(from, to, :force).import!
       else
-        Comfy::Cms::Site.pluck(:identifier) do |from|
+        Comfy::Cms::Site.pluck(:identifier).each do |from|
+          to ||= from
+          ComfortableMexicanLoveseat::Fixture::Importer.new(from, to, :force).import!
+        end
+        Dir["#{Rails.root}/db/cms_fixtures/*"].map { |dir| Pathname.new(dir).basename.to_s } do |from|
           to ||= from
           ComfortableMexicanLoveseat::Fixture::Importer.new(from, to, :force).import!
         end
