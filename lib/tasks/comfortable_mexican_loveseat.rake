@@ -25,7 +25,7 @@ namespace :comfortable_mexican_loveseat do
           to ||= from
           ComfortableMexicanLoveseat::Fixture::Importer.new(from, to, :force).import!
         end
-        Dir["#{Rails.root}/db/cms_fixtures/*"].map { |dir| Pathname.new(dir).basename.to_s } do |from|
+        Dir["#{Rails.root}/db/cms_fixtures/*"].map { |dir| Pathname.new(dir).basename.to_s }.each do |from|
           to ||= from
           ComfortableMexicanLoveseat::Fixture::Importer.new(from, to, :force).import!
         end
