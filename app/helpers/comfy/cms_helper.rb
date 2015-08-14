@@ -5,6 +5,29 @@ module Comfy::CmsHelper
     tags << tag('meta', name: 'description', content: cms_block_content('seo.meta_description')) if cms_block_content('seo.meta_description').present?
     tags << tag('meta', name: 'robots', content: cms_block_content('seo.meta_index')) if cms_block_content('seo.meta_index').present?
     tags << tag('link', rel: 'canonical', href: cms_block_content('seo.canonical_href')) if cms_block_content('seo.canonical_href').present?
+    #Google plus
+    tags << tag('meta', itemprop: "name", content: cms_block_content('google_plus.name')) if cms_block_content('google_plus.name').present?
+    tags << tag('meta', itemprop: "description", content: cms_block_content('google_plus.description')) if cms_block_content('google_plus.description').present?
+    tags << tag('meta', itemprop: "image", content: cms_block_content('google_plus.image')) if cms_block_content('google_plus.image').present?
+    #Twitter Card
+    tags << tag('meta', name: 'twitter:card', content: cms_block_content('twitter.card')) if cms_block_content('twitter.card').present?
+    tags << tag('meta', name: 'twitter:site', content: cms_block_content('twitter.site')) if cms_block_content('twitter.site').present?
+    tags << tag('meta', name: 'twitter:title', content: cms_block_content('twitter.title')) if cms_block_content('twitter.title').present?
+    tags << tag('meta', name: 'twitter:description', content: cms_block_content('twitter.description')) if cms_block_content('twitter.description').present?
+    tags << tag('meta', name: 'twitter:creator', content: cms_block_content('twitter.creator')) if cms_block_content('twitter.creator').present?
+    tags << tag('meta', name: 'twitter:image:src', content: cms_block_content('twitter.image_src')) if cms_block_content('twitter.image_src').present?
+    #Facebook
+    tags << tag('meta', property: 'og:title', content: cms_block_content('facebook.title')) if cms_block_content('facebook.title').present?
+    tags << tag('meta', property: 'og:type', content: cms_block_content('facebook.type')) if cms_block_content('facebook.type').present?
+    tags << tag('meta', property: 'og:url', content: cms_block_content('facebook.url')) if cms_block_content('facebook.url').present?
+    tags << tag('meta', property: 'og:image', content: cms_block_content('facebook.image')) if cms_block_content('facebook.image').present?
+    tags << tag('meta', property: 'og:description', content: cms_block_content('facebook.description')) if cms_block_content('facebook.description').present?
+    tags << tag('meta', property: 'og:site_name', content: cms_block_content('facebook.site_name')) if cms_block_content('facebook.site_name').present?
+    tags << tag('meta', property: 'article:published_time', content: cms_block_content('facebook.published_time')) if cms_block_content('facebook.published_time').present?
+    tags << tag('meta', property: 'article:modified_time', content: cms_block_content('facebook.modified_time')) if cms_block_content('facebook.modified_time').present?
+    tags << tag('meta', property: 'article:section', content: cms_block_content('facebook.section')) if cms_block_content('facebook.section').present?
+    tags << tag('meta', property: 'article:tag', content: cms_block_content('facebook.tag')) if cms_block_content('facebook.tag').present?
+    tags << tag('meta', property: 'fb:admins', content: cms_block_content('facebook.admins')) if cms_block_content('facebook.admins').present?
 
     return tags.join("\n").html_safe
   end
