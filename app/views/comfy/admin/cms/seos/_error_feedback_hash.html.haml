@@ -1,0 +1,10 @@
+- if result.empty?
+  %div No data, well done!
+- else
+  .url_show show/hide
+  .url_show_content
+    - result.each do |key, value|
+      - if value.class.name == 'String'
+        %div #{key}: #{value}
+      - else
+        %div #{key}: #{value.first} [parent-> #{value.last}]

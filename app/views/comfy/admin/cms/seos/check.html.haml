@@ -1,0 +1,64 @@
+%h1 Results
+%h4 All valid urls with attributes:
+- @result[:attributes_hash].each do |url, attributes|
+  =link_to url, '#', class: 'result_url'
+  #result_attributes
+    - attributes.each do |name, value|
+      =link_to name, '#', class: 'result_url_name'
+      .result_url_value
+        - if name == :image_and_alt
+          - value.each do |src, alt|
+            src= #{src} [alt= #{alt}]
+            %br
+        - elsif value.class.to_s == 'Hash'
+          - value.each do |key, count|
+            #{key} [count: #{count}]
+            %br
+        - elsif value.class.to_s == 'Array'
+          - value.each do |link|
+            #{link}
+            %br
+        - else
+          #{value}
+%h4 All system URLs:
+=render partial: 'error_feedback_array', locals: {result: @result[:system_urls_array]}
+
+%h4 All untested URLs:
+=render partial: 'error_feedback_array', locals: {result: @result[:untested_urls_array]}
+
+%h4 All error coded URLs:
+=render partial: 'error_feedback_hash', locals: {result: @result[:error_urls_hash]}
+
+%h4 Notes:
+=render partial: 'error_feedback_hash', locals: {result: @result[:system_notes]}
+
+:javascript
+
+  $(function() {
+    $('.result_url').click(function(event) {
+      event.preventDefault();
+      var clone = $(this).next().clone();
+      $(this).siblings().removeClass('result_attr_show_me');
+      $(this).siblings().removeClass('result_attr_hide_me');
+      if (clone.hasClass('result_attr_show_me')) {
+        $(this).next().addClass('result_attr_hide_me');
+      } else {
+        $(this).next().addClass('result_attr_show_me');
+      }
+      $('.result_url_value').hide();
+    });
+  });
+
+  $(function() {
+    $('.result_url_name').click(function(event) {
+      event.preventDefault();
+      $(this).next().toggle();
+    });
+  });
+
+  $(function() {
+    $('.url_show').click(function(event) {
+      event.preventDefault();
+      $(this).next().toggle();
+    });
+  });

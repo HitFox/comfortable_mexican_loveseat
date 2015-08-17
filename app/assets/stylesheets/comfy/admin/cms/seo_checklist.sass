@@ -1,0 +1,25 @@
+// custom CSS for admin area
+.result_url,
+.url_show
+  display: block
+  color: blue
+  text-decoration: underline
+
+.result_url_name
+  @extend .result_url
+  color: forestgreen
+
+.result_url_value,
+.url_show_content
+  display: none
+  padding: 0 10px
+  overflow: scroll
+
+#result_attributes
+  display: none
+
+#result_attributes.result_attr_show_me
+  display: block
+
+#result_attributes.result_attr_hide_me
+  display: none

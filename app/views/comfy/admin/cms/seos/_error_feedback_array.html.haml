@@ -1,0 +1,7 @@
+- if result.empty?
+  %div No data, well done!
+- else
+  .url_show show/hide
+  .url_show_content
+    - result.each do |url|
+      %div #{url.first}  [parent-> #{url.last}]
