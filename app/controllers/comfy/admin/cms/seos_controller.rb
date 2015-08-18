@@ -9,7 +9,7 @@ class Comfy::Admin::Cms::SeosController < Comfy::Admin::Cms::BaseController
   end
 
   def check
-    webpage = 'https://www.clark.de'
+    webpage = 'http://www.ita-online.info'
     crawler = Crawler.new(webpage)
     @result = crawler.crawl_webpage
   end
