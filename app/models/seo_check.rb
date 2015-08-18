@@ -19,8 +19,8 @@ class SeoCheck
         fill_keyword_hash(desc.join( ).split)
         fill_keyword_hash(title.join( ).split)
         fill_keyword_hash(url.split('/'))
-        attributes[:four_identical_keywords_in_h1_title_url_description] = @keyword_hash.key(4) || 'nothing found'
-        attributes[:three_identical_keywords_in_h1_title_url_description] = @keyword_hash.key(3) || 'nothing found'
+        attributes[:four_identical_keywords_in_h1_title_url_description] = fetch_identical_keys(4)
+        attributes[:three_identical_keywords_in_h1_title_url_description] = fetch_identical_keys(3)
         attributes[:all_keywords] = @keyword_hash
         @attri[url] = attributes
       end
@@ -55,6 +55,21 @@ class SeoCheck
       word.gsub!(/(\.|!|\?|,)\z/, '')
     else
       word
+    end
+  end
+
+  def fetch_identical_keys(number)
+    temp_key_array = []
+    temp_key_hash = @keyword_hash.dup
+    while temp_key_hash.has_value?(number)
+      key_word = temp_key_hash.key(number)
+      temp_key_hash.delete(key_word)
+      temp_key_array << key_word
+    end
+    if temp_key_array.empty?
+      return 'nothing found'
+    else
+      return temp_key_array
     end
   end
 end
