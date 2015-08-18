@@ -9,6 +9,7 @@ class Crawler
     @untested_urls_array =[]
     @system_urls_array =[]
     @error_urls_hash = {}
+    @http_response_urls_hash = {}
     @doc = ''
   end
 
@@ -17,6 +18,8 @@ class Crawler
     search_url_hash(@key_url)
     seo_checker = SeoCheck.new(@attributes_hash, @key_url)
     seo_checker.check_seo
+    url_HTTP_response(@url_hash)
+
     return_all
   end
 
@@ -252,12 +255,63 @@ class Crawler
     image_tag_hash
   end
 
+  def url_HTTP_response(url_array)
+    url_array.each do |url|
+      temp = url.first
+      unless url.first.match(/^http/)
+        unless url.first.match(/^#/)
+          unless url.first.match(/^mailto:/)
+            temp = @key_url+url.first
+          end
+        end
+      end
+      if temp.match(/http:\/\/www.sueddeutsche.de\/wirtschaft\/riester-rente-ein/)
+        break
+      end
+      begin
+        resp = Net::HTTP.get_response(URI.parse(temp))
+        unless resp.code.match(/200/)
+          @http_response_urls_hash[url.first] = [resp.code, url.last[1]]
+        end
+      rescue
+        begin
+          uri = URI.parse(temp)
+          http = Net::HTTP.new(uri.host, uri.port)
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+          request = Net::HTTP::Get.new(uri.request_uri)
+          resp = http.request(request)
+          unless resp.code.match(/200/)
+            @http_response_urls_hash[url.first] = [resp.code, url.last[1]]
+          end
+        rescue
+          begin 
+            uri = URI.parse(temp)
+            http = Net::HTTP.new(uri.host, uri.port)
+            http.use_ssl = true
+            http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+            request = Net::HTTP::Get.new(uri.request_uri,'Accept-Encoding' => 'identity')
+            resp = http.request(request)
+            unless resp.code.match(/200/)
+              @http_response_urls_hash[url.first] = [resp.code, url.last[1]]
+            end
+          rescue
+            @http_response_urls_hash[url.first] = ['*unable to open*', url.last[1]]
+          end
+        end
+      end
+    end
+    @http_response_urls_hash
+  end
+
   def return_all
     result = {}
     result[:attributes_hash] = @attributes_hash
     result[:system_urls_array] = @system_urls_array
     result[:untested_urls_array] = @untested_urls_array
-    result[:error_urls_hash] = @error_urls_hash
+    result[:not_200_http_response_urls] = @http_response_urls_hash
     result[:system_notes] = @notes_hash
     result
   end

@@ -26,8 +26,8 @@
 %h4 All untested URLs:
 =render partial: 'error_feedback_array', locals: {result: @result[:untested_urls_array]}
 
-%h4 All error coded URLs:
-=render partial: 'error_feedback_hash', locals: {result: @result[:error_urls_hash]}
+%h4 All not 200 http responded URLs:
+=render partial: 'error_feedback_hash', locals: {result: @result[:not_200_http_response_urls]}
 
 %h4 Notes:
 =render partial: 'error_feedback_hash', locals: {result: @result[:system_notes]}
