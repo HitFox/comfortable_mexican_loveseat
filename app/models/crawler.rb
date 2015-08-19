@@ -9,7 +9,7 @@ class Crawler
     @untested_urls_array =[]
     @system_urls_array =[]
     @error_urls_hash = {}
-    @http_response_urls_hash = {}
+    @http_response_urls_array = []
     @doc = ''
   end
 
@@ -94,10 +94,12 @@ class Crawler
         @url_hash[url] = ['system', parent_url]
       when /\.jpg$/
         @url_hash[url] = ['system', parent_url]
-      when /^#/
+      when /^www./
+        @url_hash[url] = ['untested', parent_url]
+      when /^\/\/www./
         @url_hash[url] = ['untested', parent_url]
       when /^(?!http)/
-        add_domain_to_url(url, parent_url)
+        attribute_to_url(add_domain_to_url(url), parent_url)
       when /^#{@www_key_url}/
         @url_hash[url] = ['valid', parent_url]
       when /^#{@non_www_key_url}/
@@ -108,12 +110,11 @@ class Crawler
     end
   end
 
-  def add_domain_to_url(url, parent_url)
+  def add_domain_to_url(url)
     unless url.match(/^\//)
       url = '/'+url
     end
-    url = @key_url+url
-    attribute_to_url(url, parent_url)
+    @key_url+url
   end
 
   def divide_url_hash
@@ -202,7 +203,7 @@ class Crawler
     result_hash[:title] = title
     result_hash[:meta_description] = find_description(meta_description)
     result_hash[:all_links_on_page] = find_links(all_links)
-    result_hash[:p_tag_to_long] = p_tag.last
+    result_hash[:p_tag_with_more_than_150_words?] = p_tag.last
     result_hash[:canonical_links] = canon_links
     result_hash[:image_and_alt] = check_alt_tag(img_tags)
 
@@ -221,8 +222,8 @@ class Crawler
   def find_links(all_links_nokogiri)
     just_links = []
     all_links_nokogiri.each do |content|
-      content.to_s.match(/href=.((\/|\w|-|\/|\.|:\/\/|\+|:\w+@\w+\.)+)/)
-      just_links << ($1.nil? ? 'nothing found' : $1)
+      content.to_s.match(/href=.([^"]+)/)
+      just_links << ($1.nil? ? content.to_s+' *unable to match*' : $1)
     end
     just_links
   end
@@ -246,7 +247,7 @@ class Crawler
     image_tag_hash = {}
     images.each do |img|
       # put src and alt of imgage in a hash
-      img.match(/src=.?("\S+)/)
+      img.match(/src\w*=.?("\S+)/)
       src = ($1.nil? ? 'no_src_found' : $1)
       img.match(/alt=\W+((\w|\s)+)/)
       alt= ($1.nil? ? 'no_alt_found' : $1)
@@ -257,53 +258,50 @@ class Crawler
 
   def url_HTTP_response(url_array)
     url_array.each do |url|
+      if url.first.match(/^mailto:/)
+        next
+      end
       temp = url.first
       unless url.first.match(/^http/)
-        unless url.first.match(/^#/)
-          unless url.first.match(/^mailto:/)
-            temp = @key_url+url.first
-          end
+        unless url.first.match(/^www./) || url.first.match(/^\/\/www./)
+          temp = add_domain_to_url(url.first)
         end
       end
-      if temp.match(/http:\/\/www.sueddeutsche.de\/wirtschaft\/riester-rente-ein/)
-        break
-      end
-      begin
+      get_HTTP_response(temp, url, 0)
+    end
+    @http_response_urls_array
+  end
+
+  def get_HTTP_response(temp, url, round)
+    begin
+      if round == 0
         resp = Net::HTTP.get_response(URI.parse(temp))
-        unless resp.code.match(/200/)
-          @http_response_urls_hash[url.first] = [resp.code, url.last[1]]
-        end
-      rescue
-        begin
-          uri = URI.parse(temp)
-          http = Net::HTTP.new(uri.host, uri.port)
-          http.use_ssl = true
-          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
+      else
+        uri = URI.parse(temp)
+        http = Net::HTTP.new(uri.host, uri.port)
+        temp.match(/https:\/\//) ? http.use_ssl = true : http.use_ssl = false
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+        if round == 1
           request = Net::HTTP::Get.new(uri.request_uri)
-          resp = http.request(request)
-          unless resp.code.match(/200/)
-            @http_response_urls_hash[url.first] = [resp.code, url.last[1]]
-          end
-        rescue
-          begin 
-            uri = URI.parse(temp)
-            http = Net::HTTP.new(uri.host, uri.port)
-            http.use_ssl = true
-            http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-            request = Net::HTTP::Get.new(uri.request_uri,'Accept-Encoding' => 'identity')
-            resp = http.request(request)
-            unless resp.code.match(/200/)
-              @http_response_urls_hash[url.first] = [resp.code, url.last[1]]
-            end
-          rescue
-            @http_response_urls_hash[url.first] = ['*unable to open*', url.last[1]]
-          end
+        else
+          request = Net::HTTP::Get.new(uri.request_uri, 'Accept-Encoding' => 'identity')
         end
+        resp = http.request(request)
+      end
+      unless resp.code.match(/200/)
+        @http_response_urls_array << [resp.code, ['"'+url.first+'"', url.last[1]]]
+      end
+    rescue Exception => e
+      if round == 0
+        get_HTTP_response(temp, url, 1)
+      end
+      if round == 1
+        get_HTTP_response(temp, url, 2)
+      end
+      if round == 2
+        @http_response_urls_array << ['*'+e.message+'*', ['"'+url.first+'"', url.last[1]]]
       end
     end
-    @http_response_urls_hash
   end
 
   def return_all
@@ -311,7 +309,7 @@ class Crawler
     result[:attributes_hash] = @attributes_hash
     result[:system_urls_array] = @system_urls_array
     result[:untested_urls_array] = @untested_urls_array
-    result[:not_200_http_response_urls] = @http_response_urls_hash
+    result[:not_200_http_response_urls] = @http_response_urls_array
     result[:system_notes] = @notes_hash
     result
   end
