@@ -1,0 +1,6 @@
+en:
+  seo:
+    old_page_url: URLs that redirect here (takes slugs in a comma-separated list)
+    meta_description: Meta Description
+    page_title: Page Title
+    canonical_href: Canonical link

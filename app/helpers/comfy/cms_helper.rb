@@ -3,8 +3,11 @@ module Comfy::CmsHelper
   def comfy_seo_tags
     tags = []
     tags << tag('meta', name: 'description', content: cms_block_content('seo.meta_description')) if cms_block_content('seo.meta_description').present?
-    tags << tag('meta', name: 'robots', content: cms_block_content('seo.meta_index')) if cms_block_content('seo.meta_index').present?
-    tags << tag('link', rel: 'canonical', href: cms_block_content('seo.canonical_href')) if cms_block_content('seo.canonical_href').present?
+    tags << tag('meta', name: 'robots', content: 'NOINDEX, FOLLOW') if cms_block_content('seo.meta_index').present? && cms_block_content('seo.meta_index')
+
+    # if no canonical is set, default to URL without any parameters
+    href = cms_block_content('seo.canonical_href').present? ? cms_block_content('seo.canonical_href') : request.url.split('?').first
+    tags << tag('link', rel: 'canonical', href: href)
     #Google plus
     tags << tag('meta', itemprop: "name", content: cms_block_content('google_plus.name')) if cms_block_content('google_plus.name').present?
     tags << tag('meta', itemprop: "description", content: cms_block_content('google_plus.description')) if cms_block_content('google_plus.description').present?

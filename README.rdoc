@@ -4,9 +4,7 @@ The Comfortable Mexican Loveseat is an expansion pack to the Comfortable Mexican
 
 The Loveseat references a fixed version of the CMS (currently 1.12.8) and latest releases are pulled in occasionally.
 
-== SEO Features
-
-=== Simplified Fixture Import/Export
+== Simplified Fixture Import/Export
 
 When you want to import fixtures you can now use the following commands:
 
@@ -17,6 +15,8 @@ When you want to import fixtures you can now use the following commands:
   rake cms:export
   rake cms:export FROM=somewhere
   rake cms:export FROM=somewhere TO=something LOCALE=de
+
+== SEO Features
 
 === Custom Sitemaps
 
@@ -38,6 +38,8 @@ By default when you create an application, it comes with meta description; page 
 
   <title><%= comfy_page_title %></title>
   <%= comfy_seo_tags %>
+
+Tags are set on a per-page basis, except for canonical links, which default to the page URL if none has been entered manually.
 
 === File Upload helper text
 
