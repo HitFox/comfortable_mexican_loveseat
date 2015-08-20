@@ -10,19 +10,21 @@ class SeoCheck
 
   def same_keyword_title_h1_url_description(dup_attri)
     dup_attri.each do |url, attributes|
+      at_first = attributes.first
+      @color_count = attributes.last
       unless url == @key_url
         @keyword_hash = {}
-        h1 = attributes[:all_h1_header]
-        desc = attributes[:meta_description]
-        title = attributes[:title]
+        h1 = at_first[:all_h1_header]
+        desc = at_first[:meta_description]
+        title = at_first[:title]
         fill_keyword_hash(h1.join( ).split)
         fill_keyword_hash(desc.join( ).split)
         fill_keyword_hash(title.join( ).split)
         fill_keyword_hash(url.split('/'))
-        attributes[:four_identical_keywords_in_h1_title_url_description] = fetch_identical_keys(4)
-        attributes[:three_identical_keywords_in_h1_title_url_description] = fetch_identical_keys(3)
-        attributes[:all_keywords] = @keyword_hash
-        @attri[url] = attributes
+        at_first[:four_identical_keywords_in_h1_title_url_description] = fetch_identical_keys(4)
+        at_first[:three_identical_keywords_in_h1_title_url_description] = fetch_identical_keys(3)
+        at_first[:all_keywords] = @keyword_hash
+        @attri[url] = [at_first, attributes[1]+=@color_count]
       end
     end
   end
@@ -67,6 +69,7 @@ class SeoCheck
       temp_key_array << key_word
     end
     if temp_key_array.empty?
+      @color_count += 5 if number == 4
       return 'nothing found'
     else
       return temp_key_array

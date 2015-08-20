@@ -1,9 +1,9 @@
 %h1 Results
 %h4 All valid urls with attributes:
 - @result[:attributes_hash].each do |url, attributes|
-  =link_to url, '#', class: 'result_url'
+  =link_to url, '#', id: 'result_url', class: 'result_url_'+attributes.last
   #result_attributes
-    - attributes.each do |name, value|
+    - attributes.first.each do |name, value|
       =link_to name, '#', class: 'result_url_name'
       .result_url_value
         - if name == :image_and_alt
@@ -33,9 +33,8 @@
 =render partial: 'error_feedback_hash', locals: {result: @result[:system_notes]}
 
 :javascript
-
   $(function() {
-    $('.result_url').click(function(event) {
+    $(this).on('click', '#result_url', function(event) {
       event.preventDefault();
       var clone = $(this).next().clone();
       $(this).siblings().removeClass('result_attr_show_me');

@@ -19,7 +19,7 @@ class Crawler
     seo_checker = SeoCheck.new(@attributes_hash, @key_url)
     seo_checker.check_seo
     url_HTTP_response(@url_hash)
-
+    color_calculator(@attributes_hash)
     return_all
   end
 
@@ -149,6 +149,7 @@ class Crawler
     canon_links = []
     img_tags = []
     result_hash = {}
+    @count_for_color_of_url = 0
 
     @doc.xpath('//h1').each do |header|
       all_h1_header << header.text
@@ -206,8 +207,7 @@ class Crawler
     result_hash[:p_tag_with_more_than_150_words?] = p_tag.last
     result_hash[:canonical_links] = canon_links
     result_hash[:image_and_alt] = check_alt_tag(img_tags)
-
-    @attributes_hash[page_url] = result_hash
+    @attributes_hash[page_url] = [result_hash, @count_for_color_of_url]
   end
 
   def find_description(meta_description_nokogiri)
@@ -215,6 +215,7 @@ class Crawler
     meta_description_nokogiri.each do |content|
       content.to_s.match(/content=.([^=]+)("|')/)
       desc << ($1.nil? ? 'nothing found' : $1)
+      @count_for_color_of_url += 1 if $1.nil?
     end
     desc
   end
@@ -236,6 +237,7 @@ class Crawler
         if text.split(' ').size > 150
           attri << 'yes: ' + text
           text_to_long = true
+          @count_for_color_of_url += 1
         end
       # do i need a warning here?
       end
@@ -250,7 +252,8 @@ class Crawler
       img.match(/src\w*=.?("\S+)/)
       src = ($1.nil? ? 'no_src_found' : $1)
       img.match(/alt=\W+((\w|\s)+)/)
-      alt= ($1.nil? ? 'no_alt_found' : $1)
+      alt = ($1.nil? ? 'no_alt_found' : $1)
+      @count_for_color_of_url += 1 if $1.nil?
       image_tag_hash[src] = alt
     end
     image_tag_hash
@@ -300,6 +303,19 @@ class Crawler
       end
       if round == 2
         @http_response_urls_array << ['*'+e.message+'*', ['"'+url.first+'"', url.last[1]]]
+      end
+    end
+  end
+
+  def color_calculator(attributes_hash)
+    attributes_hash.each do |url, attributes|
+      count = attributes.last
+      if count == 0
+        attributes[1] = 'zero'
+      elsif count < 6
+        attributes[1] = 'one'
+      else
+        attributes[1] = 'two'
       end
     end
   end
