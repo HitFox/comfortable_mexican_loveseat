@@ -27,3 +27,10 @@ de:
     section: Abteilung
     tag: Tag
     admins: Admins
+  devise:
+    signin: Login
+  admin:
+    roles:
+      sync_and_permit:
+        sync_and_permit: Rechte synchronisierung
+

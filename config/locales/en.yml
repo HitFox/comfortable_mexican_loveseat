@@ -4,3 +4,9 @@ en:
     meta_description: Meta Description
     page_title: Page Title
     canonical_href: Canonical link
+  devise:
+    signin: Login
+  admin:
+    roles:
+      sync_and_permit:
+        sync_and_permit: Permission levels sync

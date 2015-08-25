@@ -48,3 +48,7 @@ The Loveseat provides some helpful hints to admins when they're uploading images
   images_need_seo_friendly_names
   files_alt_tag
 
+=== Styled login page
+
+There is a more styled version of the CMS login page in the templates/devise folder.
+
