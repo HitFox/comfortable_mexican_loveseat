@@ -1,11 +1,12 @@
-class SeoCheck
-  def initialize(valid_urls_attributes_hash, key_url)
-    @attri = valid_urls_attributes_hash
+class JudgeContent
+  def initialize(key_url, valid_urls_attributes_hash)
     @key_url = key_url
+    @attributes = valid_urls_attributes_hash
   end
 
-  def check_seo
-    same_keyword_title_h1_url_description(@attri.dup)
+  def judge
+    same_keyword_title_h1_url_description(@attributes.dup)
+    color_calculator(@attributes)
   end
 
   def same_keyword_title_h1_url_description(dup_attri)
@@ -24,9 +25,10 @@ class SeoCheck
         at_first[:four_identical_keywords_in_h1_title_url_description] = fetch_identical_keys(4)
         at_first[:three_identical_keywords_in_h1_title_url_description] = fetch_identical_keys(3)
         at_first[:all_keywords] = @keyword_hash
-        @attri[url] = [at_first, attributes[1]+=@color_count]
+        @attributes[url] = [at_first, attributes[1]+=@color_count]
       end
     end
+    @attributes
   end
 
   def fill_keyword_hash(input)
@@ -73,6 +75,19 @@ class SeoCheck
       return 'nothing found'
     else
       return temp_key_array
+    end
+  end
+
+  def color_calculator(attributes_hash)
+    attributes_hash.each do |url, attributes|
+      count = attributes.last
+      if count == 0
+        attributes[1] = 'zero'
+      elsif count < 6
+        attributes[1] = 'one'
+      else
+        attributes[1] = 'two'
+      end
     end
   end
 end
