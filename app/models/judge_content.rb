@@ -15,16 +15,16 @@ class JudgeContent
       @color_count = attributes.last
       unless url == @key_url
         @keyword_hash = {}
-        h1 = at_first[:all_h1_header]
-        desc = at_first[:meta_description]
-        title = at_first[:title]
+        h1 = at_first[:headings_all_h1_header]
+        desc = at_first[:head_meta_description]
+        title = at_first[:head_title]
         fill_keyword_hash(h1.join( ).split)
         fill_keyword_hash(desc.join( ).split)
         fill_keyword_hash(title.join( ).split)
         fill_keyword_hash(url.split('/'))
-        at_first[:four_identical_keywords_in_h1_title_url_description] = fetch_identical_keys(4)
-        at_first[:three_identical_keywords_in_h1_title_url_description] = fetch_identical_keys(3)
-        at_first[:all_keywords] = @keyword_hash
+        at_first[:content_four_identical_keywords_in_h1_title_url_description] = fetch_identical_keys(4)
+        at_first[:content_three_identical_keywords_in_h1_title_url_description] = fetch_identical_keys(3)
+        at_first[:content_all_keywords] = @keyword_hash
         @attributes[url] = [at_first, attributes[1]+=@color_count]
       end
     end

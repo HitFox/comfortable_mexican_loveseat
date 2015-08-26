@@ -78,18 +78,18 @@ class CrawlPage
           img_tags << pic.to_s
         end
 
-        result_hash[:all_h1_header] = all_h1_header
-        result_hash[:all_h2_header] = all_h2_header
-        result_hash[:all_h3_header] = all_h3_header
-        result_hash[:all_h4_header] = all_h4_header
-        result_hash[:all_h5_header] = all_h5_header
-        result_hash[:all_h6_header] = all_h6_header
-        result_hash[:title] = title
-        result_hash[:meta_description] = find_description(meta_description)
-        result_hash[:all_links_on_page] = find_links(all_links)
-        result_hash[:p_tag_with_more_than_150_words?] = p_tag.last
-        result_hash[:canonical_links] = canon_links
-        result_hash[:image_and_alt] = check_alt_tag(img_tags)
+        result_hash[:head_title] = title
+        result_hash[:head_meta_description] = find_description(meta_description)
+        result_hash[:head_canonical_links] = canon_links
+        result_hash[:headings_all_h1_header] = all_h1_header
+        result_hash[:headings_all_h2_header] = all_h2_header
+        result_hash[:headings_all_h3_header] = all_h3_header
+        result_hash[:headings_all_h4_header] = all_h4_header
+        result_hash[:headings_all_h5_header] = all_h5_header
+        result_hash[:headings_all_h6_header] = all_h6_header
+        result_hash[:content_all_links_on_page] = find_links(all_links)
+        result_hash[:content_p_tag_with_more_than_150_words?] = p_tag.last
+        result_hash[:image_image_and_alt] = check_alt_tag(img_tags)
         attributes_hash[url] = [result_hash, @count_for_color_of_url]
       end
     end

@@ -20,15 +20,10 @@ class PreprocessUrls
   end
   
   def fill_url_hash(key_url)
-    count =0
     @url_hash[key_url] = ['valid', key_url]
     url_array = []
     url_array << key_url
     url_array.each do |url|
-      # count +=1
-      # if count > 10
-      #   break
-      # end
       if get_all_urls_of(url)
         @url_hash.keys.each do |key|
           url_array << key
