@@ -34,22 +34,27 @@ class PreprocessUrls
   end
 
   def get_all_urls_of(parent_url)
-    code = 0
     doc = ''
     @url_hash[parent_url][4] = check_domain(parent_url)
     # puts 'copy '+@url_hash[parent_url][4]
     begin
-      body, code = get_HTTP_and_code(@url_hash[parent_url][4].dup, 0, nil)
-      doc = Nokogiri::HTML(body)
-      @url_hash[parent_url][2] = code
+      @body = ''
+      @code = 0
+      get_HTTP_and_code(@url_hash[parent_url][4].dup, 0, nil)
+      doc = Nokogiri::HTML(@body)
+      @url_hash[parent_url][2] = @code
       @url_hash[parent_url][3] = doc
       # puts '0 '+@url_hash[parent_url][0]
       # puts '1 '+@url_hash[parent_url][1]
 
       if url_label(parent_url) == 'valid'
-        doc.xpath('//comment()').remove
-        doc.xpath('//@href').each do |child_url|
-          label_url(child_url.to_s, parent_url)
+        if @code == '404' || @code == 0
+          @url_hash[parent_url][0] = 'untested'
+        else
+          doc.xpath('//comment()').remove
+          doc.xpath('//@href').each do |child_url|
+            label_url(child_url.to_s, parent_url)
+          end
         end
       end
       # puts '2 '+@url_hash[parent_url][2]
@@ -124,17 +129,29 @@ class PreprocessUrls
       if resp.nil?
         # puts 'resp.nil?'
         # puts '??????????'
-        return 'empty', 0
+        if @body.empty?
+          @body = 'empty'
+          @code = 0
+        end
+        return
       end
       if code.nil?
         # puts resp.code
         # puts '??????????'
-        return resp.body, resp.code
+        if @body.empty?
+          @body = resp.body
+          @code = resp.code
+        end
+        return
       end
       if !code.nil?
         # puts code
         # puts '??????????'
-        return resp.body, code
+        if @body.empty?
+          @body = resp.body
+          @code = code
+        end
+        return
       end
     end
   end

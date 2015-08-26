@@ -49,7 +49,7 @@ class SeoChecker
       when 'valid'
         valid_urls << [url, values[1]] 
       when 'untested'
-        if get_domain(values[0]) == get_domain(@key_url)
+        if get_domain(url) == get_domain(@key_url)
           intern_urls << [url, values[1]]
         else
           extern_urls << [url, values[1]]
@@ -65,7 +65,7 @@ class SeoChecker
       when /30\d/
         redirected_urls << [url, values[1], values[2]] 
       else
-        code_error_urls << [url, values[1], values[2]]
+        code_error_urls << [url, values[1], values[2]] unless values[0] == 'system'
       end
     end
     @sorted_url_hash['Valid'] = valid_urls
@@ -80,6 +80,7 @@ class SeoChecker
 
   def get_domain(url)
     url.match(/https?:\/\/(www\.|)(\b\S+)[\.]/)
+    $2.to_s
   end
 
   def sort_attributes_hash
@@ -121,5 +122,4 @@ class SeoChecker
     result[:sorted_urls_hash] = @sorted_url_hash
     result
   end
-
 end
