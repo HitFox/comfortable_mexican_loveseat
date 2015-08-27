@@ -1,7 +1,6 @@
 // custom CSS for admin area
 #result_url,
-.show_hide,
-#result_titles
+.show_hide
   display: block
   color: blue
   text-decoration: underline
@@ -22,11 +21,11 @@
   @extend .show_hide
   color: blue
 
-.result_url_content0
+.result_url_name
   @extend .show_hide
   color: grey
 
-.result_url_content1
+.result_url_content
   display: none
   color: black
 
@@ -35,11 +34,12 @@
   padding: 0 10px
   overflow: scroll
 
+#result_titles
+  display: block
+
 #result_titles,
 #result_titles.result_attr_hide_me,
-.system_urls,
-.extern_urls,
-.intern_urls
+.show_hide_urls
   display: none
 
 #result_titles.result_attr_show_me

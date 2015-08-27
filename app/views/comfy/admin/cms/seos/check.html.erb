@@ -7,75 +7,48 @@
     <% attributes.first.each do |title, array| %>
       <a class= 'result_attributes_title' href= '#'> <%= title %> </a>
       <div class= 'result_attributes_array'>
-        <% array.each do |content| %>
-          <a class= 'result_url_content0' href= '#'> <%= content[0].to_s %> </a>
-          <div class= 'result_url_content1'> <%= content[1].to_s %> </div>
+        <% array.each do |name, content| %>
+          <a class= 'result_url_name' href= '#'> <%= name %> </a>
+          <div class= 'result_url_content'> 
+            <%= render 'show_content', name: name, content: content %>
+          </div>
         <% end %>
       </div>
     <% end %>
   </div>
 <% end %>
 
+<h4> All valid URLs: </h4>
+<div class= 'show_hide'> show/hide </div>
+<%= render 'show_hide_two_params', result: @result[:sorted_urls_hash]['Valid'] %>
 
 <h4> All system URLs: </h4>
 <div class= 'show_hide'> show/hide </div>
-<div class= 'system_urls'>
-  <% if @result[:sorted_urls_hash]['System'].empty? %>
-    <div> No data! </div>
-  <% else
-    @result[:sorted_urls_hash]['System'].each do |url, parent| %>
-      <div> <%= "#{url} [parent-> #{parent}]" %> </div>
-    <% end %>
-  <% end %>
-</div>
+<%= render 'show_hide_two_params', result: @result[:sorted_urls_hash]['System'] %>
 
 <h4> All extern URLs: </h4>
 <div class= 'show_hide'> show/hide </div>
-<div class= 'extern_urls'>
-  <% if @result[:sorted_urls_hash]['Extern'].empty? %>
-    <div> No data! </div>
-  <% else
-    @result[:sorted_urls_hash]['Extern'].each do |url, parent| %>
-      <div> <%= "#{url} [parent-> #{parent}]" %> </div>
-    <% end %>
-  <% end %>
-</div>
+<%= render 'show_hide_two_params', result: @result[:sorted_urls_hash]['Extern'] %>
 
 <h4> All faulty intern URLs: </h4>
 <div class= 'show_hide'> show/hide </div>
-<div class= 'intern_urls'>
-  <% if @result[:sorted_urls_hash]['Intern'].empty? %>
-    <div> No data! </div>
-  <% else
-    @result[:sorted_urls_hash]['Intern'].each do |url, parent| %>
-      <div> <%= "#{url} [parent-> #{parent}]" %> </div>
-    <% end %>
-  <% end %>
-</div>
+<%= render 'show_hide_two_params', result: @result[:sorted_urls_hash]['Intern'] %>
+
+<h4> All error URLs: </h4>
+<div class= 'show_hide'> show/hide </div>
+<%= render 'show_hide_two_params', result: @result[:sorted_urls_hash]['Error'] %>
+
+<h4> All code 200 URLs: </h4>
+<div class= 'show_hide'> show/hide </div>
+<%= render 'show_hide_three_params', result: @result[:sorted_urls_hash]['Code_200'] %>
 
 <h4> All code 30x URLs: </h4>
 <div class= 'show_hide'> show/hide </div>
-<div class= 'system_urls'>
-  <% if @result[:sorted_urls_hash]['Redirected'].empty? %>
-    <div> No data! </div>
-  <% else
-    @result[:sorted_urls_hash]['Redirected'].each do |url, parent, code| %>
-      <div> <%= "#{code}: #{url} [parent-> #{parent}]" %> </div>
-    <% end %>
-  <% end %>
-</div>
+<%= render 'show_hide_three_params', result: @result[:sorted_urls_hash]['Redirected'] %>
 
 <h4> All code 40x URLs: </h4>
 <div class= 'show_hide'> show/hide </div>
-<div class= 'extern_urls'>
-  <% if @result[:sorted_urls_hash]['Code_error'].empty? %>
-    <div> No data! </div>
-  <% else
-    @result[:sorted_urls_hash]['Code_error'].each do |url, parent, code| %>
-      <div> <%= "#{code}: #{url} [parent-> #{parent}]" %> </div>
-    <% end %>
-  <% end %>
-</div>
+<%= render 'show_hide_three_params', result: @result[:sorted_urls_hash]['Code_error'] %>
 
 <script>
   $(function() {
@@ -90,7 +63,7 @@
         $(this).next().addClass('result_attr_show_me');
       }
       $('.result_attributes_array').hide();
-      $('.result_url_content1').hide();
+      $('.result_url_content').hide();
     });
   });
 
@@ -102,7 +75,7 @@
   });
 
   $(function() {
-    $('.result_url_content0').click(function(event) {
+    $('.result_url_name').click(function(event) {
       event.preventDefault();
       $(this).next().toggle();
     });
