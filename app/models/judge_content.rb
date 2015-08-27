@@ -5,19 +5,21 @@ class JudgeContent
   end
 
   def judge
-    same_keyword_title_h1_url_description(@attributes.dup)
+    split_attributes_and_get_infos(@attributes.dup)
     color_calculator(@attributes)
   end
 
-  def same_keyword_title_h1_url_description(dup_attri)
+  def split_attributes_and_get_infos(dup_attri)
     dup_attri.each do |url, attributes|
       at_first = attributes.first
       @color_count = attributes.last
+      title = at_first[:head_title]
+      desc = at_first[:head_meta_description]
+      at_first[:head_title] = [title.join, count_characters(title)]
+      at_first[:head_meta_description] = [desc.join, count_characters(desc)]
       unless url == @key_url
         @keyword_hash = {}
         h1 = at_first[:headings_all_h1_header]
-        desc = at_first[:head_meta_description]
-        title = at_first[:head_title]
         fill_keyword_hash(h1.join( ).split)
         fill_keyword_hash(desc.join( ).split)
         fill_keyword_hash(title.join( ).split)
@@ -29,6 +31,10 @@ class JudgeContent
       end
     end
     @attributes
+  end
+
+  def count_characters(string)
+    'Size: '+string.join.size.to_s
   end
 
   def fill_keyword_hash(input)
