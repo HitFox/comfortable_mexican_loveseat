@@ -8,7 +8,7 @@
       <a class= 'result_attributes_title' href= '#'> <%= title %> </a>
       <div class= 'result_attributes_array'>
         <% array.each do |name, content| %>
-          <a class= 'result_url_name' href= '#'> <%= name %> </a>
+          <a class= 'result_url_name' href= '#'> <%= name unless content.empty? %> </a>
           <div class= 'result_url_content'> 
             <%= render 'show_content', name: name, content: content %>
           </div>
