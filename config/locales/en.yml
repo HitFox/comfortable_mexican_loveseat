@@ -4,6 +4,23 @@ en:
     meta_description: Meta Description
     page_title: Page Title
     canonical_href: Canonical link
+  google_plus:
+    name: Name (inherits from page title if blank)
+    description: Description (inherits from SEO tab if blank)
+    image: Image (inherits from parent page if blank)
+  twitter:
+    site: Site (inherits from parent page if blank)
+    title: Title (inherits from SEO tab if blank)
+    description: Description (inherits from SEO tab if blank)
+    creator: Creator (inherits from parent page if blank)
+    image_src: Image Source (inherits from parent page if blank)
+  facebook:
+    title: Title (inherits from SEO tab if blank)
+    type: Type (inherits from parent page if blank)
+    image: Image (inherits from parent page if blank)
+    description: Description (inherits from SEO tab if blank)
+    site_name: Site Name (inherits from root)
+    admins: Admins (inherits from parent page if blank)
   devise:
     signin: Login
   admin:

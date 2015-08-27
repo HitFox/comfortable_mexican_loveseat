@@ -1,42 +1,76 @@
 module Comfy::CmsHelper
 
   def comfy_seo_tags
+    meta_description = cms_block_content('seo.meta_description')
+    page_title = cms_block_content('seo.page_title')
+    parent_page = @cms_page.parent_id.present? ? @cms_page.parent_id : false
     tags = []
-    tags << tag('meta', name: 'description', content: cms_block_content('seo.meta_description')) if cms_block_content('seo.meta_description').present?
+    tags << tag('meta', name: 'description', content: meta_description) if meta_description.present?
     tags << tag('meta', name: 'robots', content: 'NOINDEX, FOLLOW') if cms_block_content('seo.meta_index').present? && cms_block_content('seo.meta_index')
 
     # if no canonical is set, default to URL without any parameters
     href = cms_block_content('seo.canonical_href').present? ? cms_block_content('seo.canonical_href') : request.url.split('?').first
     tags << tag('link', rel: 'canonical', href: href)
-    #Google plus
-    tags << tag('meta', itemprop: "name", content: cms_block_content('google_plus.name')) if cms_block_content('google_plus.name').present?
-    tags << tag('meta', itemprop: "description", content: cms_block_content('google_plus.description')) if cms_block_content('google_plus.description').present?
-    tags << tag('meta', itemprop: "image", content: cms_block_content('google_plus.image')) if cms_block_content('google_plus.image').present?
-    #Twitter Card
-    tags << tag('meta', name: 'twitter:card', content: cms_block_content('twitter.card')) if cms_block_content('twitter.card').present?
-    tags << tag('meta', name: 'twitter:site', content: cms_block_content('twitter.site')) if cms_block_content('twitter.site').present?
-    tags << tag('meta', name: 'twitter:title', content: cms_block_content('twitter.title')) if cms_block_content('twitter.title').present?
-    tags << tag('meta', name: 'twitter:description', content: cms_block_content('twitter.description')) if cms_block_content('twitter.description').present?
-    tags << tag('meta', name: 'twitter:creator', content: cms_block_content('twitter.creator')) if cms_block_content('twitter.creator').present?
-    tags << tag('meta', name: 'twitter:image:src', content: cms_block_content('twitter.image_src')) if cms_block_content('twitter.image_src').present?
-    #Facebook
-    tags << tag('meta', property: 'og:title', content: cms_block_content('facebook.title')) if cms_block_content('facebook.title').present?
-    tags << tag('meta', property: 'og:type', content: cms_block_content('facebook.type')) if cms_block_content('facebook.type').present?
-    tags << tag('meta', property: 'og:url', content: cms_block_content('facebook.url')) if cms_block_content('facebook.url').present?
-    tags << tag('meta', property: 'og:image', content: cms_block_content('facebook.image')) if cms_block_content('facebook.image').present?
-    tags << tag('meta', property: 'og:description', content: cms_block_content('facebook.description')) if cms_block_content('facebook.description').present?
+
+    ### Google plus: use meta_description and page title as defaults
+    gplus_name = self_or_inherit_metadata('google_plus.name', page_title)
+    gplus_description = self_or_inherit_metadata('google_plus.description', meta_description)
+    gplus_image = self_or_parent_metafield('google_plus.image')
+    tags << tag('meta', itemprop: "name", content: gplus_name) if gplus_name.present?
+    tags << tag('meta', itemprop: "description", content: gplus_description) if gplus_description.present?
+    tags << tag('meta', itemprop: "image", content: gplus_image) if gplus_image.present?
+
+    ### Twitter Card
+    twitter_site = self_or_parent_metafield('twitter.site')
+    twitter_creator = self_or_parent_metafield('twitter.creator')
+    twitter_image_src = self_or_parent_metafield('twitter.image_src')
+    twitter_title = self_or_inherit_metadata('twitter.title', page_title)
+    twitter_description = self_or_inherit_metadata('twitter.description', meta_description)
+    tags << tag('meta', name: 'twitter:card', content: 'summary_large_image')
+    tags << tag('meta', name: 'twitter:site', content: twitter_site) if twitter_site.present?
+    tags << tag('meta', name: 'twitter:creator', content: twitter_creator) if twitter_creator.present?
+    tags << tag('meta', name: 'twitter:image:src', content: twitter_image_src) if twitter_image_src.present?
+    tags << tag('meta', name: 'twitter:title', content: twitter_title) if twitter_title.present?
+    tags << tag('meta', name: 'twitter:description', content: twitter_description) if twitter_description.present?
+
+    ### Facebook
+    fb_description = self_or_inherit_metadata('facebook.description', meta_description)
+    fb_title = self_or_inherit_metadata('facebook.title', page_title)
+    fb_type = self_or_parent_metafield('facebook.type')
+    fb_image = self_or_parent_metafield('facebook.image')
+    fb_admins = self_or_parent_metafield('facebook.admins')
+    tags << tag('meta', property: 'og:description', content: fb_description) if fb_description.present?
+    tags << tag('meta', property: 'og:title', content: fb_title) if fb_title.present?
+    tags << tag('meta', property: 'og:type', content: fb_type) if fb_type.present?
+    tags << tag('meta', property: 'og:image', content: fb_image) if fb_image.present?
+    tags << tag('meta', property: 'fb:admins', content: fb_admins) if fb_admins.present?
     tags << tag('meta', property: 'og:site_name', content: cms_block_content('facebook.site_name')) if cms_block_content('facebook.site_name').present?
-    tags << tag('meta', property: 'article:published_time', content: cms_block_content('facebook.published_time')) if cms_block_content('facebook.published_time').present?
-    tags << tag('meta', property: 'article:modified_time', content: cms_block_content('facebook.modified_time')) if cms_block_content('facebook.modified_time').present?
-    tags << tag('meta', property: 'article:section', content: cms_block_content('facebook.section')) if cms_block_content('facebook.section').present?
-    tags << tag('meta', property: 'article:tag', content: cms_block_content('facebook.tag')) if cms_block_content('facebook.tag').present?
-    tags << tag('meta', property: 'fb:admins', content: cms_block_content('facebook.admins')) if cms_block_content('facebook.admins').present?
+    tags << tag('meta', property: 'og:url', content: request.url.split('?').first)
+
 
     return tags.join("\n").html_safe
   end
 
   def comfy_page_title
     cms_block_content('seo.page_title')
+  end
+
+  def self_or_inherit_metadata(block_identifier, metadata)
+    if cms_block_content(block_identifier).present?
+      return cms_block_content(block_identifier)
+    else
+      return metadata
+    end
+  end
+
+  def self_or_parent_metafield(block_identifier, page = @cms_page)
+    if cms_block_content(block_identifier).present?
+      return cms_block_content(block_identifier)
+    else
+      if page.present?
+        return Comfy::Cms::Block.where(identifier: block_identifier, blockable_type: 'Comfy::Cms::Page', blockable_id: page.parent_id).pluck(:content)
+      end
+    end
   end
 
   def flash_css_class(type)

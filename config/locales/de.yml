@@ -5,28 +5,22 @@ de:
     page_title: Seiten Titel
     canonical_href: kanonischer Link
   google_plus:
-    name: Name
-    description: Beschreibung
-    image: Bild
+    name: Name (erbt von Seiten Title wenn leer)
+    description: Beschreibung (erbt vom SEO tab wenn leer)
+    image: Bild (erbt von der Übergestufte Seite wenn leer)
   twitter:
-    card: Card
-    site: Seite
-    title: Titel
-    description: Beschreibung
-    creator: Autor
-    image_src: Bildquelle
+    site: Seite (erbt von der Übergestufte Seite wenn leer)
+    title: Titel (erbt vom SEO tab wenn leer)
+    description: Beschreibung (erbt vom SEO tab wenn leer)
+    creator: Autor (erbt von der Übergestufte Seite wenn leer)
+    image_src: Bildquelle (erbt von der Übergestufte Seite wenn leer)
   facebook:
-    title: Titel
-    type: Art
-    url: URL
-    image: Bild
-    description: Beschreibung
-    site_name: Seiten Name
-    published_time: Veröffentlicht Zeit
-    modified_time: Änderungszeit
-    section: Abteilung
-    tag: Tag
-    admins: Admins
+    title: Titel (erbt vom SEO tab wenn leer)
+    type: Art (erbt von der Übergestufte Seite wenn leer)
+    image: Bild (erbt von der Übergestufte Seite wenn leer)
+    description: Beschreibung (erbt vom SEO tab wenn leer)
+    site_name: Seiten Name (erbt von Rootseite tab wenn leer)
+    admins: Admins (erbt von der Übergestufte Seite wenn leer)
   devise:
     signin: Login
   admin:
