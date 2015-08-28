@@ -1,8 +1,8 @@
 class PreprocessUrls
   def initialize(key_url)
     @key_url = key_url
-    # @url_hash[child_url] = [label, parent_url, code, doc, child_url.dup]
     @url_hash = {}
+    # later: @url_hash[child_url] = [label, parent_url, code, doc, child_url.dup, redirect_target]
     @notes_hash = {}
   end
 
@@ -36,7 +36,6 @@ class PreprocessUrls
   def get_all_urls_of(parent_url)
     doc = ''
     @url_hash[parent_url][4] = check_domain(parent_url)
-    # puts 'copy '+@url_hash[parent_url][4]
     begin
       @body = ''
       @code = 0
@@ -45,8 +44,6 @@ class PreprocessUrls
       doc = Nokogiri::HTML(@body)
       @url_hash[parent_url][2] = @code
       @url_hash[parent_url][3] = doc
-      # puts '0 '+@url_hash[parent_url][0]
-      # puts '1 '+@url_hash[parent_url][1]
       if @redirect_target_url
         @url_hash[parent_url][0] = 'untested'
         @url_hash[parent_url][5] = @redirect_target_url
@@ -73,22 +70,25 @@ class PreprocessUrls
     return true
   end
 
-  def check_domain(url)
-    new_url = url
-    unless url.match(/^http/)
-      # if url.match(/^www./) || url.match(/^\/\/www./)
-
-      # end
-      new_url = add_domain_to(url)
+  def check_domain(target_url, start_url = @key_url)
+    new_url = target_url
+    unless target_url.match(/^http/)
+      cutted_start_url = start_url.match(/(https?:\/\/(www\.|)[^\/]+)/).to_s
+      cutted_start_url.sub!(/\w+\z/,'')
+      if (@www_key_url || @non_www_key_url) == cutted_start_url
+        new_url = add_domain_to(target_url)
+      else
+        new_url = add_domain_to(target_url, start_url.match(/(https?:\/\/(www\.|)[^\/]+)/).to_s)
+      end
     end
     new_url
   end
 
-  def add_domain_to(url)
+  def add_domain_to(url, domain_url = @key_url)
     unless url.match(/^\//)
       url = '/'+url
     end
-    @key_url+url
+    domain_url+url
   end
 
   def get_HTTP_and_code(url, round, code)
@@ -119,14 +119,14 @@ class PreprocessUrls
       end
     end
     if !resp.nil? && %w{301 302 307}.include?(resp.code)
-       if @redirect_target_url.nil?
-        @redirect_target_url = resp.header['location'].to_s
+      redirect_url = resp.header['location']
+      new_redirect_url = check_domain(redirect_url, url)
+      if @redirect_target_url.nil?
+        @redirect_target_url = new_redirect_url
       end
-      get_HTTP_and_code(resp.header['location'], 0, resp.code)
+      get_HTTP_and_code(new_redirect_url, 0, resp.code)
     else
       if resp.nil?
-        # puts 'resp.nil?'
-        # puts '??????????'
         if @body.empty?
           @body = 'empty'
           @code = 0
@@ -134,8 +134,6 @@ class PreprocessUrls
         return
       end
       if code.nil?
-        # puts resp.code
-        # puts '??????????'
         if @body.empty?
           @body = resp.body
           @code = resp.code
@@ -143,8 +141,6 @@ class PreprocessUrls
         return
       end
       if !code.nil?
-        # puts code
-        # puts '??????????'
         if @body.empty?
           @body = resp.body
           @code = code
@@ -155,7 +151,6 @@ class PreprocessUrls
   end
 
   def url_label(url)
-    # puts 'in url label '+@url_hash[url].to_s
     @url_hash[url][0]
   end
 

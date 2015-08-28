@@ -6,7 +6,10 @@ module WaitHelper
             'https://media4.giphy.com/media/11QY4zzd3mqHe/200.gif',
             'https://media2.giphy.com/media/a6HJquvTVsBws/200.gif',
             'https://media3.giphy.com/media/u5eXlkXWkrITm/200.gif',
-            'https://media1.giphy.com/media/iV0PzUj25DUTS/200.gif']
+            'https://media1.giphy.com/media/iV0PzUj25DUTS/200.gif',
+            'https://media.giphy.com/media/fYsDjJuN5RAEU/giphy.gif',
+            'https://media3.giphy.com/media/kRcwdBy4CDlNC/200.gif',
+            'https://media4.giphy.com/media/do0Smbkrlgs2A/200.gif']
     giphy.sample
   end
 end

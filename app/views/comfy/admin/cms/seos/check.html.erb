@@ -1,5 +1,5 @@
 <h1> Results </h1>
-<h4> All valid urls with attributes: </h4>
+<h4> Crawled and internal urls with attributes: </h4>
 
 <% @result[:sorted_attributes_hash].each do |url, attributes| %>
   <a id='result_url' class= <%= "result_url_#{attributes.last}"%> href= '#' > <%= url %> </a>
@@ -25,10 +25,6 @@
 <h4> All extern URLs: </h4>
 <div class= 'show_hide'> show/hide </div>
 <%= render 'show_hide_two_params', result: @result[:sorted_urls_hash]['Extern'] %>
-
-<h4> All faulty intern URLs: </h4>
-<div class= 'show_hide'> show/hide </div>
-<%= render 'show_hide_two_params', result: @result[:sorted_urls_hash]['Intern'] %>
 
 <h4> All code 200 URLs: </h4>
 <div class= 'show_hide'> show/hide </div>
