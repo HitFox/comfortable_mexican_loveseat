@@ -40,13 +40,18 @@ class PreprocessUrls
     begin
       @body = ''
       @code = 0
+      @redirect_target_url = nil
       get_HTTP_and_code(@url_hash[parent_url][4].dup, 0, nil)
       doc = Nokogiri::HTML(@body)
       @url_hash[parent_url][2] = @code
       @url_hash[parent_url][3] = doc
       # puts '0 '+@url_hash[parent_url][0]
       # puts '1 '+@url_hash[parent_url][1]
-
+      if @redirect_target_url
+        @url_hash[parent_url][0] = 'untested'
+        @url_hash[parent_url][5] = @redirect_target_url
+        label_url(@redirect_target_url, 'redirect of-> '+parent_url)
+      end
       if url_label(parent_url) == 'valid'
         if @code == '404' || @code == 0
           @url_hash[parent_url][0] = 'untested'
@@ -57,21 +62,11 @@ class PreprocessUrls
           end
         end
       end
-      # puts '2 '+@url_hash[parent_url][2]
-      # puts '4 '+@url_hash[parent_url][4]
-      # puts'.......fine............'
-
     rescue Exception => e
       if e.message
-        # puts 'me e mesaeg: ' +e.message
         @url_hash[parent_url][0] = e.message
         @url_hash[parent_url][2] = e.message
         @url_hash[parent_url][3] = 'empty'
-        # puts @url_hash[parent_url][0]
-        # puts @url_hash[parent_url][1]
-        # puts @url_hash[parent_url][2]
-        # puts @url_hash[parent_url][4]
-        # puts'......error.............'
         return false
       end
     end
@@ -124,6 +119,9 @@ class PreprocessUrls
       end
     end
     if !resp.nil? && %w{301 302 307}.include?(resp.code)
+       if @redirect_target_url.nil?
+        @redirect_target_url = resp.header['location'].to_s
+      end
       get_HTTP_and_code(resp.header['location'], 0, resp.code)
     else
       if resp.nil?

@@ -18,10 +18,6 @@
   </div>
 <% end %>
 
-<h4> All valid URLs: </h4>
-<div class= 'show_hide'> show/hide </div>
-<%= render 'show_hide_two_params', result: @result[:sorted_urls_hash]['Valid'] %>
-
 <h4> All system URLs: </h4>
 <div class= 'show_hide'> show/hide </div>
 <%= render 'show_hide_two_params', result: @result[:sorted_urls_hash]['System'] %>
@@ -33,10 +29,6 @@
 <h4> All faulty intern URLs: </h4>
 <div class= 'show_hide'> show/hide </div>
 <%= render 'show_hide_two_params', result: @result[:sorted_urls_hash]['Intern'] %>
-
-<h4> All error URLs: </h4>
-<div class= 'show_hide'> show/hide </div>
-<%= render 'show_hide_two_params', result: @result[:sorted_urls_hash]['Error'] %>
 
 <h4> All code 200 URLs: </h4>
 <div class= 'show_hide'> show/hide </div>

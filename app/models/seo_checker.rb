@@ -43,7 +43,7 @@ class SeoChecker
     code_200_urls = []
     redirected_urls = []
     code_error_urls = []
-  # @url_hash[child_url] = [label, parent_url, code, doc, child_url.dup]
+  # @url_hash[child_url] = [label, parent_url, code, doc, child_url.dup, redirect_target]
     @url_hash.each do |url, values|
       case values[0]
       when 'valid'
@@ -63,7 +63,7 @@ class SeoChecker
       when /200/
         code_200_urls << [url, values[1], values[2]] 
       when /30\d/
-        redirected_urls << [url, values[1], values[2]] 
+        redirected_urls << [url, values[1], values[2], values[5]] 
       else
         code_error_urls << [url, values[1], values[2]] unless values[0] == 'system'
       end

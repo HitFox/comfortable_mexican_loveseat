@@ -2,8 +2,12 @@
   <% if result.empty? %>
     <div> No data! </div>
   <% else
-    result.each do |url, parent, code| %>
-      <div> <%= "#{code}: #{url} [parent-> #{parent}]" %> </div>
+    result.each do |url, parent, code, redirect| 
+      if redirect %>
+        <div> <%= "#{code}: #{url} [redirects to: #{redirect}] [parent-> #{parent}]" %> </div>
+      <% else %>
+        <div> <%= "#{code}: #{url} [parent-> #{parent}]" %> </div>
+      <% end %>
     <% end %>
   <% end %>
 </div>
