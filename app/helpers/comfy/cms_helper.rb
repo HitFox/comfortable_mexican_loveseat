@@ -44,9 +44,10 @@ module Comfy::CmsHelper
     tags << tag('meta', property: 'og:type', content: fb_type) if fb_type.present?
     tags << tag('meta', property: 'og:image', content: fb_image) if fb_image.present?
     tags << tag('meta', property: 'fb:admins', content: fb_admins) if fb_admins.present?
-    tags << tag('meta', property: 'og:site_name', content: cms_block_content('facebook.site_name')) if cms_block_content('facebook.site_name').present?
-    tags << tag('meta', property: 'og:url', content: request.url.split('?').first)
 
+    site_name = Comfy::Cms::Block.where(blockable_id: @cms_site.pages.first.id, blockable_type: 'Comfy::Cms::Page', identifier: 'seo.page_title').pluck(:content)
+    tags << tag('meta', property: 'og:site_name', content: site_name) if site_name.present?
+    tags << tag('meta', property: 'og:url', content: request.url.split('?').first)
 
     return tags.join("\n").html_safe
   end

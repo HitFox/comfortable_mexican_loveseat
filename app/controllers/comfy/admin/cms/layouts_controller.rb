@@ -57,7 +57,7 @@ protected
     @layout.content     ||= "{{ cms:field:seo.old_page_url:string }}\n{{ cms:field:seo.meta_description:string }}\n{{ cms:field:seo.page_title:string }}\n{{ cms:field:seo.canonical_href:string }}\n{{ cms:field:seo.meta_index:string }}\n" +
                             "{{ cms:field:google_plus.name }}\n{{ cms:field:google_plus.description }}\n{{ cms:field:google_plus.image }}\n" + 
                             "{{ cms:field:twitter.card }}\n{{ cms:field:twitter.site }}\n{{ cms:field:twitter.title }}\n{{ cms:field:twitter.description }}\n{{ cms:field:twitter.creator }}\n{{ cms:field:twitter.image_src }}\n" + 
-                            "{{ cms:field:facebook.title }}\n{{ cms:field:facebook.type }}\n{{ cms:field:facebook.image }}\n{{ cms:field:facebook.description }}\n{{ cms:field:facebook.site_name }}\n{{ cms:field:facebook.admins }}\n{{ cms:page:content:rich_text }}"
+                            "{{ cms:field:facebook.title }}\n{{ cms:field:facebook.type }}\n{{ cms:field:facebook.image }}\n{{ cms:field:facebook.description }}\n{{ cms:field:facebook.admins }}\n{{ cms:page:content:rich_text }}"
   end
 
   def load_layout
