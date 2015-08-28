@@ -1,0 +1,7 @@
+!!!
+%html{:lang => I18n.locale}
+  = render 'layouts/comfy/admin/cms/head'
+  = stylesheet_link_tag 'devise'
+%body#auth
+  .container
+    = yield

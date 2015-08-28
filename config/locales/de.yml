@@ -1,0 +1,30 @@
+de:
+  seo:
+    old_page_url: URLs die auf dieser Seite gehen
+    meta_description: Meta Beschreibung
+    page_title: Seiten Titel
+    canonical_href: kanonischer Link
+  google_plus:
+    name: Name (erbt von Seiten Title wenn leer)
+    description: Beschreibung (erbt vom SEO tab wenn leer)
+    image: Bild (erbt von der Übergestufte Seite wenn leer)
+  twitter:
+    site: Seite (erbt von der Übergestufte Seite wenn leer)
+    title: Titel (erbt vom SEO tab wenn leer)
+    description: Beschreibung (erbt vom SEO tab wenn leer)
+    creator: Autor (erbt von der Übergestufte Seite wenn leer)
+    image_src: Bildquelle (erbt von der Übergestufte Seite wenn leer)
+  facebook:
+    title: Titel (erbt vom SEO tab wenn leer)
+    type: Art (erbt von der Übergestufte Seite wenn leer)
+    image: Bild (erbt von der Übergestufte Seite wenn leer)
+    description: Beschreibung (erbt vom SEO tab wenn leer)
+    site_name: Seiten Name (erbt von Rootseite tab wenn leer)
+    admins: Admins (erbt von der Übergestufte Seite wenn leer)
+  devise:
+    signin: Login
+  admin:
+    roles:
+      sync_and_permit:
+        sync_and_permit: Rechte synchronisierung
+
