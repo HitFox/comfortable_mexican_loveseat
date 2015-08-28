@@ -4,6 +4,7 @@ class PreprocessUrls
     @url_hash = {}
     # later: @url_hash[child_url] = [label, parent_url, code, doc, child_url.dup, redirect_target]
     @notes_hash = {}
+    @child_url_array = []
   end
 
   def run
@@ -55,7 +56,10 @@ class PreprocessUrls
         else
           doc.xpath('//comment()').remove
           doc.xpath('//@href').each do |child_url|
-            label_url(child_url.to_s, parent_url)
+            unless @child_url_array.include? child_url.to_s
+              label_url(child_url.to_s, parent_url)
+              @child_url_array << child_url.to_s
+            end
           end
         end
       end
