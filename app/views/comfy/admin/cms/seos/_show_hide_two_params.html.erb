@@ -1,0 +1,9 @@
+<div class= 'show_hide_urls'>
+  <% if result.empty? %>
+    <div> No data! </div>
+  <% else
+    result.each do |url, parent| %>
+      <div> <%= "#{url} [parent-> #{parent}]" %> </div>
+    <% end %>
+  <% end %>
+</div>

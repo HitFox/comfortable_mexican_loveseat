@@ -1,0 +1,90 @@
+<h1> Results </h1>
+<h4> All valid urls with attributes: </h4>
+
+<% @result[:sorted_attributes_hash].each do |url, attributes| %>
+  <a id='result_url' class= <%= "result_url_#{attributes.last}"%> href= '#' > <%= url %> </a>
+  <div id= 'result_titles'>
+    <% attributes.first.each do |title, array| %>
+      <a class= 'result_attributes_title' href= '#'> <%= title %> </a>
+      <div class= 'result_attributes_array'>
+        <% array.each do |name, content| %>
+          <a class= 'result_url_name' href= '#'> <%= name unless content.empty? && name.match(/all_h/) %> </a>
+          <div class= 'result_url_content'> 
+            <%= render 'show_content', name: name, content: content %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<h4> All valid URLs: </h4>
+<div class= 'show_hide'> show/hide </div>
+<%= render 'show_hide_two_params', result: @result[:sorted_urls_hash]['Valid'] %>
+
+<h4> All system URLs: </h4>
+<div class= 'show_hide'> show/hide </div>
+<%= render 'show_hide_two_params', result: @result[:sorted_urls_hash]['System'] %>
+
+<h4> All extern URLs: </h4>
+<div class= 'show_hide'> show/hide </div>
+<%= render 'show_hide_two_params', result: @result[:sorted_urls_hash]['Extern'] %>
+
+<h4> All faulty intern URLs: </h4>
+<div class= 'show_hide'> show/hide </div>
+<%= render 'show_hide_two_params', result: @result[:sorted_urls_hash]['Intern'] %>
+
+<h4> All error URLs: </h4>
+<div class= 'show_hide'> show/hide </div>
+<%= render 'show_hide_two_params', result: @result[:sorted_urls_hash]['Error'] %>
+
+<h4> All code 200 URLs: </h4>
+<div class= 'show_hide'> show/hide </div>
+<%= render 'show_hide_three_params', result: @result[:sorted_urls_hash]['Code_200'] %>
+
+<h4> All code 30x URLs: </h4>
+<div class= 'show_hide'> show/hide </div>
+<%= render 'show_hide_three_params', result: @result[:sorted_urls_hash]['Redirected'] %>
+
+<h4> All code 40x URLs: </h4>
+<div class= 'show_hide'> show/hide </div>
+<%= render 'show_hide_three_params', result: @result[:sorted_urls_hash]['Code_error'] %>
+
+<script>
+  $(function() {
+    $(this).on('click', '#result_url', function(event) {
+      event.preventDefault();
+      var clone = $(this).next().clone();
+      $(this).siblings().removeClass('result_attr_show_me');
+      $(this).siblings().removeClass('result_attr_hide_me');
+      if (clone.hasClass('result_attr_show_me')) {
+        $(this).next().addClass('result_attr_hide_me');
+      } else {
+        $(this).next().addClass('result_attr_show_me');
+      }
+      $('.result_attributes_array').hide();
+      $('.result_url_content').hide();
+    });
+  });
+
+  $(function() {
+    $('.result_attributes_title').click(function(event) {
+      event.preventDefault();
+      $(this).next().toggle();
+    });
+  });
+
+  $(function() {
+    $('.result_url_name').click(function(event) {
+      event.preventDefault();
+      $(this).next().toggle();
+    });
+  });
+
+  $(function() {
+    $('.show_hide').click(function(event) {
+      event.preventDefault();
+      $(this).next().toggle();
+    });
+  });
+</script>

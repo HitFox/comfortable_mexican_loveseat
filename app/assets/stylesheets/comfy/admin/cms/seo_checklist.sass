@@ -1,25 +1,38 @@
 // custom CSS for admin area
-.result_url,
-.url_show
+#result_url,
+.show_hide
   display: block
   color: blue
   text-decoration: underline
 
-.result_url_name
-  @extend .result_url
+#result_url.result_url_zero
+  @extend .show_hide
   color: forestgreen
 
-.result_url_value,
-.url_show_content
-  display: none
-  padding: 0 10px
-  overflow: scroll
+#result_url.result_url_one
+  @extend .show_hide
+  color: orange
 
-#result_attributes
+#result_url.result_url_two
+  @extend .show_hide
+  color: red
+
+.result_attributes_title
+  @extend .show_hide
+  color: blue
+
+.result_url_name
+  @extend .show_hide
+  color: grey
+
+.result_url_content
+  display: none
+  color: black
+
+#result_titles,
+#result_titles.result_attr_hide_me,
+.show_hide_urls
   display: none
 
-#result_attributes.result_attr_show_me
+#result_titles.result_attr_show_me
   display: block
-
-#result_attributes.result_attr_hide_me
-  display: none
