@@ -4,6 +4,7 @@ require 'open_uri_redirections'
 require 'comfortable_mexican_loveseat/engine'
 require 'comfortable_mexican_loveseat/fixture'
 require 'comfortable_mexican_loveseat/cms_admin'
+require 'comfortable_mexican_loveseat/form_builder'
 
 module ComfortableMexicanLoveseat
   mattr_accessor :seo_custom_paths

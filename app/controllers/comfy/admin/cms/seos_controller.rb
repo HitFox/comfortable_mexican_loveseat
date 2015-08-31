@@ -1,5 +1,5 @@
 require 'seo_checker'
-require 'Preprocess_urls'
+require 'preprocess_urls'
 require 'crawl_page'
 require 'judge_content'
 
@@ -13,7 +13,7 @@ class Comfy::Admin::Cms::SeosController < Comfy::Admin::Cms::BaseController
   end
 
   def check
-    webpage = 'http://www.ita-online.info'
+    webpage = 'https://www.billfront.com'
     now = Time.now
     check = SeoChecker.new(webpage)
     @result = check.check_seo

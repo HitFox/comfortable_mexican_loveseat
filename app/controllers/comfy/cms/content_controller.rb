@@ -58,7 +58,8 @@ protected
     if page.present?
       @cms_page = page
     else
-      old_page = Comfy::Cms::Block.where(identifier: "seo.old_page_url", content: params[:cms_path].to_s).pluck(:content, :blockable_id, :blockable_type).first
+
+      old_page = Comfy::Cms::Block.where(identifier: 'seo.old_page_url').where('content LIKE ?', "%#{params[:cms_path].to_s}%").pluck(:content, :blockable_id, :blockable_type).first
 
       if old_page.present?
         if old_page.last == "Comfy::Cms::Page"
