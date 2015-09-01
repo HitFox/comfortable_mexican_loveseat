@@ -1,5 +1,3 @@
-require 'pp'
-
 class SeoChecker
   def initialize(webpage)
     @key_url = webpage

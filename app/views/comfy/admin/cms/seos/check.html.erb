@@ -10,7 +10,21 @@
         <% array.each do |name, content| %>
           <a class= 'result_url_name' href= '#'> <%= name unless content.empty? && name.match(/all_h/) %> </a>
           <div class= 'result_url_content'> 
-            <%= render 'show_content', name: name, content: content %>
+            <% if name == 'image_and_alt'
+              content.each do |src, alt| %>
+                <div> src= <%= src %> [alt= <%= alt %>] </div>
+              <% end %>
+            <% elsif content.class.to_s == 'Hash'
+              content.each do |key, count|  %>
+                <div> <%= key %> [count: <%= count %>] </div>
+              <% end %>
+            <% elsif content.class.to_s == 'Array'
+              content.each do |link| %>
+                <div> <%= link %> </div>
+              <% end %>
+            <% else %>
+              <div> <%= content.to_s %> </div>
+            <% end %>
           </div>
         <% end %>
       </div>
