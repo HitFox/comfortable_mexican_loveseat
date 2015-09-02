@@ -6,21 +6,21 @@ en:
     canonical_href: Canonical link
   google_plus:
     name: Name (inherits from page title if blank)
-    description: Description (inherits from SEO tab if blank)
-    image: Image (inherits from parent page if blank)
+    description: Description
+    image: Image
   twitter:
-    site: Site (inherits from parent page if blank)
-    title: Title (inherits from SEO tab if blank)
-    description: Description (inherits from SEO tab if blank)
-    creator: Creator (inherits from parent page if blank)
-    image_src: Image Source (inherits from parent page if blank)
+    site: Site
+    title: Title
+    description: Description
+    creator: Creator
+    image_src: Image Source
   facebook:
-    title: Title (inherits from SEO tab if blank)
-    type: Type (inherits from parent page if blank)
-    image: Image (inherits from parent page if blank)
-    description: Description (inherits from SEO tab if blank)
+    title: Title
+    type: Type
+    image: Image
+    description: Description
     site_name: Site Name (inherits from root)
-    admins: Admins (inherits from parent page if blank)
+    admins: Admins
   devise:
     signin: Login
   admin:

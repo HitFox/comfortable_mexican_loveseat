@@ -30,3 +30,13 @@
                 - rescue
                   - Rails.env.production?? nil : raise
                 - block_index += 1
+              %div
+              -if name === 'seo'
+              -else
+                %b Comment:
+                -if name === 'google_plus'
+                  By default, the field 'Description' is automatically filled with the information from the tab SEO. The field 'Image' inherits the value from the parent page of this page.
+                -elsif name === 'twitter'
+                  By default, the fields 'Titel' and 'Description' are automatically filled with the information from the tab SEO. The fields 'Site', 'Creator' and 'Image Src' inherit the values from the parent page of this page.
+                -elsif name === 'facebook'
+                  By default, the fields 'Titel' and 'Description' are automatically filled with the information from the tab SEO. The fields 'Type', 'Image', 'Site Name' and 'Admins' inherit the values from the parent page of this page.
