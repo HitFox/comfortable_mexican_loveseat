@@ -15,8 +15,9 @@ class Comfy::Admin::Cms::SeosController < Comfy::Admin::Cms::BaseController
   def check
     webpage = 'https://www.billfront.com'
     now = Time.now
-    check = SeoChecker.new(webpage)
-    @result = check.check_seo
+    
+    @result = SeoChecker.check_seo(webpage)
+
     ending = Time.now
     puts now.to_s+' till '+ending.to_s
   end
