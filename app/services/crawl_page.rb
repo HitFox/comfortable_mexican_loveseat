@@ -15,8 +15,8 @@ class CrawlPage
           all_h5_header = []
           all_h6_header = []
           title = []
-          meta_description = []
-          all_links = []
+          meta_description_nokogiri = []
+          all_links_nokogiri = []
           p_tag = []
           canon_links = []
           img_tags = []
@@ -61,7 +61,7 @@ class CrawlPage
             img_tags << pic.to_s
           end
           result_hash[:head_title] = title
-          result_hash[:head_meta_description] = find_description(meta_description)
+          result_hash[:head_meta_description] = find_description(meta_description_nokogiri)
           result_hash[:head_canonical_links] = canon_links
           result_hash[:headings_all_h1_header] = all_h1_header
           result_hash[:headings_all_h2_header] = all_h2_header
@@ -69,7 +69,7 @@ class CrawlPage
           result_hash[:headings_all_h4_header] = all_h4_header
           result_hash[:headings_all_h5_header] = all_h5_header
           result_hash[:headings_all_h6_header] = all_h6_header
-          result_hash[:content_all_links_on_page] = find_links(all_links)
+          result_hash[:content_all_links_on_page] = find_links(all_links_nokogiri)
           result_hash[:content_p_tag_with_more_than_150_words?] = p_tag.last
           result_hash[:image_image_and_alt] = check_alt_tag(img_tags)
 
