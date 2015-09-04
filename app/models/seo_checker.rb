@@ -2,7 +2,7 @@ class SeoChecker
   class << self
     def check_seo(key_url)
       url_hash = PreprocessUrls.new(key_url).run
-      attributes_hash = CrawlPage.new(url_hash).run
+      attributes_hash = CrawlPage.fill_attributes_hash(url_hash)
       enlarged_attributes_hash = JudgeContent.new(key_url, attributes_hash).judge
       sorted_url_hash = sort_url_hash(url_hash, key_url)
       sorted_enlarged_attributes_hash = sort_attributes_hash(enlarged_attributes_hash)
@@ -103,7 +103,7 @@ class SeoChecker
 
         sorted_enlarged_attributes_hash[url] = [new_attributes, attributes.last]
       end
-      
+
       sorted_enlarged_attributes_hash
     end
   end

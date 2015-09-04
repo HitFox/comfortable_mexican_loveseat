@@ -3,14 +3,12 @@ class PreprocessUrls
     @key_url = key_url
     @url_hash = {}
     # later: @url_hash[child_url] = [label, parent_url, code, doc, child_url.dup, redirect_target]
-    @notes_hash = {}
     @child_url_array = []
   end
 
   def run
     dup_key_url(@key_url)
-    fill_url_hash(@key_url)
-    @url_hash
+    url_hash = fill_url_hash(@key_url)
   end
 
   def dup_key_url(key_url)
@@ -19,7 +17,7 @@ class PreprocessUrls
     @www_key_url = $1+'www.'+$3+'.'
     @non_www_key_url = $1+$3+'.'
   end
-  
+
   def fill_url_hash(key_url)
     @url_hash[key_url] = ['valid', key_url]
     url_array = []
@@ -32,19 +30,17 @@ class PreprocessUrls
         url_array.uniq!
       end
     end
+    @url_hash
   end
 
   def get_all_urls_of(parent_url)
-    doc = ''
     @url_hash[parent_url][4] = check_domain(parent_url)
     begin
       @body = ''
       @code = 0
       @redirect_target_url = nil
       get_HTTP_and_code(@url_hash[parent_url][4].dup, 0, nil)
-      doc = Nokogiri::HTML(@body)
       @url_hash[parent_url][2] = @code
-      @url_hash[parent_url][3] = doc
       if @redirect_target_url
         @url_hash[parent_url][0] = 'untested'
         @url_hash[parent_url][5] = @redirect_target_url
@@ -54,6 +50,8 @@ class PreprocessUrls
         if @code == '404' || @code == 0
           @url_hash[parent_url][0] = 'untested'
         else
+          doc = Nokogiri::HTML(@body)
+          @url_hash[parent_url][3] = doc
           doc.xpath('//comment()').remove
           doc.xpath('//@href').each do |child_url|
             unless @child_url_array.include? child_url.to_s

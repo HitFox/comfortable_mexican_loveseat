@@ -6,13 +6,13 @@ class JudgeContent
 
   def judge
     split_attributes_and_get_infos(@attributes.dup)
-    color_calculator(@attributes)
+    changed_attributes_hash = color_calculator(@attributes)
   end
 
   def split_attributes_and_get_infos(dup_attri)
     dup_attri.each do |url, attributes|
-      at_first = attributes.first
-      @color_count = attributes.last
+      at_first = attributes[0]
+      @color_count = attributes[1]
       title = at_first[:head_title]
       desc = at_first[:head_meta_description]
       at_first[:head_title] = [title.join, count_characters(title)]
@@ -30,7 +30,6 @@ class JudgeContent
         @attributes[url] = [at_first, attributes[1]+=@color_count]
       end
     end
-    @attributes
   end
 
   def count_characters(string)
@@ -39,6 +38,7 @@ class JudgeContent
 
   def fill_keyword_hash(input)
     keywords_curr_loop = []
+
     input.each do |word|
       word = preprocess_keyword(word)
       if (@keyword_hash.has_key? word)
@@ -71,6 +71,7 @@ class JudgeContent
   def fetch_identical_keys(number)
     temp_key_array = []
     temp_key_hash = @keyword_hash.dup
+
     while temp_key_hash.has_value?(number)
       key_word = temp_key_hash.key(number)
       temp_key_hash.delete(key_word)
@@ -78,22 +79,25 @@ class JudgeContent
     end
     if temp_key_array.empty?
       @color_count += 5 if number == 4
+
       return 'nothing found'
     else
+
       return temp_key_array
     end
   end
 
   def color_calculator(attributes_hash)
     attributes_hash.each do |url, attributes|
-      count = attributes.last
-      if count == 0
+      counter = attributes[1]
+      if counter == 0
         attributes[1] = 'zero'
-      elsif count < 6
+      elsif counter < 6
         attributes[1] = 'one'
       else
         attributes[1] = 'two'
       end
     end
+    attributes_hash
   end
 end
