@@ -1,0 +1,32 @@
+= render 'comfy/admin/cms/partials/snippet_form_before', :form => form
+
+%div#tabs
+  %ul
+    %li
+      %a{:href => "#devices-tab"}Organization Logo
+    %li
+      %a{:href => "#options-tab"}Corporate Contact
+    %li
+      %a{:href => "#reports-tab"}Social Profils
+  #devices-tab
+    Organization Logo
+
+  #options-tab
+    Corporate Contact
+
+  #reports-tab
+    Social Profils
+
+= render 'comfy/admin/cms/categories/form', :form => form
+
+= render 'comfy/admin/cms/partials/snippet_form_after', :form => form
+
+= form.form_group :class => 'form-actions' do
+  / add to yml file!!
+  = form.submit 'Create SEO Snippet', seo: 'yes', :class => 'btn btn-primary'
+  = link_to t('.cancel'), comfy_admin_cms_site_snippets_path, :class => 'btn btn-link'
+
+:javascript
+  $(document).ready(function() {
+    $( "#tabs" ).tabs();
+  });
