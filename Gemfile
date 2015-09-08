@@ -13,3 +13,9 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 
+group :test, :development do
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'pry'
+  gem 'guard'
+end
