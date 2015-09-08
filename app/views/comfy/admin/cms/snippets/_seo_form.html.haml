@@ -1,21 +1,66 @@
 = render 'comfy/admin/cms/partials/snippet_form_before', :form => form
-
-%div#tabs
-  %ul
-    %li
-      %a{:href => "#devices-tab"}Organization Logo
-    %li
-      %a{:href => "#options-tab"}Corporate Contact
-    %li
-      %a{:href => "#reports-tab"}Social Profils
-  #devices-tab
+%section
+  #seo_tab_title_logo.seo_tab_title_clicked
     Organization Logo
-
-  #options-tab
+  #seo_tab_title_contact
     Corporate Contact
+  #seo_tab_title_profiles
+    Social Profiles
 
-  #reports-tab
-    Social Profils
+%section
+  .seo_tab_content
+    .seo_logo
+      %h5
+        Organization Logo
+      .seo_input_field
+        %label URL
+        %input(type="text" name="url" placeholder="Please write url here")
+      .seo_input_field
+        %label Logo
+        %input(type="text" name="logo" placeholder="Please write logo here")
+    .seo_contact
+      %h5
+        Corporate Contact
+      .seo_input_field
+        %label URL
+        %input(type="text" name="url" placeholder="Please write url here")
+      .seo_input_field
+        %label Type
+        %input(type="text" name="type" placeholder="Please write type here")
+      .seo_input_field
+        %label Telephone
+        %input(type="text" name="telephone" placeholder="Please write telephone here")
+      .seo_input_field
+        %label Area
+        %input(type="text" name="area" placeholder="Please write area here")
+      .seo_input_field
+        %label Language
+        %input(type="text" name="language" placeholder="Please write language here")
+    .seo_profiles
+      %h5
+        Social Profiles
+      .seo_input_field
+        %label Facebook URL
+        %input(type="text" name="facebook_url" placeholder="Please write url here")
+      .seo_input_field
+        %label Twitter URL
+        %input(type="text" name="twitter_url" placeholder="Please write url here")
+      .seo_input_field
+        %label Google+ URL
+        %input(type="text" name="google_plus_url" placeholder="Please write url here")
+        .seo_input_field
+        %label Instagram URL
+        %input(type="text" name="instagram_url" placeholder="Please write url here")
+      .seo_input_field
+        %label PinterestURL
+        %input(type="text" name="pinterest_url" placeholder="Please write url here")
+      .seo_input_field
+        %label LinkedInURL
+        %input(type="text" name="linkedin_url" placeholder="Please write url here")
+      .seo_input_field
+        %label Youtube URL
+        %input(type="text" name="youtube_url" placeholder="Please write url here")
+
 
 = render 'comfy/admin/cms/categories/form', :form => form
 
@@ -27,6 +72,35 @@
   = link_to t('.cancel'), comfy_admin_cms_site_snippets_path, :class => 'btn btn-link'
 
 :javascript
-  $(document).ready(function() {
-    $( "#tabs" ).tabs();
+  $(function() {
+    $(this).on('click', '#seo_tab_title_logo', function(event) {
+      event.preventDefault();
+      $(this).addClass('seo_tab_title_clicked')
+      $(this).siblings().removeClass('seo_tab_title_clicked')
+      $('.seo_logo').show();
+      $('.seo_contact').hide();
+      $('.seo_profiles').hide();
+    });
+  });
+
+  $(function() {
+    $(this).on('click', '#seo_tab_title_contact', function(event) {
+      event.preventDefault();
+      $(this).addClass('seo_tab_title_clicked')
+      $(this).siblings().removeClass('seo_tab_title_clicked')
+      $('.seo_logo').hide();
+      $('.seo_contact').show();
+      $('.seo_profiles').hide();
+    });
+  });
+
+  $(function() {
+    $(this).on('click', '#seo_tab_title_profiles', function(event) {
+      event.preventDefault();
+      $(this).addClass('seo_tab_title_clicked')
+      $(this).siblings().removeClass('seo_tab_title_clicked')
+      $('.seo_logo').hide();
+      $('.seo_contact').hide();
+      $('.seo_profiles').show();
+    });
   });
