@@ -1,4 +1,5 @@
 = render 'comfy/admin/cms/partials/snippet_form_before', :form => form
+
 %section
   #seo_tab_title_logo.seo_tab_title_clicked
     Organization Logo
@@ -13,53 +14,62 @@
       %h5
         Organization Logo
       .seo_input_field
+        %label Context
+        %input(type="text" name="context" size="40" value="http://schema.org")
+      .seo_input_field
+        %label Type
+        %input(type="text" name="type" size="40" value="Organization")
+      .seo_input_field
         %label URL
-        %input(type="text" name="url" placeholder="Please write url here")
+        %input(type="text" name="url" size="40" placeholder="http://www.example.com")
       .seo_input_field
         %label Logo
-        %input(type="text" name="logo" placeholder="Please write logo here")
+        %input(type="text" name="logo" size="40" placeholder="http://www.example.com/images/logo.png")
     .seo_contact
       %h5
         Corporate Contact
       .seo_input_field
-        %label URL
-        %input(type="text" name="url" placeholder="Please write url here")
+        %label Context
+        %input(type="text" name="context" size="40" value="http://schema.org")
       .seo_input_field
         %label Type
-        %input(type="text" name="type" placeholder="Please write type here")
+        %input(type="text" name="type" size="40" value="Organization")
+      .seo_input_field
+        %label URL
+        %input(type="text" name="same_url" size="40" placeholder="http://www.example.com")
       .seo_input_field
         %label Telephone
-        %input(type="text" name="telephone" placeholder="Please write telephone here")
+        %input(type="text" name="telephone" size="40" placeholder="+1-401-555-1212")
       .seo_input_field
         %label Area
-        %input(type="text" name="area" placeholder="Please write area here")
+        %input(type="text" name="area" size="40" placeholder="Please write area here")
       .seo_input_field
         %label Language
-        %input(type="text" name="language" placeholder="Please write language here")
+        %input(type="text" name="language" size="40" placeholder="Please write language here")
     .seo_profiles
       %h5
         Social Profiles
       .seo_input_field
         %label Facebook URL
-        %input(type="text" name="facebook_url" placeholder="Please write url here")
+        %input(type="text" name="facebook_url" size="40" placeholder="http://www.facebook.com/your-profile")
       .seo_input_field
         %label Twitter URL
-        %input(type="text" name="twitter_url" placeholder="Please write url here")
+        %input(type="text" name="twitter_url" size="40" placeholder="http://www.twitter.com/your-profile")
       .seo_input_field
         %label Google+ URL
-        %input(type="text" name="google_plus_url" placeholder="Please write url here")
+        %input(type="text" name="google_plus_url" size="40" placeholder="http://www.plus.google.com/your-profile")
         .seo_input_field
         %label Instagram URL
-        %input(type="text" name="instagram_url" placeholder="Please write url here")
+        %input(type="text" name="instagram_url" size="40" placeholder="http://instagram.com/yourProfile")
       .seo_input_field
         %label PinterestURL
-        %input(type="text" name="pinterest_url" placeholder="Please write url here")
+        %input(type="text" name="pinterest_url" size="40" placeholder="Please write url here")
       .seo_input_field
         %label LinkedInURL
-        %input(type="text" name="linkedin_url" placeholder="Please write url here")
+        %input(type="text" name="linkedin_url" size="40" placeholder="http://www.linkedin.com/in/yourprofile")
       .seo_input_field
         %label Youtube URL
-        %input(type="text" name="youtube_url" placeholder="Please write url here")
+        %input(type="text" name="youtube_url" size="40" placeholder="Please write url here")
 
 
 = render 'comfy/admin/cms/categories/form', :form => form
