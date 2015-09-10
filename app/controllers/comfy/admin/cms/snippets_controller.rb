@@ -12,6 +12,7 @@ class Comfy::Admin::Cms::SnippetsController < Comfy::Admin::Cms::BaseController
   def new
     if params[:seo]
       @seo = true
+      @seo_snippet = SeoSnippet.new
     end
       render
   end

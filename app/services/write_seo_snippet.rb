@@ -7,6 +7,7 @@ class WriteSeoSnippet
   # Notes:
   #   No redundant commas!
   #   Contact case must have url or telephone to be valid!
+
   class << self
     def write_snippet(params)
       params = handle_params(params)
@@ -22,7 +23,7 @@ class WriteSeoSnippet
 
     def seo_scripter(params)
       logo, contact, profile = fill_content(params)
-      seo_script =''
+      seo_script = ''
       seo_script << '<script type="application/ld+json">'
       seo_script << '{'
       logo.each do |k,v|
@@ -72,22 +73,22 @@ class WriteSeoSnippet
 
     def fill_content(params)
       logo = {}
-      logo['context'] = params[:context]
-      logo['type'] = params[:type]
-      logo['url'] = params[:url]
-      logo['logo'] = params[:logo]
+      logo['context'] = params[:seo_snippet][:context]
+      logo['type'] = params[:seo_snippet][:type]
+      logo['url'] = params[:seo_snippet][:url]
+      logo['logo'] = params[:seo_snippet][:logo]
       contact = {}
-      contact['url'] = params[:same_url]
-      contact['telephone'] = params[:telephone]
-      contact['contactType'] = params[:contact_type]
+      contact['url'] = params[:seo_snippet][:same_url]
+      contact['telephone'] = params[:seo_snippet][:telephone]
+      contact['contactType'] = params[:seo_snippet][:contact_type]
       profile = []
-      profile << params[:facebook_url]
-      profile << params[:twitter_url]
-      profile << params[:google_plus_url]
-      profile << params[:instagram_url]
-      profile << params[:pinterest_url]
-      profile << params[:linkedin_url]
-      profile << params[:youtube_url]
+      profile << params[:seo_snippet][:facebook_url]
+      profile << params[:seo_snippet][:twitter_url]
+      profile << params[:seo_snippet][:google_plus_url]
+      profile << params[:seo_snippet][:instagram_url]
+      profile << params[:seo_snippet][:pinterest_url]
+      profile << params[:seo_snippet][:linkedin_url]
+      profile << params[:seo_snippet][:youtube_url]
       return logo, contact, profile
     end
 
