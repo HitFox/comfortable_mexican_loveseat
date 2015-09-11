@@ -15,8 +15,8 @@ class WriteSeoSnippet
     def handle_params(params)
       time = Time.new.strftime("%m-%d-%Y_%H%M%S")
       params[:snippet] = {}
-      params[:snippet][:label] = "seo_#{time}"
-      params[:snippet][:identifier] = "seo_#{time}"
+      params[:snippet][:label] = "#{params[:seo_snippet][:label]}_#{time}"
+      params[:snippet][:identifier] = "#{params[:seo_snippet][:label]}_#{time}"
       params[:snippet][:content] = seo_scripter(params).to_s
       params
     end
