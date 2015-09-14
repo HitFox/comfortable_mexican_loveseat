@@ -5,6 +5,22 @@
         = label_tag('Label:')
       .col-sm-10
         = text_field(:seo_snippet, :label, value:"seo_snippet", class: 'form-control')
+    .form-group
+      .control-label.col-sm-2
+        = label_tag('Context:')
+      .col-sm-10
+        = text_field(:seo_snippet, :context, value:"http://schema.org", class: 'form-control')
+    .form-group
+      .control-label.col-sm-2
+        = label_tag('Type:')
+      .col-sm-10
+        = text_field(:seo_snippet, :type, value:"Organization", class: 'form-control')
+    .form-group
+      .control-label.col-sm-2
+        = label_tag('URL:')
+      .col-sm-10
+        = url_field(:seo_snippet, :url, placeholder:"http://www.example.com", class: 'form-control')
+
 %section
   #seo_tab_title_logo.seo_tab_title_clicked
     Organization Logo
@@ -21,21 +37,6 @@
       .form-horizontal
         .form-group
           .control-label.col-sm-2
-            = label_tag('Context:')
-          .col-sm-10
-            = text_field(:seo_snippet, :context, value:"http://schema.org", class: 'form-control')
-        .form-group
-          .control-label.col-sm-2
-            = label_tag('Type:')
-          .col-sm-10
-            = text_field(:seo_snippet, :type, value:"Organization", class: 'form-control')
-        .form-group
-          .control-label.col-sm-2
-            = label_tag('URL:')
-          .col-sm-10
-            = url_field(:seo_snippet, :url, placeholder:"http://www.example.com", class: 'form-control')
-        .form-group
-          .control-label.col-sm-2
             = label_tag('Logo:')
           .col-sm-10
             = url_field(:seo_snippet, :logo, placeholder:"http://www.example.com/images/logo.png", class: 'form-control')
@@ -45,29 +46,26 @@
       .form-horizontal
         .form-group
           .control-label.col-sm-2
-            = label_tag('Context:')
-          .col-sm-10
-            = text_field(:seo_snippet, :context, value:"http://schema.org", class: 'form-control')
-        .form-group
-          .control-label.col-sm-2
-            = label_tag('Type:')
-          .col-sm-10#override
-            = select(:seo_snippet, :type, [['customer support'],['technical support'],['billing support'],['bill payment'],['sales'],['reservations'],['credit card support'],['emergency'],['beggage tracking'],['roadside assistance'],['package tracking']])
-        .form-group
-          .control-label.col-sm-2
-            = label_tag('URL:')
-          .col-sm-10
-            = url_field(:seo_snippet, :same_url, placeholder:"Only edit if URL in Organization Logo empty", class: 'form-control')
-        .form-group
-          .control-label.col-sm-2
             = label_tag('Telephone:')
           .col-sm-10
             = telephone_field(:seo_snippet, :telephone, placeholder: "+49-401-555-1212", class: 'form-control')
         .form-group
           .control-label.col-sm-2
             = label_tag('Contact type:')
+          .col-sm-10#override
+            = select_tag('seo_snippet[contact_type]', options_for_select(['customer support','technical support','billing support','bill payment','sales','reservations','credit card support','emergency','baggage tracking','roadside assistance','package tracking']), class: 'form-control')
+        .form-group
+          .control-label.col-sm-2
+            = label_tag('Area served:')
           .col-sm-10
-            = text_field(:seo_snippet, :contact_type, value:"customer service", class: 'form-control')
+            = select_tag('seo_snippet[area_served]', options_for_select(CountryCodes.all_country_codes), {multiple: true, prompt: 'Please use command or ctrl/strl to add:', class: 'form-control'})
+        .form-group
+          .control-label.col-sm-2
+            = label_tag('Available language:')
+          .col-sm-10
+            / = select(:seo_snippet, :available_language, ['German','English','French','Spanish','Dutch'],  {multiple: true})
+            = select_tag('seo_snippet[available_language]', options_for_select([['German','German'],['English','English'],['French','French'],['Spanish','Spanish'],['Dutch']]), {multiple: true, prompt: 'Please use command or ctrl/strl to add:', class: 'form-control'})
+
     .seo_profiles
       %h5
         Social Profiles

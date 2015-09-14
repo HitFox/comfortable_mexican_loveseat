@@ -25,12 +25,21 @@ class Comfy::Admin::Cms::SnippetsController < Comfy::Admin::Cms::BaseController
   end
 
   def create
+    puts ''
+    puts ''
+    puts 'controller'
+    puts params
     if params['commit'] == 'Create SEO Snippet'
-      write_seo_snippet
-      build_snippet
-      @snippet.save!
-      flash[:success] = I18n.t('comfy.admin.cms.snippets.created')
-      redirect_to :action => :edit, :id => @snippet, seo: @seo = true
+      # seo_snippet = SeoSnippet.new(params[:seo_snippet])
+      # if seo_snippet.validate
+        write_seo_snippet
+        build_snippet
+        @snippet.save!
+        flash[:success] = I18n.t('comfy.admin.cms.snippets.created')
+        redirect_to :action => :edit, :id => @snippet, seo: @seo = true
+      # else
+      #   render :action => :new, seo: @seo = true
+      # end
     else
       @snippet.save!
       flash[:success] = I18n.t('comfy.admin.cms.snippets.created')

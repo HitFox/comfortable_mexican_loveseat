@@ -45,7 +45,12 @@ class WriteSeoSnippet
       seo_script << ',"contactPoint" : [{'
       contact.each do |k,v|
         unless v.blank?
-          seo_script << '"'+k+'" : "'+v+'"'
+          if v.class == Array
+            new_v = check_array_for_empty_brackets(v)
+            (seo_script << '"'+k+'" : ['+new_v+']') unless new_v.blank?
+          else
+            seo_script << '"'+k+'" : "'+v+'"'
+          end
           seo_script << ','
         end
       end
@@ -78,9 +83,10 @@ class WriteSeoSnippet
       logo['url'] = params[:seo_snippet][:url]
       logo['logo'] = params[:seo_snippet][:logo]
       contact = {}
-      contact['url'] = params[:seo_snippet][:same_url]
       contact['telephone'] = params[:seo_snippet][:telephone]
       contact['contactType'] = params[:seo_snippet][:contact_type]
+      contact['areaServed'] = params[:seo_snippet][:area_served]
+      contact['availableLanguage'] = params[:seo_snippet][:available_language]
       profile = []
       profile << params[:seo_snippet][:facebook_url]
       profile << params[:seo_snippet][:twitter_url]
@@ -95,10 +101,17 @@ class WriteSeoSnippet
     def delete_script_errors(seo_script)
       seo_script.sub!(/"sameAs" : \[\]/, '')
       seo_script.sub!(/"contactPoint" : \[{}\]/, '')
-      seo_script.sub!(/,}]/, '}]')
-      seo_script.sub!(/,]/, ']')
+      seo_script.sub!(/,}\]/, '}]')
+      seo_script.sub!(/,\]/, ']')
       seo_script.sub!(/,}/, '}')
       seo_script
+    end
+
+    def check_array_for_empty_brackets(v)
+      v.join('","')
+      num = v.index("")
+      v.slice!(num) unless num.nil?
+      v.to_s
     end
 
   # logo:
