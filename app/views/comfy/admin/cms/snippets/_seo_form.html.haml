@@ -46,14 +46,19 @@
       .form-horizontal
         .form-group
           .control-label.col-sm-2
+            = label_tag('Contact type:')
+          .col-sm-10
+            = select_tag('seo_snippet[contact_type]', options_for_select(['customer support','technical support','billing support','bill payment','sales','reservations','credit card support','emergency','baggage tracking','roadside assistance','package tracking']), {prompt: 'Please select', class: 'form-control'})
+        .form-group
+          .control-label.col-sm-2
             = label_tag('Telephone:')
           .col-sm-10
             = telephone_field(:seo_snippet, :telephone, placeholder: "+49-401-555-1212", class: 'form-control')
         .form-group
           .control-label.col-sm-2
-            = label_tag('Contact type:')
-          .col-sm-10#override
-            = select_tag('seo_snippet[contact_type]', options_for_select(['customer support','technical support','billing support','bill payment','sales','reservations','credit card support','emergency','baggage tracking','roadside assistance','package tracking']), class: 'form-control')
+            = label_tag('Contact URL:')
+          .col-sm-10
+            = url_field(:seo_snippet, :contact_url, placeholder: "https://domain/contact", class: 'form-control')
         .form-group
           .control-label.col-sm-2
             = label_tag('Area served:')

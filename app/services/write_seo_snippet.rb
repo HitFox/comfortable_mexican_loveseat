@@ -84,6 +84,7 @@ class WriteSeoSnippet
       logo['logo'] = params[:seo_snippet][:logo]
       contact = {}
       contact['telephone'] = params[:seo_snippet][:telephone]
+      contact['url'] = params[:seo_snippet][:contact_url]
       contact['contactType'] = params[:seo_snippet][:contact_type]
       contact['areaServed'] = params[:seo_snippet][:area_served]
       contact['availableLanguage'] = params[:seo_snippet][:available_language]
