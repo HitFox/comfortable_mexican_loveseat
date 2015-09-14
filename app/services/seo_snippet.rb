@@ -6,35 +6,9 @@ class SeoSnippet
     :contact_type, :area_served, :available_language, :facebook_url, :twitter_url, :google_plus_url, :instagram_url,
     :pinterest_url, :linkedin_url, :youtube_url
 
-  # def initialize(attributes = {})
-  #   @attributes = attributes
-  # end
+  validates :url, presence: true
 
-  # def validate
-  #   record = {}
-
-  #   if @attributes[:url].blank?
-  #     return false
-  #   else
-  #     return true
-  #   end
-
-
-
-
-
-    # @attributes.each do |attri, value|
-    #   if value.to_s[0].blank?
-    #     puts '////////////////dfsdfsd'
-    #   else
-    #     puts '/////////dfdfsfsdf///////'
-    #   end
-    #   record[attri] = "#{attri.to_s} can't be blank" if value.to_s.blank?
-    # end
-    # if record.blank?
-    #   return true
-    # else
-    #   return false
-    # end
-  # end
+  def initialize(attributes = {})
+    @attributes = attributes
+  end
 end
