@@ -1,6 +1,6 @@
 .page-header
   = link_to t('.new_link'), new_comfy_admin_cms_site_snippet_path(@site), :class => 'btn btn-default pull-right'
-  = link_to t('.create_seo_snippet'), new_comfy_admin_cms_site_snippet_path(@site, seo: true), :class => 'btn btn-default pull-right'
+  = link_to 'Create SEO Snippet', new_comfy_admin_cms_site_seo_snippet_path(@site), :class => 'btn btn-default pull-right'
   %h2= t('.title')
 
 - content_for :right_column do

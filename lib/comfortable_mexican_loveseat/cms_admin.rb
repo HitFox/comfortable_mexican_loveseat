@@ -34,6 +34,7 @@ class ActionDispatch::Routing::Mapper
                 patch :revert, :on => :member
               end
             end
+            resources :seo_snippets, only: [:new, :create]
             resources :categories
           end
         end

@@ -10,8 +10,9 @@ class WriteSeoSnippet
 
   class << self
     def write_snippet(params)
-      params = handle_params(params)
+      handle_params(params)
     end
+
     def handle_params(params)
       time = Time.new.strftime("%m-%d-%Y_%H%M%S")
       params[:snippet] = {}

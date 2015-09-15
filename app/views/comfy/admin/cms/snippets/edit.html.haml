@@ -1,16 +1,9 @@
 .page-header
-  - if @seo
-    %h2 Your SEO Snippet
-  - else
-    = link_to t('.revision', :count => @snippet.revisions.count), comfy_admin_cms_site_snippet_revisions_path(@site, @snippet), :class => 'btn btn-default pull-right'
-    %h2= t('.title')
+  = link_to t('.revision', :count => @snippet.revisions.count), comfy_admin_cms_site_snippet_revisions_path(@site, @snippet), :class => 'btn btn-default pull-right'
+  %h2= t('.title')
 
 - content_for :right_column do
   = render 'comfy/admin/cms/sites/mirrors', :object => @snippet
 
-- if @seo
-  = comfy_form_for @snippet, :as => :snippet, :url => {:action => :create} do |form|
-    = render 'seo_show_form', :form => form
-- else
-  = comfy_form_for @snippet, :as => :snippet, :url => {:action => :update} do |form|
-    = render form
+= comfy_form_for @snippet, :as => :snippet, :url => {:action => :update} do |form|
+  = render form

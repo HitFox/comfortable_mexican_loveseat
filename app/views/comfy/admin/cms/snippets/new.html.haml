@@ -1,9 +1,5 @@
 .page-header
   %h2= t('.title')
 
-- if @seo
-  = comfy_form_for @seo_snippet, :as => :seo_snippet, :url => {:action => :create} do |form|
-    = render 'seo_form', form: form
-- else
-  = comfy_form_for @snippet, :as => :snippet, :url => {:action => :create} do |form|
-    = render form
+= comfy_form_for @snippet, :as => :snippet, :url => {:action => :create} do |form|
+  = render form

@@ -10,43 +10,20 @@ class Comfy::Admin::Cms::SnippetsController < Comfy::Admin::Cms::BaseController
   end
 
   def new
-    if params[:seo]
-      @seo = true
-    end
-      render
+    render
   end
 
   def edit
-    if params[:seo]
-      @seo = true
-    end
     @snippet.attributes = snippet_params
   end
 
   def create
-    if params['commit'] == 'Create SEO Snippet'
-      if SeoSnippet.new(params).valid?
-      # if seo_snippet.validate
-        write_seo_snippet
-        build_snippet
-        @snippet.save!
-        flash[:success] = I18n.t('comfy.admin.cms.snippets.created')
-        redirect_to :action => :edit, :id => @snippet, seo: @seo = true
-      else
-        render :action => :new, seo: @seo = true
-      end
-    else
-      @snippet.save!
-      flash[:success] = I18n.t('comfy.admin.cms.snippets.created')
-      redirect_to :action => :edit, :id => @snippet
-    end
+    @snippet.save!
+    flash[:success] = I18n.t('comfy.admin.cms.snippets.created')
+    redirect_to :action => :edit, :id => @snippet
   rescue ActiveRecord::RecordInvalid
     flash.now[:danger] = I18n.t('comfy.admin.cms.snippets.creation_failure')
-    if  params["commit"] == 'Create SEO Snippet'
-      render :action => :new, seo: @seo = true
-    else
-      render :action => :new
-    end
+    render :action => :new
   end
 
   def update
@@ -75,7 +52,6 @@ protected
 
   def build_snippet
     @snippet = @site.snippets.new(snippet_params)
-    @seo_snippet = SeoSnippet.new
   end
 
   def load_snippet
@@ -87,9 +63,5 @@ protected
 
   def snippet_params
     params.fetch(:snippet, {}).permit!
-  end
-
-  def write_seo_snippet
-    WriteSeoSnippet.write_snippet(params)
   end
 end
