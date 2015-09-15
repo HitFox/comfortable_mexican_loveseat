@@ -68,7 +68,6 @@
           .control-label.col-sm-2
             = label_tag('Available language:')
           .col-sm-10
-            / = select(:seo_snippet, :available_language, ['German','English','French','Spanish','Dutch'],  {multiple: true})
             = select_tag('seo_snippet[available_language]', options_for_select([['German','German'],['English','English'],['French','French'],['Spanish','Spanish'],['Dutch']]), {multiple: true, prompt: 'Please use command or ctrl/strl to add:', class: 'form-control'})
 
     .seo_profiles

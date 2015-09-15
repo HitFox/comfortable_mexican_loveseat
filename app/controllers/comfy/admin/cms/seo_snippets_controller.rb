@@ -38,6 +38,7 @@ protected
     @seo_snippet.url = seo_params[:url]
     @seo_snippet.label = seo_params[:label]
     @seo_snippet.telephone = seo_params[:telephone]
+    @seo_snippet.contact_type_selected = seo_params[:contact_type].blank? ? false : true
   end
 
   def seo_snippet_params_are_valid?(seo_params)
