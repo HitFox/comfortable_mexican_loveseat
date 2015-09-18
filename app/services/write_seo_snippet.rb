@@ -4,17 +4,46 @@ class WriteSeoSnippet
   # First check which categorie(s) are choosen
   #   then write each content in the right space of the script file
 
+ # logo:
+  # <script type="application/ld+json">
+  #     {
+  #       "@context": "http://schema.org",
+  #       "@type": "Organization",
+  #       "url": "http://www.example.com",
+  #       "logo": "http://www.example.com/images/logo.png"
+  #     }
+  # </script>
+
+
+  # contact:
+  # <script type="application/ld+json">
+  # {
+  #   "@context" : "http://schema.org",
+  #   "@type" : "Organization",
+  #   "url" : "http://www.your-company-site.com",
   #   "contactPoint" : [{
   #     "@type" : "ContactPoint",
   #     "telephone" : "+1-401-555-1212",
   #     "contactType" : "customer service"
   #   }]
+  # }
+  # </script>
 
+
+  # profile:
+  # <script type="application/ld+json">
+  # {
+  #   "@context" : "http://schema.org",
+  #   "@type" : "Organization",
+  #   "name" : "Your Organization Name",
+  #   "url" : "http://www.your-site.com",
   #   "sameAs" : [
   #     "http://www.facebook.com/your-profile",
   #     "http://www.twitter.com/yourProfile",
   #     "http://plus.google.com/your_profile"
   #   ]
+  # }
+  # </script>
 
   # Notes:
   #   No redundant commas!
@@ -131,46 +160,5 @@ class WriteSeoSnippet
       v.slice!(num) unless num.nil?
       v.to_s
     end
-
-  # logo:
-  # <script type="application/ld+json">
-  #     {
-  #       "@context": "http://schema.org",
-  #       "@type": "Organization",
-  #       "url": "http://www.example.com",
-  #       "logo": "http://www.example.com/images/logo.png"
-  #     }
-  # </script>
-
-
-  # contact:
-  # <script type="application/ld+json">
-  # {
-  #   "@context" : "http://schema.org",
-  #   "@type" : "Organization",
-  #   "url" : "http://www.your-company-site.com",
-  #   "contactPoint" : [{
-  #     "@type" : "ContactPoint",
-  #     "telephone" : "+1-401-555-1212",
-  #     "contactType" : "customer service"
-  #   }]
-  # }
-  # </script>
-
-
-  # profile:
-  # <script type="application/ld+json">
-  # {
-  #   "@context" : "http://schema.org",
-  #   "@type" : "Organization",
-  #   "name" : "Your Organization Name",
-  #   "url" : "http://www.your-site.com",
-  #   "sameAs" : [
-  #     "http://www.facebook.com/your-profile",
-  #     "http://www.twitter.com/yourProfile",
-  #     "http://plus.google.com/your_profile"
-  #   ]
-  # }
-  # </script>
   end
 end
