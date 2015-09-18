@@ -4,22 +4,22 @@
       .control-label.col-sm-2
         = label_tag('Label:')
       .col-sm-10
-        = text_field(:seo_snippet, :label, value:"seo_snippet", class: 'form-control')
+        = text_field(:seo_snippet, :label, value:'seo_snippet', class: 'form-control')
     .form-group
       .control-label.col-sm-2
         = label_tag('Context:')
       .col-sm-10
-        = text_field(:seo_snippet, :context, value:"http://schema.org", class: 'form-control')
+        = text_field(:seo_snippet, :context, value:'http://schema.org', class: 'form-control')
     .form-group
       .control-label.col-sm-2
         = label_tag('Type:')
       .col-sm-10
-        = text_field(:seo_snippet, :type, value:"Organization", class: 'form-control')
+        = text_field(:seo_snippet, :type, value:'Organization', class: 'form-control')
     .form-group
       .control-label.col-sm-2
         = label_tag('URL:')
       .col-sm-10
-        = url_field(:seo_snippet, :url, placeholder:"http://www.example.com", class: 'form-control')
+        = url_field(:seo_snippet, :url, placeholder:'http://www.example.com', class: 'form-control')
 
 %section
   #seo_tab_title_logo.seo_tab_title_clicked
@@ -39,81 +39,22 @@
           .control-label.col-sm-2
             = label_tag('Logo:')
           .col-sm-10
-            = url_field(:seo_snippet, :logo, placeholder:"http://www.example.com/images/logo.png", class: 'form-control')
+            = url_field(:seo_snippet, :logo, placeholder:'http://www.example.com/images/logo.png', class: 'form-control')
     .seo_contact
       %h5
         Corporate Contact
       .form-horizontal
-        .form-group
-          .control-label.col-sm-2
-            = label_tag('Contact type:')
-          .col-sm-10
-            = select_tag('seo_snippet[contact_type]', options_for_select(['customer support','technical support','billing support','bill payment','sales','reservations','credit card support','emergency','baggage tracking','roadside assistance','package tracking']), {prompt: 'Please select', class: 'form-control'})
-        .form-group
-          .control-label.col-sm-2
-            = label_tag('Telephone:')
-          .col-sm-10
-            = telephone_field(:seo_snippet, :telephone, placeholder: "+49-401-555-1212", class: 'form-control')
-        .form-group
-          .control-label.col-sm-2
-            = label_tag('Contact URL:')
-          .col-sm-10
-            = url_field(:seo_snippet, :contact_url, placeholder: "https://domain/contact", class: 'form-control')
-        .form-group
-          .control-label.col-sm-2
-            = label_tag('Area served:')
-          .col-sm-10
-            = select_tag('seo_snippet[area_served]', options_for_select(CountryCodes.all_country_codes), {multiple: true, prompt: 'Please use command or ctrl/strl to add:', class: 'form-control'})
-        .form-group
-          .control-label.col-sm-2
-            = label_tag('Available language:')
-          .col-sm-10
-            = select_tag('seo_snippet[available_language]', options_for_select([['German','German'],['English','English'],['French','French'],['Spanish','Spanish'],['Dutch']]), {multiple: true, prompt: 'Please use command or ctrl/strl to add:', class: 'form-control'})
-
+        = render 'corporate_contact'
+      #add_corporate_contact Add another Corporate Contact
     .seo_profiles
-      %h5
-        Social Profiles
-      .form-horizontal
-        .form-group
-          .control-label.col-sm-2
-            = label_tag('Facebook URL:')
-          .col-sm-10
-            = url_field(:seo_snippet, :facebook_url, placeholder: "http://www.facebook.com/your-profile", class: 'form-control')
-        .form-group
-          .control-label.col-sm-2
-            = label_tag('Twitter URL:')
-          .col-sm-10
-            = url_field(:seo_snippet, :twitter_url, placeholder:"http://www.twitter.com/your-profile", class: 'form-control')
-        .form-group
-          .control-label.col-sm-2
-            = label_tag('Google+ URL:')
-          .col-sm-10
-            = url_field(:seo_snippet, :google_plus_url, placeholder:"http://www.plus.google.com/your-profile", class: 'form-control')
-        .form-group
-          .control-label.col-sm-2
-            = label_tag('Instagram URL:')
-          .col-sm-10
-            = url_field(:seo_snippet, :instagram_url, placeholder:"http://instagram.com/yourProfile", class: 'form-control')
-        .form-group
-          .control-label.col-sm-2
-            = label_tag('Pinterest URL:')
-          .col-sm-10
-            = url_field(:seo_snippet, :pinterest_url, placeholder:"Please write url here", class: 'form-control')
-        .form-group
-          .control-label.col-sm-2
-            = label_tag('LinkedIn URL:')
-          .col-sm-10
-            = url_field(:seo_snippet, :linkedin_url, placeholder:"http://www.linkedin.com/in/yourprofile", class: 'form-control')
-        .form-group
-          .control-label.col-sm-2
-            = label_tag('Youtube URL:')
-          .col-sm-10
-            = url_field(:seo_snippet, :youtube_url, placeholder:"Please write url here", class: 'form-control')
+      = render 'social_profiles'
 
 = form.form_group :class => 'form-actions' do
   / add to yml file!!
   = form.submit 'Create SEO Snippet', :class => 'btn btn-primary'
   = link_to t('.cancel'), comfy_admin_cms_site_snippets_path, :class => 'btn btn-link'
+
+= hidden_field_tag :hidden_number_from_view
 
 :javascript
   $(function() {
@@ -146,5 +87,37 @@
       $('.seo_logo').hide();
       $('.seo_contact').hide();
       $('.seo_profiles').show();
+    });
+  });
+
+  var contactCount = 0
+  $(function() {
+    $(this).on('click', '#add_corporate_contact', function(event) {
+      event.preventDefault();
+      contactCount ++;
+      $("#hidden_number_from_view").attr('value', function(){
+          return contactCount });
+
+      $(this).before( "#{ (j = render 'add_corporate_contact' ).gsub(/[\n"]/, ' ') }" );
+      $('.col-sm-10 input[ id=seo_snippet_telephone ]').attr('name', function(){
+          return 'seo_snippet[telephone_' +contactCount+ ']'});
+      $('.col-sm-10 input[ id=seo_snippet_telephone ]').attr('id', function(){
+          return 'seo_snippet_telephone_' +contactCount+ ']'});
+      $('.col-sm-10 select[ id=seo_snippet_contact_type ]').attr('name', function(){
+          return 'seo_snippet[contact_type_' +contactCount+ ']' });
+      $('.col-sm-10 select[ id=seo_snippet_contact_type ]').attr('id', function(){
+          return 'seo_snippet_contact_type_' +contactCount+ ']' });
+      $('.col-sm-10 input[ id=seo_snippet_contact_url ]').attr('name', function(){
+          return 'seo_snippet[contact_url_' +contactCount+ ']' });
+      $('.col-sm-10 input[ id=seo_snippet_contact_url ]').attr('id', function(){
+          return 'seo_snippet_contact_url_' +contactCount+ ']' });
+      $('.col-sm-10 select[ id=seo_snippet_area_served ]').attr('name', function(){
+          return 'seo_snippet[area_served_' +contactCount+ ']' });
+      $('.col-sm-10 select[ id=seo_snippet_area_served ]').attr('id', function(){
+          return 'seo_snippet_area_served_' +contactCount+ ']' });
+      $('.col-sm-10 select[ id=seo_snippet_available_language ]').attr('name', function(){
+          return 'seo_snippet[available_language_' +contactCount+ ']' });
+      $('.col-sm-10 select[ id=seo_snippet_available_language ]').attr('id', function(){
+          return 'seo_snippet_available_language_' +contactCount });
     });
   });

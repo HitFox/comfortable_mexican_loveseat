@@ -44,18 +44,34 @@ class WriteSeoSnippet
   #   }]
       seo_script.chop!
       seo_script << ',"contactPoint" : [{'
-      contact.each do |k,v|
-        unless v.blank?
-          if v.class == Array
-            new_v = check_array_for_empty_brackets(v)
-            (seo_script << '"'+k+'" : ['+new_v+']') unless new_v.blank?
-          else
-            seo_script << '"'+k+'" : "'+v+'"'
+      num = 0
+      number_of_contacts = params[:hidden_number_from_view]
+      while (number_of_contacts.to_i+1) > num do
+        seo_script << '"@type" : "ContactPoint",'
+        puts number_of_contacts
+        puts ' loop'
+        contact[num.to_s].each do |k,v|
+          puts contact[num.to_s]
+          #v counter to check if all v blank, to delete seo_script << '"@type" : "ContactPoint",'
+          unless v.blank?
+            if v.class == Array
+              new_v = check_array_for_empty_brackets(v)
+              (seo_script << '"'+k+'" : ['+new_v+']') unless new_v.blank?
+            else
+          puts 'k: '+k+ 'and v: '+v
+              seo_script << '"'+k+'" : "'+v+'"'
+            end
+            seo_script << ','
           end
-          seo_script << ','
         end
+        seo_script.chop!
+        seo_script << '},{'
+        num += 1
       end
+
+      seo_script.gsub(/\},\{/, '')
       seo_script << '}]'
+
   #   "sameAs" : [
   #     "http://www.facebook.com/your-profile",
   #     "http://www.twitter.com/yourProfile",
@@ -84,11 +100,18 @@ class WriteSeoSnippet
       logo['url'] = params[:seo_snippet][:url]
       logo['logo'] = params[:seo_snippet][:logo]
       contact = {}
-      contact['telephone'] = params[:seo_snippet][:telephone]
-      contact['url'] = params[:seo_snippet][:contact_url]
-      contact['contactType'] = params[:seo_snippet][:contact_type]
-      contact['areaServed'] = params[:seo_snippet][:area_served]
-      contact['availableLanguage'] = params[:seo_snippet][:available_language]
+      number_of_contacts = params[:hidden_number_from_view]
+      num = 0
+      while (number_of_contacts.to_i+1) > num do
+        num_string = num.to_s
+        contact[num_string] = {}
+        contact[num_string]['contactType'] = params[:seo_snippet][('contact_type_'+num_string).to_sym]
+        contact[num_string]['telephone'] = params[:seo_snippet][('telephone_'+num_string).to_sym]
+        contact[num_string]['url'] = params[:seo_snippet][('contact_url_'+num_string).to_sym]
+        contact[num_string]['areaServed'] = params[:seo_snippet][('area_served_'+num_string).to_sym]
+        contact[num_string]['availableLanguage'] = params[:seo_snippet][('available_language_'+num_string).to_sym]
+        num += 1
+      end
       profile = []
       profile << params[:seo_snippet][:facebook_url]
       profile << params[:seo_snippet][:twitter_url]

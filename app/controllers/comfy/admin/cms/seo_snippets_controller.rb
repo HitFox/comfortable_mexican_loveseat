@@ -12,7 +12,8 @@ class Comfy::Admin::Cms::SeoSnippetsController < Comfy::Admin::Cms::BaseControll
   end
 
   def create
-    if seo_snippet_params_are_valid?(params[:seo_snippet])
+    @seo_snippet.create_missing_attributes(params[:hidden_number_from_view])
+    if seo_snippet_enhanced_params_are_valid?(params[:seo_snippet])
       WriteSeoSnippet.write_snippet(params)
       @snippet = @site.snippets.new(params.fetch(:snippet, {}).permit!)
       @snippet.save!
@@ -41,7 +42,7 @@ protected
     @seo_snippet.contact_type_selected = seo_params[:contact_type].blank? ? false : true
   end
 
-  def seo_snippet_params_are_valid?(seo_params)
+  def seo_snippet_enhanced_params_are_valid?(seo_params)
     enhance_seo_snippet(seo_params)
     @seo_snippet.valid?
   end
