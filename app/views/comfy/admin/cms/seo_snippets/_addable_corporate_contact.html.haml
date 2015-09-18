@@ -2,7 +2,7 @@
   .control-label.col-sm-2
     = label_tag('Contact type:')
   .col-sm-10
-    = select_tag('seo_snippet[contact_type]', options_for_select(['customer support','technical support','billing support','bill payment','sales','reservations','credit card support','emergency','baggage tracking','roadside assistance','package tracking']), {prompt: 'Please select', class: 'form-control'})
+    = select_tag('seo_snippet[contact_type]', options_for_select(['baggage_tracking', 'bill_payment', 'billing_support', 'credit_card_support', 'customer_support', 'emergency', 'package_tracking', 'reservations', 'roadside_assistance', 'technical_support', 'sales']), {prompt: 'Please select', class: 'form-control'})
 .form-group
   .control-label.col-sm-2
     = label_tag('Telephone:')

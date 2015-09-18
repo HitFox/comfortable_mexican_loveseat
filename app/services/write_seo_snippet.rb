@@ -48,17 +48,14 @@ class WriteSeoSnippet
       number_of_contacts = params[:hidden_number_from_view]
       while (number_of_contacts.to_i+1) > num do
         seo_script << '"@type" : "ContactPoint",'
-        puts number_of_contacts
-        puts ' loop'
         contact[num.to_s].each do |k,v|
-          puts contact[num.to_s]
           #v counter to check if all v blank, to delete seo_script << '"@type" : "ContactPoint",'
           unless v.blank?
             if v.class == Array
-              new_v = check_array_for_empty_brackets(v)
+              new_v = delete_empty_brackets(v)
               (seo_script << '"'+k+'" : ['+new_v+']') unless new_v.blank?
             else
-          puts 'k: '+k+ 'and v: '+v
+              v.gsub!(/_/, ' ')
               seo_script << '"'+k+'" : "'+v+'"'
             end
             seo_script << ','
@@ -88,7 +85,6 @@ class WriteSeoSnippet
       seo_script << '}'
       seo_script << '<script>'
       new_seo_script = delete_script_errors(seo_script)
-      puts new_seo_script
       new_seo_script
       #return '<script type="application/ld+json">{"@context": "http://schema.org","@type": "Organization","url" : "http://www.your-site.com","name" : "Your Organization Name"}<script>'
     end
@@ -132,7 +128,7 @@ class WriteSeoSnippet
       seo_script
     end
 
-    def check_array_for_empty_brackets(v)
+    def delete_empty_brackets(v)
       v.join('","')
       num = v.index("")
       v.slice!(num) unless num.nil?
