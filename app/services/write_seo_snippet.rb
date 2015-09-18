@@ -4,9 +4,21 @@ class WriteSeoSnippet
   # First check which categorie(s) are choosen
   #   then write each content in the right space of the script file
 
+  #   "contactPoint" : [{
+  #     "@type" : "ContactPoint",
+  #     "telephone" : "+1-401-555-1212",
+  #     "contactType" : "customer service"
+  #   }]
+
+  #   "sameAs" : [
+  #     "http://www.facebook.com/your-profile",
+  #     "http://www.twitter.com/yourProfile",
+  #     "http://plus.google.com/your_profile"
+  #   ]
+
   # Notes:
   #   No redundant commas!
-  #   Contact case must have url or telephone to be valid!
+  #   Contact_type must have url or telephone to be valid!
 
   class << self
     def write_snippet(params)
@@ -23,11 +35,12 @@ class WriteSeoSnippet
     end
 
     def seo_scripter(params)
-      logo, contact, profile = fill_content(params)
+      mandatory_and_logo, contact, profile = fill_content(params)
+
       seo_script = ''
       seo_script << '<script type="application/ld+json">'
       seo_script << '{'
-      logo.each do |k,v|
+      mandatory_and_logo.each do |k,v|
         unless v.blank?
           if k == 'context' || k == 'type'
             seo_script << '"@'+k+'" : "'+v+'"'
@@ -37,43 +50,29 @@ class WriteSeoSnippet
           seo_script << ','
         end
       end
-  #   "contactPoint" : [{
-  #     "@type" : "ContactPoint",
-  #     "telephone" : "+1-401-555-1212",
-  #     "contactType" : "customer service"
-  #   }]
-      seo_script.chop!
-      seo_script << ',"contactPoint" : [{'
+      seo_script << '"contactPoint" : [{'
       num = 0
       number_of_contacts = params[:hidden_number_from_view]
       while (number_of_contacts.to_i+1) > num do
-        seo_script << '"@type" : "ContactPoint",'
+        seo_script << '"@type" : "ContactPoint"'
         contact[num.to_s].each do |k,v|
           #v counter to check if all v blank, to delete seo_script << '"@type" : "ContactPoint",'
           unless v.blank?
+            seo_script << ','
             if v.class == Array
-              new_v = delete_empty_brackets(v)
+              new_v = delete_select_attributes_empty_quotes(v)
               (seo_script << '"'+k+'" : ['+new_v+']') unless new_v.blank?
             else
               v.gsub!(/_/, ' ')
               seo_script << '"'+k+'" : "'+v+'"'
             end
-            seo_script << ','
           end
         end
-        seo_script.chop!
         seo_script << '},{'
         num += 1
       end
-
       seo_script.gsub(/\},\{/, '')
       seo_script << '}]'
-
-  #   "sameAs" : [
-  #     "http://www.facebook.com/your-profile",
-  #     "http://www.twitter.com/yourProfile",
-  #     "http://plus.google.com/your_profile"
-  #   ]
       seo_script << ',"sameAs" : ['
       profile.each do |url|
         unless url.blank?
@@ -81,6 +80,7 @@ class WriteSeoSnippet
           seo_script << ','
         end
       end
+      seo_script.chop!
       seo_script << ']'
       seo_script << '}'
       seo_script << '<script>'
@@ -90,11 +90,11 @@ class WriteSeoSnippet
     end
 
     def fill_content(params)
-      logo = {}
-      logo['context'] = params[:seo_snippet][:context]
-      logo['type'] = params[:seo_snippet][:type]
-      logo['url'] = params[:seo_snippet][:url]
-      logo['logo'] = params[:seo_snippet][:logo]
+      mandatory_and_logo = {}
+      mandatory_and_logo['context'] = params[:seo_snippet][:context]
+      mandatory_and_logo['type'] = params[:seo_snippet][:type]
+      mandatory_and_logo['url'] = params[:seo_snippet][:url]
+      mandatory_and_logo['logo'] = params[:seo_snippet][:logo]
       contact = {}
       number_of_contacts = params[:hidden_number_from_view]
       num = 0
@@ -116,19 +116,16 @@ class WriteSeoSnippet
       profile << params[:seo_snippet][:pinterest_url]
       profile << params[:seo_snippet][:linkedin_url]
       profile << params[:seo_snippet][:youtube_url]
-      return logo, contact, profile
+      return mandatory_and_logo, contact, profile
     end
 
     def delete_script_errors(seo_script)
-      seo_script.sub!(/"sameAs" : \[\]/, '')
+      seo_script.sub!(/,"sameAs" : \]/, '')
       seo_script.sub!(/"contactPoint" : \[{}\]/, '')
-      seo_script.sub!(/,}\]/, '}]')
-      seo_script.sub!(/,\]/, ']')
-      seo_script.sub!(/,}/, '}')
       seo_script
     end
 
-    def delete_empty_brackets(v)
+    def delete_select_attributes_empty_quotes(v)
       v.join('","')
       num = v.index("")
       v.slice!(num) unless num.nil?
