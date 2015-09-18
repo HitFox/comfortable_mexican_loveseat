@@ -99,25 +99,24 @@
           return contactCount });
 
       $(this).before( "#{ (j = render 'add_corporate_contact' ).gsub(/[\n"]/, ' ') }" );
-      $('.col-sm-10 input[ id=seo_snippet_telephone ]').attr('name', function(){
-          return 'seo_snippet[telephone_' +contactCount+ ']'});
-      $('.col-sm-10 input[ id=seo_snippet_telephone ]').attr('id', function(){
-          return 'seo_snippet_telephone_' +contactCount+ ']'});
-      $('.col-sm-10 select[ id=seo_snippet_contact_type ]').attr('name', function(){
-          return 'seo_snippet[contact_type_' +contactCount+ ']' });
-      $('.col-sm-10 select[ id=seo_snippet_contact_type ]').attr('id', function(){
-          return 'seo_snippet_contact_type_' +contactCount+ ']' });
-      $('.col-sm-10 input[ id=seo_snippet_contact_url ]').attr('name', function(){
-          return 'seo_snippet[contact_url_' +contactCount+ ']' });
-      $('.col-sm-10 input[ id=seo_snippet_contact_url ]').attr('id', function(){
-          return 'seo_snippet_contact_url_' +contactCount+ ']' });
-      $('.col-sm-10 select[ id=seo_snippet_area_served ]').attr('name', function(){
-          return 'seo_snippet[area_served_' +contactCount+ ']' });
-      $('.col-sm-10 select[ id=seo_snippet_area_served ]').attr('id', function(){
-          return 'seo_snippet_area_served_' +contactCount+ ']' });
-      $('.col-sm-10 select[ id=seo_snippet_available_language ]').attr('name', function(){
-          return 'seo_snippet[available_language_' +contactCount+ ']' });
-      $('.col-sm-10 select[ id=seo_snippet_available_language ]').attr('id', function(){
-          return 'seo_snippet_available_language_' +contactCount });
+ 
+      attributeCollectionForInput = ['telephone', 'contact_url']
+      attributeCollectionForSelect = ['contact_type', 'area_served', 'available_language']
+
+      for (attribute in attributeCollectionForInput) {
+        att = attributeCollectionForInput[attribute]
+        $('.col-sm-10 input[ id=seo_snippet_'+att+' ]').attr('name', function(){
+          return 'seo_snippet['+att+'_' +contactCount+ ']'});
+        $('.col-sm-10 input[ id=seo_snippet_'+att+' ]').attr('id', function(){
+          return 'seo_snippet_'+att+'_' +contactCount+ ']'});
+      }
+
+      for (attribute in attributeCollectionForSelect) {
+        att = attributeCollectionForSelect[attribute]
+        $('.col-sm-10 select[ id=seo_snippet_'+att+' ]').attr('name', function(){
+          return 'seo_snippet['+att+'_' +contactCount+ ']'});
+        $('.col-sm-10 select[ id=seo_snippet_'+att+' ]').attr('id', function(){
+          return 'seo_snippet_'+att+'_' +contactCount+ ']'});
+      }
     });
   });
