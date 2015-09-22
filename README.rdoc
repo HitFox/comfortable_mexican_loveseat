@@ -4,6 +4,10 @@ The Comfortable Mexican Loveseat is an expansion pack to the Comfortable Mexican
 
 The Loveseat references a fixed version of the CMS (currently 1.12.8) and latest releases are pulled in occasionally.
 
+== CMS Usage Notes
+====== When you are adding new models and/or controllers and links are not showing up, do not forget to click the "Sync" button!
+
+
 == Simplified Fixture Import/Export
 
 When you want to import fixtures you can now use the following commands:
