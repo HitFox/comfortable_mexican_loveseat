@@ -1,4 +1,5 @@
 %h5
   Corporate Contact
 .form-horizontal
-  = render 'addable_corporate_contact', local: {contact_number: :number}
+  = fields_for 'seo_snippet[corporate_contacts_attributes][newcc]', CorporateContact.new do |form|
+    = render 'corporate_contact', form: form

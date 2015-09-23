@@ -2,24 +2,24 @@
   .form-horizontal
     .form-group
       .control-label.col-sm-2
-        = label_tag('Label:')
+        = form.label :label
       .col-sm-10
-        = text_field(:seo_snippet, :label, value:'seo_snippet', class: 'form-control')
+        = form.text_field(:label, class: 'form-control')
     .form-group
       .control-label.col-sm-2
-        = label_tag('Context:')
+        = form.label :context
       .col-sm-10
-        = text_field(:seo_snippet, :context, value:'http://schema.org', class: 'form-control')
+        = form.text_field(:context, class: 'form-control')
     .form-group
       .control-label.col-sm-2
-        = label_tag('Type:')
+        = form.label :type
       .col-sm-10
-        = text_field(:seo_snippet, :type, value:'Organization', class: 'form-control')
+        = form.text_field(:type, class: 'form-control')
     .form-group
       .control-label.col-sm-2
-        = label_tag('URL:')
+        = form.label :url
       .col-sm-10
-        = url_field(:seo_snippet, :url, placeholder:'http://www.example.com', class: 'form-control')
+        = form.url_field(:url, placeholder:'http://www.example.com', class: 'form-control')
 
 %section
   #seo_tab_title_logo.seo_tab_title_clicked
@@ -37,24 +37,25 @@
       .form-horizontal
         .form-group
           .control-label.col-sm-2
-            = label_tag('Logo:')
+            = form.label :logo
           .col-sm-10
-            = url_field(:seo_snippet, :logo, placeholder:'http://www.example.com/images/logo.png', class: 'form-control')
+            = form.url_field(:logo, placeholder:'http://www.example.com/images/logo.png', class: 'form-control')
     .seo_contact
       %h5
         Corporate Contact
       .form-horizontal
-        = render 'corporate_contact'
+        = form.fields_for :corporate_contacts do |contact_form|
+          = render 'corporate_contact', form: contact_form
       #add_corporate_contact Add another Corporate Contact
-    .seo_profiles
-      = render 'social_profiles'
+    / .seo_profiles
+    /   = render 'social_profiles'
 
 = form.form_group :class => 'form-actions' do
   / add to yml file!!
   = form.submit 'Create SEO Snippet', :class => 'btn btn-primary'
   = link_to t('.cancel'), comfy_admin_cms_site_snippets_path, :class => 'btn btn-link'
 
-= hidden_field_tag :hidden_number_from_view
+= hidden_field_tag :number_of_contacts
 
 :javascript
   $(function() {
@@ -90,33 +91,11 @@
     });
   });
 
-  var contactCount = 0
-  $(function() {
+  $(function(){
     $(this).on('click', '#add_corporate_contact', function(event) {
       event.preventDefault();
-      contactCount ++;
-      $("#hidden_number_from_view").attr('value', function(){
-          return contactCount });
-
-      $(this).before( "#{ (j = render 'add_corporate_contact' ).gsub(/[\n"]/, ' ') }" );
- 
-      attributeCollectionForInput = ['telephone', 'contact_url']
-      attributeCollectionForSelect = ['contact_type', 'area_served', 'available_language']
-
-      for (attribute in attributeCollectionForInput) {
-        att = attributeCollectionForInput[attribute]
-        $('.col-sm-10 input[ id=seo_snippet_'+att+' ]').attr('name', function(){
-          return 'seo_snippet['+att+'_' +contactCount+ ']'});
-        $('.col-sm-10 input[ id=seo_snippet_'+att+' ]').attr('id', function(){
-          return 'seo_snippet_'+att+'_' +contactCount+ ']'});
-      }
-
-      for (attribute in attributeCollectionForSelect) {
-        att = attributeCollectionForSelect[attribute]
-        $('.col-sm-10 select[ id=seo_snippet_'+att+' ]').attr('name', function(){
-          return 'seo_snippet['+att+'_' +contactCount+ ']'});
-        $('.col-sm-10 select[ id=seo_snippet_'+att+' ]').attr('id', function(){
-          return 'seo_snippet_'+att+'_' +contactCount+ ']'});
-      }
+      var form = "#{ j(render('add_corporate_contact')).gsub(/[\n]/, ' ') }";
+      form = form.replace(/newcc/g, new Date().getTime());
+      $(this).before(form);
     });
   });

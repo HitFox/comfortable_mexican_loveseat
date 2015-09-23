@@ -12,7 +12,10 @@ class Comfy::Admin::Cms::SeoSnippetsController < Comfy::Admin::Cms::BaseControll
   end
 
   def create
-    @seo_snippet.create_missing_attributes(params[:hidden_number_from_view])
+    debugger
+    @seo_snippet = SeoSnippet.new(params[:seo_snippet])
+    return
+    # @seo_snippet.create_missing_attributes(params[:number_of_contacts])
     if seo_snippet_enhanced_params_are_valid?(params[:seo_snippet])
       WriteSeoSnippet.write_snippet(params)
       @snippet = @site.snippets.new(params.fetch(:snippet, {}).permit!)

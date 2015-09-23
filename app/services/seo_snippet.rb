@@ -1,31 +1,30 @@
 class SeoSnippet
-  include ActiveModel::Validations
+  include ActiveModel::Model
+  # include ActiveModel::Validations
   extend ActiveModel::Naming
 
-  attr_accessor :label, :context, :type, :url, :logo, :telephone_0, :contact_url_0,
-    :contact_type_0, :area_served_0, :available_language_0, :facebook_url, :twitter_url, :google_plus_url, :instagram_url,
-    :pinterest_url, :linkedin_url, :youtube_url, :contact_type_selected, :telephone, :contact_url,
-    :contact_type, :area_served, :available_language, :hidden_number_from_view
+  DEFAULT_PARAMS = {
+    "corporate_contacts_attributes" => {"0" => {}},
+    "label" => "seo snippet",
+    "context" => "http://schema.org",
+    "type" => "Organization"
+  }
+
+  attr_accessor :label, :context, :type, :url, :logo, :facebook_url, :twitter_url, :google_plus_url,
+    :instagram_url, :pinterest_url, :linkedin_url, :youtube_url, :corporate_contacts
 
   validates :url, :label, presence: true
-  validates :contact_type_0, absence: true
-  validates :telephone_0,
-      format: { with: /\A\+?[\d*| *|\-]+\z/,
-      message: "only allows numbers"},
-      presence: true, if: Proc.new{|u| u.contact_type_selected }
-  validates :telephone_0,
-      absence: true, unless: Proc.new{|u| u.contact_type_selected }
 
-  def create_missing_attributes(number_as_string)
-    num = 1
-    puts number_as_string
-    while (number_as_string.to_i+1) > num do
-      self.class.__send__(:attr_accessor, "telephone_#{num}")
-      self.class.__send__(:attr_accessor, "contact_url_#{num}")
-      self.class.__send__(:attr_accessor, "contact_type_#{num}")
-      self.class.__send__(:attr_accessor, "area_served_#{num}")
-      self.class.__send__(:attr_accessor, "available_language_#{num}")
-      num += 1
+  def initialize(params={})
+    params = DEFAULT_PARAMS.merge(params)
+    super
+    # self.corporate_contacts_attributes = params.fetch(:corporate_contacts_attributes, [])
+  end
+
+  def corporate_contacts_attributes=(attrs)
+    self.corporate_contacts = attrs.values.map do |cc|
+      CorporateContact.new(cc)
     end
   end
+
 end
