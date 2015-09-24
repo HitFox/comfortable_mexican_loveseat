@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    comfortable_mexican_loveseat (0.0.16)
+    comfortable_mexican_loveseat (0.0.17)
       comfortable_mexican_sofa (~> 1.12.8)
       rack-rewrite (~> 1.5.1)
       rails (>= 4.0)
