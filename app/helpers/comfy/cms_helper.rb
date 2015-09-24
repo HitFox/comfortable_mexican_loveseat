@@ -47,7 +47,7 @@ module Comfy::CmsHelper
     tags << tag('meta', property: 'og:image', content: fb_image) if fb_image.present?
     tags << tag('meta', property: 'fb:admins', content: fb_admins) if fb_admins.present?
 
-    site_name = Comfy::Cms::Block.where(blockable_id: @cms_site.pages.first.id, blockable_type: 'Comfy::Cms::Page', identifier: 'seo.page_title').pluck(:content)
+    site_name = Comfy::Cms::Block.where(blockable_id: @cms_site.pages.first.id, blockable_type: 'Comfy::Cms::Page', identifier: 'seo.page_title').pluck(:content).first
     tags << tag('meta', property: 'og:site_name', content: site_name) if site_name.present?
     tags << tag('meta', property: 'og:url', content: request.url.split('?').first)
 
@@ -68,7 +68,7 @@ module Comfy::CmsHelper
   end
 
   def self_or_parent_metafield(block_identifier, page = @cms_page)
-    content = pluck_page_block_content(block_identifier)
+    content = pluck_page_block_content(block_identifier, page)
     if content.present?
       return content
     else
@@ -78,8 +78,8 @@ module Comfy::CmsHelper
     end
   end
 
-  def pluck_page_block_content(tag)
-    content = Comfy::Cms::Block.where(identifier: tag, blockable_type: 'Comfy::Cms::Page', blockable_id: @cms_page.id).pluck(:content).first
+  def pluck_page_block_content(tag, page = @cms_page)
+    content = Comfy::Cms::Block.where(identifier: tag, blockable_type: 'Comfy::Cms::Page', blockable_id: page.id).pluck(:content).first
     return (content.present?) ? content : ''
   end
 
