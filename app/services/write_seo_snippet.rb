@@ -1,53 +1,31 @@
 class WriteSeoSnippet
-  # snippet create is clicked
-  #   method gets all input of the three categories.
-  # First check which categorie(s) are choosen
-  #   then write each content in the right space of the script file
+  # Writes a json script for structured data (https://developers.google.com/structured-data/)
+  # => The script can have three parts: logo, corporate contacts and social profiles
+  # => The finished script unites all this parts in one script, where @type, @context and url are mandatory
+  # => In the end (with all parts included) it looks like this:
 
- # logo:
   # <script type="application/ld+json">
-  #     {
-  #       "@context": "http://schema.org",
-  #       "@type": "Organization",
-  #       "url": "http://www.example.com",
-  #       "logo": "http://www.example.com/images/logo.png"
-  #     }
+  #   {
+  #     "@context": "http://schema.org",
+  #     "@type": "Organization",
+  #     "url": "http://www.example.com",
+  #     "logo": "http://www.example.com/images/logo.png",
+  #     "contactPoint" : [{
+  #       "@type" : "ContactPoint",
+  #       "telephone" : "+1-401-555-1212",
+  #       "contactType" : "customer service"
+  #     }],
+  #     "sameAs" : [
+  #       "http://www.facebook.com/your-profile",
+  #       "http://www.twitter.com/yourProfile",
+  #       "http://plus.google.com/your_profile"
+  #     ]
+  #   }
   # </script>
 
-
-  # contact:
-  # <script type="application/ld+json">
-  # {
-  #   "@context" : "http://schema.org",
-  #   "@type" : "Organization",
-  #   "url" : "http://www.your-company-site.com",
-  #   "contactPoint" : [{
-  #     "@type" : "ContactPoint",
-  #     "telephone" : "+1-401-555-1212",
-  #     "contactType" : "customer service"
-  #   }]
-  # }
-  # </script>
-
-
-  # profile:
-  # <script type="application/ld+json">
-  # {
-  #   "@context" : "http://schema.org",
-  #   "@type" : "Organization",
-  #   "name" : "Your Organization Name",
-  #   "url" : "http://www.your-site.com",
-  #   "sameAs" : [
-  #     "http://www.facebook.com/your-profile",
-  #     "http://www.twitter.com/yourProfile",
-  #     "http://plus.google.com/your_profile"
-  #   ]
-  # }
-  # </script>
-
-  # Notes:
-  #   No redundant commas!
-  #   Contact_type must have url or telephone to be valid!
+  # Important:
+  # => Redundant commas crashes json script
+  # => Corporate contacts must have url or telephone to be valid
 
   class << self
     def write_snippet(params)
@@ -64,7 +42,7 @@ class WriteSeoSnippet
     end
 
     def seo_scripter(params)
-      mandatory_and_logo, contact, profile = fill_content(params)
+      mandatory_and_logo, contacts, profile = fill_content(params)
 
       seo_script = ''
       seo_script << '<script type="application/ld+json">'
@@ -80,28 +58,30 @@ class WriteSeoSnippet
         end
       end
       seo_script << '"contactPoint" : [{'
-      num = 0
-      number_of_contacts = params[:hidden_number_from_view]
-      while (number_of_contacts.to_i+1) > num do
+      contacts.each do |contact_number, contact_content|
+        puts 'contact:'
+        puts contact_content
         seo_script << '"@type" : "ContactPoint"'
-        contact[num.to_s].each do |k,v|
+        contact_content.each do |k,v|
           #v counter to check if all v blank, to delete seo_script << '"@type" : "ContactPoint",'
-          unless v.blank?
-            seo_script << ','
-            if v.class == Array
+          if v.class == Array
+            unless v.join.blank?
+              seo_script << ','
               new_v = delete_select_attributes_empty_quotes(v)
               (seo_script << '"'+k+'" : ['+new_v+']') unless new_v.blank?
-            else
+            end
+          else
+            unless v.blank?
+              seo_script << ','
               v.gsub!(/_/, ' ')
               seo_script << '"'+k+'" : "'+v+'"'
             end
           end
         end
         seo_script << '},{'
-        num += 1
       end
-      seo_script.gsub(/\},\{/, '')
       seo_script << '}]'
+      seo_script.gsub!(/,\{\}/, '')
       seo_script << ',"sameAs" : ['
       profile.each do |url|
         unless url.blank?
@@ -115,7 +95,6 @@ class WriteSeoSnippet
       seo_script << '<script>'
       new_seo_script = delete_script_errors(seo_script)
       new_seo_script
-      #return '<script type="application/ld+json">{"@context": "http://schema.org","@type": "Organization","url" : "http://www.your-site.com","name" : "Your Organization Name"}<script>'
     end
 
     def fill_content(params)
@@ -124,18 +103,14 @@ class WriteSeoSnippet
       mandatory_and_logo['type'] = params[:seo_snippet][:type]
       mandatory_and_logo['url'] = params[:seo_snippet][:url]
       mandatory_and_logo['logo'] = params[:seo_snippet][:logo]
-      contact = {}
-      number_of_contacts = params[:hidden_number_from_view]
-      num = 0
-      while (number_of_contacts.to_i+1) > num do
-        num_string = num.to_s
-        contact[num_string] = {}
-        contact[num_string]['contactType'] = params[:seo_snippet][('contact_type_'+num_string).to_sym]
-        contact[num_string]['telephone'] = params[:seo_snippet][('telephone_'+num_string).to_sym]
-        contact[num_string]['url'] = params[:seo_snippet][('contact_url_'+num_string).to_sym]
-        contact[num_string]['areaServed'] = params[:seo_snippet][('area_served_'+num_string).to_sym]
-        contact[num_string]['availableLanguage'] = params[:seo_snippet][('available_language_'+num_string).to_sym]
-        num += 1
+      contacts = {}
+      params[:seo_snippet][:corporate_contacts_attributes].each do |contact_id, contact_values|
+        contacts[contact_id] = {}
+        contacts[contact_id]['contactType'] = contact_values[:contact_type]
+        contacts[contact_id]['telephone'] = contact_values[:telephone]
+        contacts[contact_id]['url'] = contact_values[:contact_url]
+        contacts[contact_id]['areaServed'] = contact_values[:area_served]
+        contacts[contact_id]['availableLanguage'] = contact_values[:available_language]
       end
       profile = []
       profile << params[:seo_snippet][:facebook_url]
@@ -145,13 +120,7 @@ class WriteSeoSnippet
       profile << params[:seo_snippet][:pinterest_url]
       profile << params[:seo_snippet][:linkedin_url]
       profile << params[:seo_snippet][:youtube_url]
-      return mandatory_and_logo, contact, profile
-    end
-
-    def delete_script_errors(seo_script)
-      seo_script.sub!(/,"sameAs" : \]/, '')
-      seo_script.sub!(/"contactPoint" : \[{}\]/, '')
-      seo_script
+      return mandatory_and_logo, contacts, profile
     end
 
     def delete_select_attributes_empty_quotes(v)
@@ -159,6 +128,12 @@ class WriteSeoSnippet
       num = v.index("")
       v.slice!(num) unless num.nil?
       v.to_s
+    end
+
+    def delete_script_errors(seo_script)
+      seo_script.sub!(/,"sameAs" : \]/, '')
+      seo_script.sub!(/"contactPoint" : \[{}\]/, '')
+      seo_script
     end
   end
 end

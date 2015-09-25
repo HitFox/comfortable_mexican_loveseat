@@ -1,23 +1,15 @@
 %section
   .form-horizontal
     .form-group
-      .control-label.col-sm-2
-        = form.label :label
       .col-sm-10
         = form.text_field(:label, class: 'form-control')
     .form-group
-      .control-label.col-sm-2
-        = form.label :context
       .col-sm-10
         = form.text_field(:context, class: 'form-control')
     .form-group
-      .control-label.col-sm-2
-        = form.label :type
       .col-sm-10
         = form.text_field(:type, class: 'form-control')
     .form-group
-      .control-label.col-sm-2
-        = form.label :url
       .col-sm-10
         = form.url_field(:url, placeholder:'http://www.example.com', class: 'form-control')
 
@@ -36,8 +28,6 @@
         Organization Logo
       .form-horizontal
         .form-group
-          .control-label.col-sm-2
-            = form.label :logo
           .col-sm-10
             = form.url_field(:logo, placeholder:'http://www.example.com/images/logo.png', class: 'form-control')
     .seo_contact
@@ -47,8 +37,8 @@
         = form.fields_for :corporate_contacts do |contact_form|
           = render 'corporate_contact', form: contact_form
       #add_corporate_contact Add another Corporate Contact
-    / .seo_profiles
-    /   = render 'social_profiles'
+    .seo_profiles
+      = render 'social_profiles'
 
 = form.form_group :class => 'form-actions' do
   / add to yml file!!
