@@ -8,9 +8,14 @@ class CorporateContact
                 :available_language, :contact_type_selected
 
   validates :telephone,
-      format: { with: /\A\+[\d*| *|\-]+\z/,
+      format: { with: /(\A\+[\d*| *|\-]+\z|\A\z)/,
       message: "only allows numbers with international country code prefix"},
-      presence: true, unless: Proc.new{|u| u.contact_type.blank? }
-  validates :telephone,
-      absence: true, if: Proc.new{|u| u.contact_type.blank? }
+      absence: { if: Proc.new{|u| u.contact_type.blank? },
+        message: 'needs input of contact url' }
+  validates :contact_url,
+      absence: { if: Proc.new{|u| u.contact_type.blank? },
+        message: 'needs input of contact url' }
+  validates :contact_type,
+      absence: {if: Proc.new{|u| u.telephone.blank? && u.contact_url.blank? },
+        message: "needs input of contact url or telephone"}
 end
