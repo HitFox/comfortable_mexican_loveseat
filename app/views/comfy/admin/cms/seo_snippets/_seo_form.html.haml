@@ -31,10 +31,10 @@
           .col-sm-10
             = form.url_field(:logo, placeholder:'http://www.example.com/images/logo.png', class: 'form-control')
     .seo_contact
-      %h5
-        Corporate Contact
       .form-horizontal
         = form.fields_for :corporate_contacts do |contact_form|
+          %h5
+            Corporate Contact
           = render 'corporate_contact', form: contact_form
       #add_corporate_contact Add another Corporate Contact
     .seo_profiles
