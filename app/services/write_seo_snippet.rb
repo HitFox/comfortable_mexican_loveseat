@@ -133,6 +133,7 @@ class WriteSeoSnippet
     def delete_script_errors(seo_script)
       seo_script.sub!(/,"sameAs" : \]/, '')
       seo_script.sub!(/"contactPoint" : \[{}\]/, '')
+      seo_script.sub!(/,\{"@type" : "ContactPoint"\}/, '')
       seo_script
     end
   end
