@@ -3,7 +3,7 @@ class Comfy::Admin::Cms::SeoSnippetsController < Comfy::Admin::Cms::BaseControll
   before_action :authorize
 
   def index
-    raise NotImplemented, "You should never see this, use Snippet Index instead"
+    raise NotImplementedError, "You should never see this, use Snippet Index instead"
   end
 
   def new
@@ -20,7 +20,11 @@ class Comfy::Admin::Cms::SeoSnippetsController < Comfy::Admin::Cms::BaseControll
       flash[:success] = I18n.t('comfy.admin.cms.snippets.created')
       redirect_to controller: 'snippets', action: 'edit', id: @snippet
     else
-      flash.now[:danger] = @seo_snippet.errors.full_messages
+      array=[]
+      @seo_snippet.errors.messages.each do |error_key, error_message|
+        array << I18n.t('seo_snippet.'+error_key.to_s+'.'+error_message.join)
+      end
+      flash.now[:danger] = array.join(', ')
       render :action => :new
     end
   rescue ActiveRecord::RecordInvalid

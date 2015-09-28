@@ -31,3 +31,32 @@ en:
     roles:
       sync_and_permit:
         sync_and_permit: Permission levels sync
+  seo_snippet:
+    label:
+      blanks: Label allows no blanks
+    context:
+      can't be blank: Context can't be blank
+    type:
+      can't be blank: Type can't be blank
+    url:
+      can't be blank: URL can't be blank
+    telephone:
+      contact_type_blank: Telephone needs input of contact type
+      international_number: Telephone only allows numbers with international country code prefix (like +49)
+    available_language:
+      contact_type_blank: Available language needs input of contact type
+    contact_url:
+      contact_type_blank: Contact URL needs input of contact type
+    area_served:
+      contact_type_blank: Area served needs input of contact type
+    contact_type:
+      blank: Contact type needs input of contact url or telephone
+  comfy:
+    admin:
+      cms:
+        seo_snippets:
+          new:
+            title: SEO snippet
+          seo_form:
+            create: Create SEO snippet
+            cancel: Cancel

@@ -27,4 +27,32 @@ de:
     roles:
       sync_and_permit:
         sync_and_permit: Rechte synchronisierung
-
+  seo_snippet:
+    label:
+      blanks: Label erlaubt keine Leerzeichen
+    context:
+      can't be blank: Context darf nicht leer sein
+    type:
+      can't be blank: Type darf nicht leer sein
+    url:
+      can't be blank: URL darf nicht leer sein
+    telephone:
+      contact_type_blank: Telephone benötigt Eingabe von Contact Type
+      international_number: Telephone lässt nur Zahlen mit internationalem Ländercode zu (wie +49)
+    available_language:
+      contact_type_blank: Available language benötigt Eingabe von Contact Type
+    contact_url:
+      contact_type_blank: Contact URL benötigt Eingabe von Contact Type
+    area_served:
+      contact_type_blank: Area served benötigt Eingabe von Contact Type
+    contact_type:
+      blank: Contact type benötigt Eingabe von Contact URL oder Telefon
+  comfy:
+    admin:
+      cms:
+        seo_snippets:
+          new:
+            title: SEO Schnipsel
+          seo_form:
+            create: Gestalte SEO Schnipsel
+            cancel: Abbruch

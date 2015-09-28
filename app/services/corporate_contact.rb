@@ -9,19 +9,19 @@ class CorporateContact
 
   validates :telephone,
       format: { with: /(\A\+[1-9][\d*| *|\-]+\z|\A\z)/,
-      message: 'only allows numbers with international country code prefix, like +49'},
+      message: 'international_number'},
       absence: { if: Proc.new{|u| u.contact_type.blank? },
-        message: 'needs input of contact type' }
+        message: 'contact_type_blank' }
   validates :contact_url,
       absence: { if: Proc.new{|u| u.contact_type.blank? },
-        message: 'needs input of contact type' }
+        message: 'contact_type_blank' }
   validates :area_served,
       absence: { if: Proc.new{|u| !u.area_served.join.blank? && u.contact_type.blank? },
-        message: 'needs input of contact type' }
+        message: 'contact_type_blank' }
   validates :available_language,
       absence: { if: Proc.new{|u| !u.available_language.join.blank? && u.contact_type.blank? },
-        message: 'needs input of contact type' }
+        message: 'contact_type_blank' }
   validates :contact_type,
       absence: { if: Proc.new{|u| u.telephone.blank? && u.contact_url.blank? },
-        message: 'needs input of contact url or telephone' }
+        message: 'blank' }
 end

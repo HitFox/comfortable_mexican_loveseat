@@ -13,9 +13,9 @@ class SeoSnippet
     :instagram_url, :pinterest_url, :linkedin_url, :youtube_url, :corporate_contacts,
     :corporate_contacts_attributes
 
-  validates :url, presence: true
+  validates :url, :context, :type, presence: true
   validates :label, presence: true,
-           format: { with: /\A[^\s]+\z/, message: "allows no blanks!"}
+           format: { with: /\A[^\s]+\z/, message: 'blanks'}
 
   def initialize(params={})
     params = DEFAULT_PARAMS.merge(params)
