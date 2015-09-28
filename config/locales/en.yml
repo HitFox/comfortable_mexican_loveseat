@@ -1,19 +1,22 @@
 en:
   seo:
-    old_page_url: URLs that redirect here (takes slugs in a comma-separated list)
+    old_page_url: URLs that redirect here
     meta_description: Meta Description
     page_title: Page Title
     canonical_href: Canonical link
+    note: '<b>Comment:</b> URLs that redirect to this page takes slugs in a comma-separated list, cannonical link defaults to the page url, but can be overwritten by a full URL'
   google_plus:
-    name: Name (inherits from page title if blank)
+    name: Name
     description: Description
     image: Image
+    note: "<b>Comment:</b> By default, the field 'Description' is automatically filled with the information from the tab SEO. The field 'Image' inherits the value from the parent page of this page."
   twitter:
     site: Site
     title: Title
     description: Description
     creator: Creator
     image_src: Image Source
+    note: "<b>Comment:</b> By default, the field 'Description' is automatically filled with the information from the tab SEO. The field 'Image' inherits the value from the parent page of this page."
   facebook:
     title: Title
     type: Type
@@ -21,6 +24,7 @@ en:
     description: Description
     site_name: Site Name (inherits from root)
     admins: Admins
+    note: "<b>Comment:</b> By default, the field 'Description' is automatically filled with the information from the tab SEO. The field 'Image' inherits the value from the parent page of this page."
   devise:
     signin: Login
   admin:
