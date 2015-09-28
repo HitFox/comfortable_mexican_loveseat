@@ -1,3 +1,7 @@
+# require 'zip'
+require 'fileutils'
+require_relative 'zip_file_generator'
+
 namespace :comfortable_mexican_loveseat do
   namespace :fixtures do
     
@@ -59,10 +63,37 @@ namespace :comfortable_mexican_loveseat do
       
       ComfortableMexicanSofa.logger = logger
     end
+
+    desc 'Zip fixtures and save in a public dir'
+    task zip: :environment do
+      directoryToZip = ComfortableMexicanSofa.config.fixtures_path
+      fileName = "cms_fixtures_#{Time.now.to_i}.zip"
+      outputPath = File.expand_path('public/downloads', Rails.root)
+
+      begin
+        FileUtils.mkdir_p(outputPath)
+      rescue
+        puts 'rescued in mkdir'
+      else
+        begin
+          FileUtils.chmod_R(0755, outputPath)
+        rescue
+          puts 'rescued in chmod'
+        else
+          outputFile = [outputPath, fileName].join('/')
+          zf = ZipFileGenerator.new(directoryToZip, outputFile)
+          zf.write()
+          FileUtils.chmod_R(0777, outputFile)
+          puts "Zipped to #{fileName}"
+          puts outputPath
+        end
+      end
+    end
   end
 end
 
 namespace :cms do
   task import: 'comfortable_mexican_loveseat:fixtures:import'
   task export: 'comfortable_mexican_loveseat:fixtures:export'
+  task zip:    'comfortable_mexican_loveseat:fixtures:zip'
 end

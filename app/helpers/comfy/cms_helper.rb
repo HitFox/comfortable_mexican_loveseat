@@ -1,15 +1,17 @@
 module Comfy::CmsHelper
 
   def comfy_seo_tags
-    meta_description = cms_block_content('seo.meta_description')
-    page_title = cms_block_content('seo.page_title')
+    meta_description = pluck_page_block_content('seo.meta_description')
+    meta_index = pluck_page_block_content('seo.meta_index')
+    page_title = pluck_page_block_content('seo.page_title')
     parent_page = @cms_page.parent_id.present? ? @cms_page.parent_id : false
     tags = []
     tags << tag('meta', name: 'description', content: meta_description) if meta_description.present?
-    tags << tag('meta', name: 'robots', content: 'NOINDEX, FOLLOW') if cms_block_content('seo.meta_index').present? && cms_block_content('seo.meta_index')
+    tags << tag('meta', name: 'robots', content: 'NOINDEX, FOLLOW') if meta_index.present? && meta_index
 
     # if no canonical is set, default to URL without any parameters
-    href = cms_block_content('seo.canonical_href').present? ? cms_block_content('seo.canonical_href') : request.url.split('?').first
+    href = pluck_page_block_content('seo.canonical_href')
+    href = href.present? ? href : request.url.split('?').first
     tags << tag('link', rel: 'canonical', href: href)
 
     ### Google plus: use meta_description and page title as defaults
@@ -45,7 +47,7 @@ module Comfy::CmsHelper
     tags << tag('meta', property: 'og:image', content: fb_image) if fb_image.present?
     tags << tag('meta', property: 'fb:admins', content: fb_admins) if fb_admins.present?
 
-    site_name = Comfy::Cms::Block.where(blockable_id: @cms_site.pages.first.id, blockable_type: 'Comfy::Cms::Page', identifier: 'seo.page_title').pluck(:content)
+    site_name = Comfy::Cms::Block.where(blockable_id: @cms_site.pages.first.id, blockable_type: 'Comfy::Cms::Page', identifier: 'seo.page_title').pluck(:content).first
     tags << tag('meta', property: 'og:site_name', content: site_name) if site_name.present?
     tags << tag('meta', property: 'og:url', content: request.url.split('?').first)
 
@@ -53,25 +55,32 @@ module Comfy::CmsHelper
   end
 
   def comfy_page_title
-    cms_block_content('seo.page_title')
+    pluck_page_block_content('seo.page_title')
   end
 
   def self_or_inherit_metadata(block_identifier, metadata)
-    if cms_block_content(block_identifier).present?
-      return cms_block_content(block_identifier)
+    content = pluck_page_block_content(block_identifier)
+    if content.present?
+      return content
     else
       return metadata
     end
   end
 
   def self_or_parent_metafield(block_identifier, page = @cms_page)
-    if cms_block_content(block_identifier).present?
-      return cms_block_content(block_identifier)
+    content = pluck_page_block_content(block_identifier, page)
+    if content.present?
+      return content
     else
       if page.present?
-        return Comfy::Cms::Block.where(identifier: block_identifier, blockable_type: 'Comfy::Cms::Page', blockable_id: page.parent_id).pluck(:content)
+        return Comfy::Cms::Block.where(identifier: block_identifier, blockable_type: 'Comfy::Cms::Page', blockable_id: page.parent_id).pluck(:content).first
       end
     end
+  end
+
+  def pluck_page_block_content(tag, page = @cms_page)
+    content = Comfy::Cms::Block.where(identifier: tag, blockable_type: 'Comfy::Cms::Page', blockable_id: page.id).pluck(:content).first
+    return (content.present?) ? content : ''
   end
 
   def flash_css_class(type)
