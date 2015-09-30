@@ -35,11 +35,11 @@ en:
     label:
       blanks: Label allows no blanks
     context:
-      can't be blank: Context can't be blank
+      can't be blank: "Context can't be blank"
     type:
-      can't be blank: Type can't be blank
+      can't be blank: "Type can't be blank"
     url:
-      can't be blank: URL can't be blank
+      can't be blank: "URL can't be blank"
     telephone:
       contact_type_blank: Telephone needs input of contact type
       international_number: Telephone only allows numbers with international country code prefix (like +49)
