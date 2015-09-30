@@ -92,7 +92,7 @@ class WriteSeoSnippet
       seo_script.chop!
       seo_script << ']'
       seo_script << '}'
-      seo_script << '<script>'
+      seo_script << '</script>'
       new_seo_script = delete_script_errors(seo_script)
       new_seo_script
     end

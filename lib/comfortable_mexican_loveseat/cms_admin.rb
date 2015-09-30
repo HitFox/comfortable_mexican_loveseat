@@ -7,9 +7,6 @@ class ActionDispatch::Routing::Mapper
       scope :module => :admin do
         namespace :cms, :as => :admin_cms, :path => options[:path], :except => :show do
           get '/', :to => 'base#jump'
-          get 'seos', :to => 'seos#index'
-          get 'seos/check'
-          get 'seos/wait'
           resources :sites do
             resources :pages do
               get  :form_blocks,    :on => :member
