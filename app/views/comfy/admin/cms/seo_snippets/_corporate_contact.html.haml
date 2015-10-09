@@ -12,6 +12,6 @@
     = form.select('area_served', options_for_select(CountryCodes.all_country_codes), {prompt: 'Please use command or ctrl/strl to add:'}, {multiple: true, class: 'form-control'})
 .form-group
   .col-sm-10
-    = form.select('available_language', options_for_select([['German','German'],['English','English'],['French','French'],['Spanish','Spanish'],['Dutch','Dutch']]), {prompt: 'Please use command or ctrl/strl to add:'}, {multiple: true, class: 'form-control'})
+    = form.select('available_language', options_for_select([['German','German'],['Dutch','Dutch'],['English','English'],['French','French'],['Spanish','Spanish']]), {prompt: 'Please use command or ctrl/strl to add:'}, {multiple: true, class: 'form-control'})
 
 
