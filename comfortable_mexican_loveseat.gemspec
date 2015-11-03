@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.name        = "comfortable_mexican_loveseat"
-  s.version     = "0.0.19"
+  s.version     = "0.0.20"
   s.authors     = ["Adam Bahlke", "Michael Rüffer"]
   s.email       = ["adam.bahlke@hitfoxgroup.com"]
   s.homepage    = "http://hitfoxgroup.com"
