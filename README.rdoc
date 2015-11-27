@@ -1,3 +1,5 @@
+{HitFox Logo}[http://www.hitfoxgroup.com/downloads/hitfox_logo_with_tag_two_colors_WEB.png]
+
 = ComfortableMexicanLoveseat
 
 The Comfortable Mexican Loveseat is an expansion pack to the Comfortable Mexican Sofa. It currently contains minor modifications to the <tt>snippet.rb</tt> and <tt>base_controller.rb</tt> files, improved sitemap functionality, and SEO-enhancing modifications.
