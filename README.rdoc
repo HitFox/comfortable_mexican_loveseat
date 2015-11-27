@@ -11,6 +11,12 @@ The Loveseat is currently installed through the {foxinator-generator}[https://gi
 == Features
 ====== NOTE: When you are adding new models and/or controllers and links are not showing up, do not forget to click the "Sync" button!
 
+=== Comment Mailer
+
+To configure the comment mailer, add this line to <tt>config/initializers/comfortable_mexican_sofa.rb</tt>
+
+  config.from_email = an@example.com
+
 
 === Simplified Fixture Import/Export
 
