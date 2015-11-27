@@ -4,11 +4,15 @@ The Comfortable Mexican Loveseat is an expansion pack to the Comfortable Mexican
 
 The Loveseat references a fixed version of the CMS (currently 1.12.8) and latest releases are pulled in occasionally.
 
-== CMS Usage Notes
-====== When you are adding new models and/or controllers and links are not showing up, do not forget to click the "Sync" button!
+== Installation
+
+The Loveseat is currently installed through the {foxinator-generator}[https://github.com/HitFox/foxinator-generator]
+
+== Features
+====== NOTE: When you are adding new models and/or controllers and links are not showing up, do not forget to click the "Sync" button!
 
 
-== Simplified Fixture Import/Export
+=== Simplified Fixture Import/Export
 
 When you want to import fixtures you can now use the following commands:
 
@@ -20,9 +24,9 @@ When you want to import fixtures you can now use the following commands:
   rake cms:export FROM=somewhere
   rake cms:export FROM=somewhere TO=something LOCALE=de
 
-== SEO Features
+=== SEO Features
 
-=== Custom Sitemaps
+==== Custom Sitemaps
 
 Building on the Sofa's sitemap functionality, the Loveseat lets you add Rails model show pages and custom routes to the sitemap.
 
@@ -32,11 +36,11 @@ To use it, please copy and customize the demo initializer located in <tt>templat
 
 Then replace your <tt>robots.txt</tt> file with the one in the templates folder.
 
-=== URL Redirection
+==== URL Redirection
 
 By default when using the Loveseat, all trailing slash URLs ('myapp.com/example/') are redirected to a non-trailing slash URL.
 
-=== Page Meta Tags
+==== Page Meta Tags
 
 By default when you create an application, it comes with meta description; page title; index; canonical link; and Social Media (Google+, Facebook, and Twitter) fields that can be filled in on a per-page basis. To display these tags, add this to your <tt>application.html.erb</tt>:
 
@@ -55,4 +59,6 @@ The Loveseat provides some helpful hints to admins when they're uploading images
 === Styled login page
 
 There is a more styled version of the CMS login page in the templates/devise folder.
+
+= Changelog
 
