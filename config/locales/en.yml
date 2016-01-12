@@ -1,5 +1,5 @@
 en:
- comment_mailer:
+  comment_mailer:
     admin_mention:
       comment_link: Take me to the comment
       subject: You were mentioned in a comment
