@@ -1,0 +1,3 @@
+%pre= @comment.message.html_safe
+%br
+= link_to t('.comment_link'), admin_admin_url(@comment.commentable, locale: I18n.locale), target: :blank
