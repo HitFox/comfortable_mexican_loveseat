@@ -70,3 +70,5 @@ There is a more styled version of the CMS login page in the templates/devise fol
 
 = Changelog
 
+- 01/12/2016 - Updated cms_block_content() to be faster. You can still use the old code (which can have slightly different functionality) by passing in an overwrite flag. See the <tt>cms_helper.rb</tt> for source code. Improved the speed with which SEO tags get loaded in the header.
+
