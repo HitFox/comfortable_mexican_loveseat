@@ -9,4 +9,5 @@ ComfortableMexicanLoveseat.setup do |config|
     # { resource_class: YourModelCamelCased, filter: {key: value}}
     # { resource_class: 'YourModelCamelCased', filter: 'some sql statement'}
   ]
+  config.from_email = 'default@example.com'
 end

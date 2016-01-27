@@ -1,5 +1,5 @@
 class CommentMailer < ActionMailer::Base
-  default from: ComfortableMexicanSofa.config.from_email
+  default from: ComfortableMexicanLoveseat.from_email
 
  def admin_mention(comment)
    @comment = comment
