@@ -31,6 +31,18 @@ When you want to import fixtures you can now use the following commands:
   rake cms:export
   rake cms:export FROM=somewhere
   rake cms:export FROM=somewhere TO=something LOCALE=de
+  
+To export a zipped folder of all fixtures (useful for syncing fixtures from different servers) you can run:
+
+  rake cms:zip
+  
+To get this working on cloud66, log into SSH and run the following commands from the <tt>/var/deploy/YOUR_APP_NAME_HERE/web_head/current</tt> directory:
+
+  # change the group of the public folder from nginx to app_writers
+  sudo chown :app_writers public
+  
+  #change the permissions on the folder to 775
+  sudo chmod 775 public
 
 === SEO Features
 
