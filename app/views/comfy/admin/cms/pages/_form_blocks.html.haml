@@ -30,3 +30,12 @@
                 - rescue
                   - Rails.env.production?? nil : raise
                 - block_index += 1
+              %div
+              - if name === 'seo'
+                = t('seo.note').html_safe
+              - if name === 'google_plus'
+                = t('google_plus.note').html_safe
+              - elsif name === 'twitter'
+                = t('twitter.note').html_safe
+              - elsif name === 'facebook'
+                = t('facebook.note').html_safe

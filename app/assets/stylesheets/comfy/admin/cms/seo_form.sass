@@ -1,0 +1,35 @@
+#seo_tab_title_logo,
+#seo_tab_title_contact,
+#seo_tab_title_profiles
+  display: block
+  float: left
+  padding: 10px
+  color: blue
+  text-decoration: underline
+
+#seo_tab_title_logo.seo_tab_title_clicked,
+#seo_tab_title_contact.seo_tab_title_clicked,
+#seo_tab_title_profiles.seo_tab_title_clicked
+  @extend #seo_tab_title_logo
+  color: green
+  text-decoration: none
+
+.seo_tab_content
+  border: 1px solid black
+  clear: left
+  padding: 5px
+  margin-bottom: 10px
+
+.seo_logo
+  display: block
+  h5
+    color: green
+
+.seo_contact,
+.seo_profiles
+  display: none
+  h5
+    color: green
+
+#add_corporate_contact
+  @extend #seo_tab_title_logo

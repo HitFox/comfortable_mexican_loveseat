@@ -1,0 +1,91 @@
+%section
+  .form-horizontal
+    .form-group
+      .col-sm-10
+        = form.text_field(:label, class: 'form-control')
+    .form-group
+      .col-sm-10
+        = form.text_field(:context, class: 'form-control')
+    .form-group
+      .col-sm-10
+        = form.text_field(:type, class: 'form-control')
+    .form-group
+      .col-sm-10
+        = form.url_field(:url, placeholder:'http://www.example.com', class: 'form-control')
+
+%section
+  #seo_tab_title_logo.seo_tab_title_clicked
+    Organization Logo
+  #seo_tab_title_contact
+    Corporate Contact
+  #seo_tab_title_profiles
+    Social Profiles
+
+%section
+  .seo_tab_content
+    .seo_logo
+      %h5
+        Organization Logo
+      .form-horizontal
+        .form-group
+          .col-sm-10
+            = form.url_field(:logo, placeholder:'http://www.example.com/images/logo.png', class: 'form-control')
+    .seo_contact
+      .form-horizontal
+        = form.fields_for :corporate_contacts do |contact_form|
+          %h5
+            Corporate Contact
+          = render 'corporate_contact', form: contact_form
+      #add_corporate_contact Add another Corporate Contact
+    .seo_profiles
+      = render 'social_profiles'
+
+= form.form_group :class => 'form-actions' do
+  / add to yml file!!
+  = form.submit t('.create'), :class => 'btn btn-primary'
+  = link_to t('.cancel'), comfy_admin_cms_site_snippets_path, :class => 'btn btn-link'
+
+= hidden_field_tag :number_of_contacts
+
+:javascript
+  $(function() {
+    $(this).on('click', '#seo_tab_title_logo', function(event) {
+      event.preventDefault();
+      $(this).addClass('seo_tab_title_clicked')
+      $(this).siblings().removeClass('seo_tab_title_clicked')
+      $('.seo_logo').show();
+      $('.seo_contact').hide();
+      $('.seo_profiles').hide();
+    });
+  });
+
+  $(function() {
+    $(this).on('click', '#seo_tab_title_contact', function(event) {
+      event.preventDefault();
+      $(this).addClass('seo_tab_title_clicked')
+      $(this).siblings().removeClass('seo_tab_title_clicked')
+      $('.seo_logo').hide();
+      $('.seo_contact').show();
+      $('.seo_profiles').hide();
+    });
+  });
+
+  $(function() {
+    $(this).on('click', '#seo_tab_title_profiles', function(event) {
+      event.preventDefault();
+      $(this).addClass('seo_tab_title_clicked')
+      $(this).siblings().removeClass('seo_tab_title_clicked')
+      $('.seo_logo').hide();
+      $('.seo_contact').hide();
+      $('.seo_profiles').show();
+    });
+  });
+
+  $(function(){
+    $(this).on('click', '#add_corporate_contact', function(event) {
+      event.preventDefault();
+      var form = "#{ j(render('add_corporate_contact')).gsub(/[\n]/, ' ') }";
+      form = form.replace(/newcc/g, new Date().getTime());
+      $(this).before(form);
+    });
+  });
