@@ -60,7 +60,9 @@ module ComfortableMexicanLoveseat
       content = @template.hidden_field_tag("#{fieldname}[blocks_attributes][#{index}][content]", '', :id => nil)
       content << @template.check_box_tag("#{fieldname}[blocks_attributes][#{index}][content]", '1', tag.content.present?, :id => nil)
       content << @template.hidden_field_tag("#{fieldname}[blocks_attributes][#{index}][identifier]", tag.identifier, :id => nil)
-      form_group :label => {:text => (tag.blockable.class.human_attribute_name(tag.identifier.to_s) || tag.identifier.titleize + "?")} do 
+      label = I18n.t(tag.identifier.to_s).include?(tag.identifier.to_s) ? tag.blockable.class.human_attribute_name(tag.identifier.to_s) : I18n.t(tag.identifier.to_s)
+
+      form_group :label => {:text => label} do 
         content
       end
     end

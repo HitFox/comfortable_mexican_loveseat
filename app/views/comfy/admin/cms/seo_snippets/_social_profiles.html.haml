@@ -1,0 +1,38 @@
+%h5
+  Social Profiles
+.form-horizontal
+  .form-group
+    .control-label.col-sm-2
+      = label_tag('Facebook URL:')
+    .col-sm-10
+      = url_field(:seo_snippet, :facebook_url, placeholder: 'http://www.facebook.com/your-profile', class: 'form-control')
+  .form-group
+    .control-label.col-sm-2
+      = label_tag('Twitter URL:')
+    .col-sm-10
+      = url_field(:seo_snippet, :twitter_url, placeholder:'http://www.twitter.com/your-profile', class: 'form-control')
+  .form-group
+    .control-label.col-sm-2
+      = label_tag('Google+ URL:')
+    .col-sm-10
+      = url_field(:seo_snippet, :google_plus_url, placeholder:'http://www.plus.google.com/your-profile', class: 'form-control')
+  .form-group
+    .control-label.col-sm-2
+      = label_tag('Instagram URL:')
+    .col-sm-10
+      = url_field(:seo_snippet, :instagram_url, placeholder:'http://instagram.com/yourProfile', class: 'form-control')
+  .form-group
+    .control-label.col-sm-2
+      = label_tag('Pinterest URL:')
+    .col-sm-10
+      = url_field(:seo_snippet, :pinterest_url, placeholder:'Please write url here', class: 'form-control')
+  .form-group
+    .control-label.col-sm-2
+      = label_tag('LinkedIn URL:')
+    .col-sm-10
+      = url_field(:seo_snippet, :linkedin_url, placeholder:'http://www.linkedin.com/in/yourprofile', class: 'form-control')
+  .form-group
+    .control-label.col-sm-2
+      = label_tag('Youtube URL:')
+    .col-sm-10
+      = url_field(:seo_snippet, :youtube_url, placeholder:'Please write url here', class: 'form-control')

@@ -1,0 +1,5 @@
+%h5
+  Corporate Contact
+.form-horizontal
+  = fields_for 'seo_snippet[corporate_contacts_attributes][newcc]', CorporateContact.new do |form|
+    = render 'corporate_contact_labeled', form: form

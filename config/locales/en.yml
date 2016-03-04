@@ -4,30 +4,64 @@ en:
       comment_link: Take me to the comment
       subject: You were mentioned in a comment
   seo:
-    old_page_url: URLs that redirect here (takes slugs in a comma-separated list)
+    old_page_url: URLs that redirect here
     meta_description: Meta Description
+    meta_index: Metarobots NOINDEX
     page_title: Page Title
     canonical_href: Canonical link
+    note: '<b>Comment:</b> URLs that redirect to this page takes slugs in a comma-separated list, cannonical link defaults to the page url, but can be overwritten by a full URL'
   google_plus:
-    name: Name (inherits from page title if blank)
-    description: Description (inherits from SEO tab if blank)
-    image: Image (inherits from parent page if blank)
+    name: Name
+    description: Description
+    image: Image
+    note: "<b>Comment:</b> By default, the field 'Description' is automatically filled with the information from the tab SEO. The field 'Image' inherits the value from the parent page of this page."
   twitter:
-    site: Site (inherits from parent page if blank)
-    title: Title (inherits from SEO tab if blank)
-    description: Description (inherits from SEO tab if blank)
-    creator: Creator (inherits from parent page if blank)
-    image_src: Image Source (inherits from parent page if blank)
+    site: Site
+    title: Title
+    description: Description
+    creator: Creator
+    image_src: Image Source
+    note: "<b>Comment:</b> By default, the field 'Description' is automatically filled with the information from the tab SEO. The field 'Image' inherits the value from the parent page of this page."
   facebook:
-    title: Title (inherits from SEO tab if blank)
-    type: Type (inherits from parent page if blank)
-    image: Image (inherits from parent page if blank)
-    description: Description (inherits from SEO tab if blank)
+    title: Title
+    type: Type
+    image: Image
+    description: Description
     site_name: Site Name (inherits from root)
-    admins: Admins (inherits from parent page if blank)
+    admins: Admins
+    note: "<b>Comment:</b> By default, the field 'Description' is automatically filled with the information from the tab SEO. The field 'Image' inherits the value from the parent page of this page."
   devise:
     signin: Login
   admin:
     roles:
       sync_and_permit:
         sync_and_permit: Permission levels sync
+  seo_snippet:
+    label:
+      blanks: Label allows no blanks
+    context:
+      can't be blank: "Context can't be blank"
+    type:
+      can't be blank: "Type can't be blank"
+    url:
+      can't be blank: "URL can't be blank"
+    telephone:
+      contact_type_blank: Telephone needs input of contact type
+      international_number: Telephone only allows numbers with international country code prefix (like +49)
+    available_language:
+      contact_type_blank: Available language needs input of contact type
+    contact_url:
+      contact_type_blank: Contact URL needs input of contact type
+    area_served:
+      contact_type_blank: Area served needs input of contact type
+    contact_type:
+      blank: Contact type needs input of contact url or telephone
+  comfy:
+    admin:
+      cms:
+        seo_snippets:
+          new:
+            title: SEO snippet
+          seo_form:
+            create: Create SEO snippet
+            cancel: Cancel

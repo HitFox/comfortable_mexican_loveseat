@@ -1,30 +1,58 @@
 de:
   seo:
-    old_page_url: URLs die auf dieser Seite gehen
+    old_page_url: URLs die auf diese Seite gehen
     meta_description: Meta Beschreibung
     page_title: Seiten Titel
     canonical_href: kanonischer Link
   google_plus:
-    name: Name (erbt von Seiten Title wenn leer)
-    description: Beschreibung (erbt vom SEO tab wenn leer)
-    image: Bild (erbt von der Übergestufte Seite wenn leer)
+    name: Name (erbt von Seiten Titel wenn leer)
+    description: Beschreibung
+    image: Bild
   twitter:
-    site: Seite (erbt von der Übergestufte Seite wenn leer)
-    title: Titel (erbt vom SEO tab wenn leer)
-    description: Beschreibung (erbt vom SEO tab wenn leer)
-    creator: Autor (erbt von der Übergestufte Seite wenn leer)
-    image_src: Bildquelle (erbt von der Übergestufte Seite wenn leer)
+    site: Seite
+    title: Titel
+    description: Beschreibung
+    creator: Autor
+    image_src: Bildquelle
   facebook:
-    title: Titel (erbt vom SEO tab wenn leer)
-    type: Art (erbt von der Übergestufte Seite wenn leer)
-    image: Bild (erbt von der Übergestufte Seite wenn leer)
-    description: Beschreibung (erbt vom SEO tab wenn leer)
+    title: Titel
+    type: Art
+    image: Bild
+    description: Beschreibung
     site_name: Seiten Name (erbt von Rootseite tab wenn leer)
-    admins: Admins (erbt von der Übergestufte Seite wenn leer)
+    admins: Admins
   devise:
     signin: Login
   admin:
     roles:
       sync_and_permit:
         sync_and_permit: Rechte synchronisierung
-
+  seo_snippet:
+    label:
+      blanks: Label erlaubt keine Leerzeichen
+    context:
+      can't be blank: Context darf nicht leer sein
+    type:
+      can't be blank: Type darf nicht leer sein
+    url:
+      can't be blank: URL darf nicht leer sein
+    telephone:
+      contact_type_blank: Telephone benötigt Eingabe von Contact Type
+      international_number: Telephone lässt nur Zahlen mit internationalem Ländercode zu (wie +49)
+    available_language:
+      contact_type_blank: Available language benötigt Eingabe von Contact Type
+    contact_url:
+      contact_type_blank: Contact URL benötigt Eingabe von Contact Type
+    area_served:
+      contact_type_blank: Area served benötigt Eingabe von Contact Type
+    contact_type:
+      blank: Contact type benötigt Eingabe von Contact URL oder Telefon
+  comfy:
+    admin:
+      cms:
+        seo_snippets:
+          new:
+            title: SEO Schnipsel
+          seo_form:
+            create: Gestalte SEO Schnipsel
+            cancel: Abbruch
