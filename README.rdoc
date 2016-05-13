@@ -36,7 +36,27 @@ To export a zipped folder of all fixtures (useful for syncing fixtures from diff
 
   rake cms:zip
   
-To get this working on cloud66, log into SSH and run the following commands from the <tt>/var/deploy/YOUR_APP_NAME_HERE/web_head/current</tt> directory:
+To get this working on cloud66, add these files to your .cloud66 folder:
+
+  # save this as deploy_hooks.yml
+  staging:
+    after_rails:
+      - source: /.cloud66/permissions.sh
+        destination: /tmp/permissions.sh
+        target: rails
+        execute: true
+        sudo: true
+  production:
+    after_rails:
+      - source: /.cloud66/permissions.sh
+        destination: /tmp/permissions.sh
+        target: rails
+        execute: true
+        sudo: true
+
+  # save this file as permissions.sh
+  chown nginx:app_writers $STACK_PATH/public
+  chmod 0775 -R $STACK_PATH/public  
 
   # change the group of the public folder from nginx to app_writers
   sudo chown :app_writers public
