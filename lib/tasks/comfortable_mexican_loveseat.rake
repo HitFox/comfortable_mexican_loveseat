@@ -22,14 +22,14 @@ namespace :comfortable_mexican_loveseat do
       ComfortableMexicanSofa.logger = Logger.new(STDOUT)
       
       if from
-        ComfortableMexicanLoveseat::Fixture::Importer.new(from, to, :force).import!
+        ComfortableMexicanLoveseat::Seeds::Importer.new(from, to).import!
       else
         Dir["#{Rails.root}/db/cms_fixtures/*"].map { |dir| Pathname.new(dir).basename.to_s }.each do |from|
           next if from == 'sample-site'
           to ||= from
           
           puts "Importing Fixtures from #{from} to #{to}"
-          ComfortableMexicanLoveseat::Fixture::Importer.new(from, to, :force).import!
+          ComfortableMexicanLoveseat::Seeds::Importer.new(from, to).import!
         end
       end
       
@@ -52,12 +52,12 @@ namespace :comfortable_mexican_loveseat do
       ComfortableMexicanSofa.logger = Logger.new(STDOUT)
       
       if from
-        ComfortableMexicanSofa::Fixture::Exporter.new(from, to).export!
+        ComfortableMexicanSofa::Seeds::Exporter.new(from, to).export!
       else
         Comfy::Cms::Site.pluck(:identifier).each do |from|
           to ||= from
           puts "Exporting Fixtures from #{from} to #{to}"
-          ComfortableMexicanSofa::Fixture::Exporter.new(from, to).export!
+          ComfortableMexicanSofa::Seeds::Exporter.new(from, to).export!
         end
       end
       

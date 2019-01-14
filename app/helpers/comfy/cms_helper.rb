@@ -1,7 +1,7 @@
 module Comfy::CmsHelper
 
   def comfy_seo_tags
-    page_block_contents = Comfy::Cms::Block.where(blockable_type: 'Comfy::Cms::Page', blockable_id: @cms_page.id).pluck(:identifier, :content)
+    page_block_contents = Comfy::Cms::Fragment.where(blockable_type: 'Comfy::Cms::Page', blockable_id: @cms_page.id).pluck(:identifier, :content)
     meta_description = search_page_block_contents('seo.meta_description', page_block_contents)
     meta_index = search_page_block_contents('seo.meta_index', page_block_contents)
     page_title = search_page_block_contents('seo.page_title', page_block_contents)
@@ -48,7 +48,7 @@ module Comfy::CmsHelper
     tags << tag('meta', property: 'og:image', content: fb_image) if fb_image.present?
     tags << tag('meta', property: 'fb:admins', content: fb_admins) if fb_admins.present?
 
-    site_name = Comfy::Cms::Block.where(blockable_id: @cms_site.pages.first.id, blockable_type: 'Comfy::Cms::Page', identifier: 'seo.page_title').pluck(:content).first
+    site_name = Comfy::Cms::Fragment.where(blockable_id: @cms_site.pages.first.id, blockable_type: 'Comfy::Cms::Page', identifier: 'seo.page_title').pluck(:content).first
     tags << tag('meta', property: 'og:site_name', content: site_name) if site_name.present?
     tags << tag('meta', property: 'og:url', content: request.url.split('?').first)
 
@@ -74,7 +74,7 @@ module Comfy::CmsHelper
       return content
     else
       if page.present?
-        return Comfy::Cms::Block.where(identifier: block_identifier, blockable_type: 'Comfy::Cms::Page', blockable_id: page.parent_id).pluck(:content).first
+        return Comfy::Cms::Fragment.where(identifier: block_identifier, blockable_type: 'Comfy::Cms::Page', blockable_id: page.parent_id).pluck(:content).first
       end
     end
   end
@@ -85,7 +85,7 @@ module Comfy::CmsHelper
   end
 
   def pluck_page_block_content(tag, page = @cms_page)
-    content = Comfy::Cms::Block.where(identifier: tag, blockable_type: 'Comfy::Cms::Page', blockable_id: page.id).pluck(:content).first
+    content = Comfy::Cms::Fragment.where(identifier: tag, blockable_type: 'Comfy::Cms::Page', blockable_id: page.id).pluck(:content).first
     return (content.present?) ? content : ''
   end
 
@@ -96,79 +96,60 @@ module Comfy::CmsHelper
     end
   end
 
-  # Wrapper around ComfortableMexicanSofa::FormBuilder
-  def comfy_form_for(record, options = {}, &proc)
-    options[:builder] = ComfortableMexicanSofa::FormBuilder
-    options[:layout] ||= :horizontal
-    bootstrap_form_for(record, options, &proc)
-  end
-
-  # Injects some content somewhere inside cms admin area
-  def cms_hook(name, options = {})
-    ComfortableMexicanSofa::ViewHooks.render(name, self, options)
-  end
-
-  # Content of a snippet. Examples:
-  #   cms_snippet_content(:my_snippet)
-  #   <%= cms_snippet_content(:my_snippet) do %>
-  #     Default content can go here.
-  #   <% end %>
-  def cms_snippet_content(identifier, cms_site = @cms_site, &block)
-    unless cms_site
-      host, path = request.host_with_port.downcase, request.fullpath if respond_to?(:request) && request
-      cms_site = Comfy::Cms::Site.find_site(host, path)
-    end
-    return '' unless cms_site
-
-    snippet = cms_site.snippets.find_by_identifier(identifier)
-
-    if !snippet && block_given?
-      snippet = cms_site.snippets.create(
-        :identifier => identifier,
-        :label      => identifier.to_s.titleize,
-        :content    => capture(&block)
-      )
-    end
-
-    snippet ? snippet.content : ''
-  end
-
-  # Same as cms_snippet_content but cms tags will be expanded
-  def cms_snippet_render(identifier, cms_site = @cms_site, &block)
-    return '' unless cms_site
-    content = cms_snippet_content(identifier, cms_site, &block)
-    render :inline => ComfortableMexicanSofa::Tag.process_content(
-      cms_site.pages.build, ComfortableMexicanSofa::Tag.sanitize_irb(content)
-    )
-  end
-
-  # Content of a page block. This is how you get content from page:field
+  # Raw content of a page fragment. This is how you get content from unrenderable
+  # tags like {{cms:fragment meta, render: false}}
   # Example:
-  #   cms_block_content(:left_column, CmsPage.first)
-  #   cms_block_content(:left_column) # if @cms_page is present
-  def cms_block_content(identifier, blockable = @cms_page, use_old_code = false)
-    if use_old_code
-      tag = blockable && (block = blockable.blocks.find_by_identifier(identifier)) && block.tag
-      return '' unless tag
-      tag.content
+  #   cms_fragment_content(:left_column, CmsPage.first)
+  #   cms_fragment_content(:left_column) # if @cms_page is present
+  def cms_fragment_content(identifier, page = @cms_page)
+    frag = page&.fragments&.detect { |f| f.identifier == identifier.to_s }
+    return "" unless frag
+    case frag.tag
+    when "date", "datetime"
+      frag.datetime
+    when "checkbox"
+      frag.boolean
+    when "file", "files"
+      frag.attachments
     else
-      pluck_page_block_content(identifier, blockable)
+      frag.content
     end
   end
 
-  # For those times when we need to render content that shouldn't be renderable
-  # Example: {{cms:field}} tags
-  def cms_block_content_render(identifier, blockable = @cms_page)
-    tag = blockable && (block = blockable.blocks.find_by_identifier(identifier)) && block.tag
-    return '' unless tag
-    render :inline => ComfortableMexicanSofa::Tag.process_content(blockable, tag.content)
+  # Same as cms_fragment_content but with cms tags expanded and rendered. Use
+  # it only if you know you got more stuff in the fragment content other than
+  # text because this is a potentially expensive call.
+  def cms_fragment_render(identifier, page = @cms_page)
+    node = page.fragment_nodes.detect { |n| n.identifier == identifier.to_s }
+    return "" unless node
+    node.renderable = true
+    render inline: page.render([node])
   end
 
-  # Same as cms_block_content but with cms tags expanded
-  def cms_block_render(identifier, blockable = @cms_page)
-    tag = blockable && (block = blockable.blocks.find_by_identifier(identifier)) && block.tag
-    return '' unless tag
-    render :inline => ComfortableMexicanSofa::Tag.process_content(blockable, tag.render)
+  # Raw content of a snippet.
+  # Example:
+  #   cms_snippet_content(:my_snippet)
+  def cms_snippet_content(identifier, cms_site = @cms_site)
+    cms_site ||= cms_site_detect
+    snippet = cms_site&.snippets&.find_by_identifier(identifier)
+    return "" unless snippet
+    snippet.content
+  end
+
+  # Same as cms_snippet_content but cms tags will be expanded. Note that there
+  # is no page context, so snippet cannot contain fragment tags.
+  def cms_snippet_render(identifier, cms_site = @cms_site)
+    cms_site ||= cms_site_detect
+    snippet = cms_site&.snippets&.find_by_identifier(identifier)
+    return "" unless snippet
+    r = ComfortableMexicanSofa::Content::Renderer.new(snippet)
+    render inline: r.render(r.nodes(r.tokenize(snippet.content)))
+  end
+
+  def cms_site_detect
+    host = request.host_with_port.downcase
+    path = request.fullpath
+    Comfy::Cms::Site.find_site(host, path)
   end
 
   # Wrapper to deal with Kaminari vs WillPaginate
@@ -177,7 +158,7 @@ module Comfy::CmsHelper
     if defined?(WillPaginate)
       will_paginate collection
     elsif defined?(Kaminari)
-      paginate collection, :theme => 'comfy'
+      paginate collection, theme: "comfy"
     end
   end
 end

@@ -3,7 +3,7 @@ class Comfy::Cms::ContentController < Comfy::Cms::BaseController
   # Authentication module must have `authenticate` method
   include ComfortableMexicanSofa.config.public_auth.to_s.constantize
 
-  before_action :load_fixtures
+  before_action :load_seeds
   before_action :load_cms_page,
                 :authenticate,
                 :only => :show
@@ -46,10 +46,16 @@ protected
     mime_block && mime_block.content || 'text/html'
   end
 
-  def load_fixtures
-    return unless ComfortableMexicanSofa.config.enable_fixtures
-    ComfortableMexicanSofa::Fixture::Importer.new(@cms_site.identifier).import!
+  def load_seeds
+    return unless ComfortableMexicanSofa.config.enable_seeds
+
+    controllers = %w[layouts pages snippets files].collect { |c| "comfy/admin/cms/" + c }
+    if controllers.member?(params[:controller]) && params[:action] == "index"
+      ComfortableMexicanSofa::Seeds::Importer.new(@site.identifier).import!
+      flash.now[:warning] = I18n.t("comfy.admin.cms.base.seeds_enabled")
+    end
   end
+
 
   def load_cms_page
 
